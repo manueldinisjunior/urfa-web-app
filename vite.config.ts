@@ -1,8 +1,11 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+const repoName = 'urfa-web-app';
+
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
+  base: mode === 'production' ? `/${repoName}/` : '/',
   server: {
     port: 3000,
     open: true,
@@ -19,4 +22,4 @@ export default defineConfig({
   optimizeDeps: {
     include: ['three', '@react-three/fiber'],
   },
-});
+}));
