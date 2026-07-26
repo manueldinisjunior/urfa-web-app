@@ -1,9 +1,8 @@
-import { defineConfig } from 'next';
+import { fileURLToPath } from 'node:url';
 
-export default defineConfig({
+const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    appDir: true,
-  },
-});
+  outputFileTracingRoot: fileURLToPath(new URL('.', import.meta.url)),
+};
+
+export default nextConfig;

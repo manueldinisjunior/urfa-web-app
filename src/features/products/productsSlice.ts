@@ -1,24 +1,27 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { fetchProducts } from './productApi';
+import type { Product, ProductsState } from '../../types';
 
 export const loadProducts = createAsyncThunk('products/loadProducts', async () => {
     const response = await fetchProducts();
     return response;
 });
 
+const initialState: ProductsState = {
+    items: [],
+    status: 'idle',
+    error: null,
+};
+
 const productsSlice = createSlice({
     name: 'products',
-    initialState: {
-        items: [],
-        status: 'idle',
-        error: null,
-    },
+    initialState,
     reducers: {
-        addProduct: (state, action) => {
+        addProduct: (state, action: PayloadAction<Product>) => {
             state.items.push(action.payload);
         },
-        removeProduct: (state, action) => {
-            state.items = state.items.filter(product => product.id !== action.payload.id);
+        removeProduct: (state, action: PayloadAction<string>) => {
+            state.items = state.items.filter(product => product.id !== action.payload);
         },
     },
     extraReducers: (builder) => {
@@ -32,7 +35,7 @@ const productsSlice = createSlice({
             })
             .addCase(loadProducts.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message;
+                state.error = action.error.message ?? 'Unable to load products';
             });
     },
 });

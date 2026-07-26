@@ -26,7 +26,7 @@
     "@types/react-router-dom": "^5.3.0",
     "@types/three": "^0.185.1",
     "@vitejs/plugin-react": "^6.0.4",
-    "typescript": "^4.5.0",
+    "typescript": "^5.9.3",
     "vite": "^8.1.5"
   },
   "keywords": [

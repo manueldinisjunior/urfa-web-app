@@ -1,9 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import type { Mesh } from 'three';
 
-const ModelViewer = ({ modelUrl }) => {
-    const modelRef = useRef();
+interface ModelViewerProps {
+    modelUrl?: string;
+}
+
+const ModelViewer = ({ modelUrl }: ModelViewerProps) => {
+    const modelRef = useRef<Mesh>(null);
 
     useEffect(() => {
         if (modelUrl && modelRef.current) {

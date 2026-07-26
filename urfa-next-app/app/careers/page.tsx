@@ -1,18 +1,7 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
 import { fetchJobOpenings } from '../../lib/cms';
 
-const CareersPage = () => {
-  const [jobOpenings, setJobOpenings] = useState([]);
-
-  useEffect(() => {
-    const getJobOpenings = async () => {
-      const openings = await fetchJobOpenings();
-      setJobOpenings(openings);
-    };
-
-    getJobOpenings();
-  }, []);
+const CareersPage = async () => {
+  const jobOpenings = await fetchJobOpenings();
 
   return (
     <div className="container mx-auto p-4">

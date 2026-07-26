@@ -8,13 +8,29 @@ export interface Product {
 }
 
 export interface CartItem {
-    productId: string;
+    id: string;
+    name: string;
+    price: number;
     quantity: number;
+    imageUrl?: string;
 }
 
 export interface Cart {
     items: CartItem[];
     totalAmount: number;
+}
+
+export interface ProductsState {
+    items: Product[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+}
+
+export interface RootState {
+    products: ProductsState;
+    cart: {
+        items: CartItem[];
+    };
 }
 
 export interface ApiResponse<T> {

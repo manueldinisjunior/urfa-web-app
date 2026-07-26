@@ -6,9 +6,9 @@ import ProductScene from '../components/three/ProductScene';
 import { formatPrice } from '../utils/formatPrice';
 
 const ProductPage: React.FC = () => {
-    const { productId } = useParams<{ productId: string }>();
+    const { id } = useParams<{ id: string }>();
     const product = useSelector((state: RootState) => 
-        state.products.items.find(item => item.id === productId)
+        state.products.items.find(item => item.id === id)
     );
 
     if (!product) {

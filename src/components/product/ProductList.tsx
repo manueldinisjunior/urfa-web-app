@@ -1,15 +1,23 @@
 import React from 'react';
 import ProductCard from './ProductCard';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../types';
+import type { Product } from '../../types';
 
-const ProductList: React.FC = () => {
-    const products = useSelector((state: RootState) => state.products.items);
+interface ProductListProps {
+    products: Product[];
+    onAddToCart?: (product: Product) => void;
+}
 
+const ProductList: React.FC<ProductListProps> = ({ products, onAddToCart }) => {
     return (
         <div className="product-list">
             {products.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                    key={product.id}
+                    title={product.name}
+                    price={product.price}
+                    imageUrl={product.imageUrl}
+                    onAddToCart={() => onAddToCart?.(product)}
+                />
             ))}
         </div>
     );

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 
 interface AccordionItem {
@@ -9,7 +11,7 @@ interface AccordionProps {
   items: AccordionItem[];
 }
 
-const Accordion: React.FC<AccordionProps> = ({ items }) => {
+export const Accordion: React.FC<AccordionProps> = ({ items }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleItem = (index: number) => {
@@ -36,5 +38,3 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
     </div>
   );
 };
-
-export default Accordion;

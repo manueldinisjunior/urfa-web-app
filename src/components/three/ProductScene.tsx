@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 
-const ProductScene = () => {
+interface ProductSceneProps {
+  modelUrl?: string;
+}
+
+const ProductScene = ({ modelUrl }: ProductSceneProps) => {
   useEffect(() => {
     // Any setup or loading logic can go here
-  }, []);
+  }, [modelUrl]);
 
   return (
     <Canvas>

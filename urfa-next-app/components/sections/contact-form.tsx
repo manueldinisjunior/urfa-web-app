@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 
 const ContactForm = () => {
@@ -31,7 +33,7 @@ const ContactForm = () => {
             setEmail('');
             setMessage('');
         } catch (err) {
-            setError(err.message);
+            setError(err instanceof Error ? err.message : 'Failed to send message');
         } finally {
             setIsSubmitting(false);
         }

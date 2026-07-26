@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { fetchProducts } from '../features/products/productApi';
+import type { Product } from '../types';
 
 const useProductLoader = () => {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         const loadProducts = async () => {
@@ -12,7 +13,7 @@ const useProductLoader = () => {
                 const productData = await fetchProducts();
                 setProducts(productData);
             } catch (err) {
-                setError(err);
+                setError(err instanceof Error ? err : new Error('Unable to load products'));
             } finally {
                 setLoading(false);
             }

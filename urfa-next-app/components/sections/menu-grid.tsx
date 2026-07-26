@@ -1,6 +1,11 @@
 import React from 'react';
+import type { MenuItem } from '../../lib/cms';
 
-const MenuGrid = ({ items }) => {
+interface MenuGridProps {
+  items: MenuItem[];
+}
+
+const MenuGrid = ({ items }: MenuGridProps) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {items.map((item) => (
