@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/urfa_grill}
+    username: ${DATABASE_USER:}
+    password: ${DATABASE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+security:
+  jwt:
+    issuer: urfa-grill
+    access-token-expiration-minutes: 15
+    refresh-token-expiration-days: 14
+    secret: ${JWT_SECRET:}

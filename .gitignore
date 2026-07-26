@@ -1,0 +1,13 @@
+# Node
+node_modules/
+.next/
+
+# Env files
+.env
+backend/.env
+
+# Java
+backend/target/
+
+# OS
+.DS_Store

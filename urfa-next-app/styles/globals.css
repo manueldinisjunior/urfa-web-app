@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles can be added below */
+
+body {
+    font-family: 'Inter', sans-serif; /* Example font, adjust as needed */
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    background-color: #f9fafb; /* Example background color */
+    color: #111827; /* Example text color */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600; /* Example font weight for headings */
+}
+
+a {
+    text-decoration: none;
+    color: inherit; /* Inherit color from parent */
+}
+
+button {
+    cursor: pointer;
+}
