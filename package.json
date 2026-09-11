@@ -1,38 +1,36 @@
 {
   "name": "urfa-web-app",
   "version": "1.0.0",
-  "description": "A scalable web application for showcasing 3D products.",
+  "description": "Responsive digital menu and ordering demo for Urfa Grill.",
   "main": "src/main.tsx",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview",
     "serve": "vite preview"
   },
   "dependencies": {
-    "@react-three/drei": "^9.0.0",
-    "@react-three/fiber": "^8.0.0",
     "@reduxjs/toolkit": "^1.8.0",
-    "axios": "^1.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.0",
-    "react-router-dom": "^5.3.0",
-    "redux": "^4.0.0",
-    "three": "^0.185.1"
+    "react-router-dom": "^5.3.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-router-dom": "^5.3.0",
-    "@types/three": "^0.185.1",
     "@vitejs/plugin-react": "^6.0.4",
     "typescript": "^5.9.3",
-    "vite": "^8.1.5"
+    "vite": "^8.1.5",
+    "vitest": "^3.2.4"
   },
   "keywords": [
     "web",
-    "3D",
-    "products",
+    "restaurant",
+    "ordering",
     "react",
     "redux"
   ],

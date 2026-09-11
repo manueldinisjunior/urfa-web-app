@@ -1,83 +1,46 @@
-# urfa-web-app
+# Urfa Grill Web App
 
-## Overview
-The **urfa-web-app** is a scalable web application designed to showcase and sell 3D products. Built with a modern tech stack, it allows for easy updates and feature additions while ensuring fast performance.
+A responsive restaurant ordering demo built with React, TypeScript, Redux Toolkit, React Router, and Vite.
 
-## Tech Stack
-- **Frontend**: React with TypeScript
-- **State Management**: Redux
-- **Routing**: React Router
-- **3D Rendering**: Three.js
-- **Build Tool**: Vite
+## What works
 
-## Features
-- Responsive layout with a header and footer
-- Product listing with individual product cards
-- 3D product visualization
-- Shopping cart functionality
-- API integration for product data
+- Responsive home page and mobile navigation
+- Filterable German menu
+- Product detail pages
+- Add-to-cart flow with quantity controls and calculated totals
+- Cart persistence in local storage
+- Validated demo checkout with a clear no-payment notice
+- Hash-based routing compatible with GitHub Pages
+- Automated type checking, unit tests, production build, and Pages deployment
 
-## Project Structure
-```
-urfa-web-app
-├── public
-│   └── favicon.svg
-├── src
-│   ├── components
-│   │   ├── layout
-│   │   │   ├── Header.tsx
-│   │   │   └── Footer.tsx
-│   │   ├── product
-│   │   │   ├── ProductCard.tsx
-│   │   │   └── ProductList.tsx
-│   │   └── three
-│   │       ├── ProductScene.tsx
-│   │       └── ModelViewer.tsx
-│   ├── features
-│   │   ├── cart
-│   │   │   ├── cartSlice.ts
-│   │   │   └── CartView.tsx
-│   │   └── products
-│   │       ├── productApi.ts
-│   │       └── productsSlice.ts
-│   ├── hooks
-│   │   └── useProductLoader.ts
-│   ├── pages
-│   │   ├── Home.tsx
-│   │   ├── ProductPage.tsx
-│   │   └── NotFound.tsx
-│   ├── styles
-│   │   └── globals.css
-│   ├── utils
-│   │   └── formatPrice.ts
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── types.ts
-├── package.json
-├── tsconfig.json
-└── vite.config.ts
+## Run locally
+
+Requirements: Node.js 20.19 or newer.
+
+```bash
+npm ci
+npm run dev
 ```
 
-## Getting Started
-1. Clone the repository:
-   ```
-   git clone https://github.com/manueldinisjunior/urfa.git
-   ```
-2. Navigate to the project directory:
-   ```
-   cd urfa-web-app
-   ```
-3. Install dependencies:
-   ```
-   npm install
-   ```
-4. Start the development server:
-   ```
-   npm run dev
-   ```
+Open `http://localhost:3000`.
 
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
+## Verify
 
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+```bash
+npm test
+npm run build
+```
+
+The production bundle is written to `dist/`. GitHub Actions builds and deploys this directory automatically after changes reach `main`.
+
+## Architecture
+
+The deployable application lives at the repository root:
+
+- `src/data` – local demo menu data
+- `src/components` – reusable layout and product UI
+- `src/features` – Redux product and cart state
+- `src/pages` – route-level views
+- `.github/workflows/pages.yml` – the only active Pages deployment workflow
+
+The `backend/`, `frontend/`, and `urfa-next-app/` directories are earlier experiments and are not part of the current GitHub Pages build. A production ordering system would connect the root frontend to an authenticated API, database, real restaurant data, and a payment provider.

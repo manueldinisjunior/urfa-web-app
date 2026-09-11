@@ -3,8 +3,10 @@ export interface Product {
     name: string;
     description: string;
     price: number;
-    imageUrl: string;
-    modelUrl?: string; // Optional for 3D models
+    category: 'Grill' | 'Wraps' | 'Vegetarisch' | 'Beilagen';
+    emoji: string;
+    accent: string;
+    featured?: boolean;
 }
 
 export interface CartItem {
@@ -12,7 +14,8 @@ export interface CartItem {
     name: string;
     price: number;
     quantity: number;
-    imageUrl?: string;
+    emoji: string;
+    accent: string;
 }
 
 export interface Cart {

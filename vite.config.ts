@@ -19,7 +19,4 @@ export default defineConfig(({ mode }) => ({
       '@': '/src',
     },
   },
-  optimizeDeps: {
-    include: ['three', '@react-three/fiber'],
-  },
 }));

@@ -1,23 +1,23 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Footer: React.FC = () => {
-    return (
-        <footer className="site-footer">
-            <div className="container">
-                <div>
-                    <h3>Urfa Grill</h3>
-                    <p>&copy; {new Date().getFullYear()} Crafted for modern restaurant experiences.</p>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#/">Home</a></li>
-                        <li><a href="#/cart">Cart</a></li>
-                        <li><a href="#/product/1">Menu</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </footer>
-    );
-};
+const Footer = () => (
+  <footer className="site-footer">
+    <div className="footer-inner">
+      <div>
+        <Link className="logo footer-logo" to="/">
+          <span className="logo-mark" aria-hidden="true">U</span>
+          <span>URFA <small>GRILL</small></span>
+        </Link>
+        <p>Eine funktionale Restaurant-App-Demo mit React, TypeScript und Redux.</p>
+      </div>
+      <nav aria-label="Fußnavigation">
+        <Link to="/">Start</Link>
+        <Link to="/menu">Speisekarte</Link>
+        <Link to="/cart">Warenkorb</Link>
+      </nav>
+      <p className="copyright">© {new Date().getFullYear()} Urfa Grill Demo</p>
+    </div>
+  </footer>
+);
 
 export default Footer;
