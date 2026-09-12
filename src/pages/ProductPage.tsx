@@ -1,16 +1,12 @@
-import { ShoppingBag } from '@phosphor-icons/react';
-import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import ProductConfigurator from '../components/product/ProductConfigurator';
 import { getProductById } from '../data/products';
-import { addItem } from '../features/cart/cartSlice';
-import type { AppDispatch } from '../store';
 import { assetUrl } from '../utils/assetUrl';
 import { formatPrice } from '../utils/formatPrice';
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
   const product = getProductById(id);
-  const dispatch = useDispatch<AppDispatch>();
 
   if (!product) {
     return (
@@ -33,9 +29,7 @@ const ProductPage = () => {
         <h1>{product.name}</h1>
         <p>{product.description}</p>
         <strong>{formatPrice(product.price)}</strong>
-        <button className="red-button" type="button" onClick={() => dispatch(addItem({ ...product, quantity: 1 }))}>
-          In den Warenkorb <ShoppingBag />
-        </button>
+        <ProductConfigurator key={product.id} product={product} formId={`product-page-${product.id}`} />
       </div>
     </section>
   );

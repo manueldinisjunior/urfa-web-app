@@ -1,4 +1,4 @@
-import { ArrowRight, Play } from '@phosphor-icons/react';
+import { ArrowRight } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { assetUrl } from '../utils/assetUrl';
 
@@ -10,13 +10,13 @@ const About = () => (
         <h1>Aus Feuer wird<br />Gastfreundschaft.</h1>
       </div>
       <div className="about-image">
-        <img src={assetUrl('assets/urfa-about.jpg')} alt="Koch bereitet türkische Grillspieße über Holzkohle zu" />
-        <span className="play-mark" aria-hidden="true"><Play weight="fill" /></span>
+        <img src={assetUrl('assets/urfa-about.webp')} alt="Koch bereitet türkische Grillspieße über Holzkohle zu" />
+        
       </div>
       <div className="about-copy">
-        <p className="lead">Urfa Grill verbindet traditionelle türkische Grillkultur mit einem modernen, unkomplizierten Restaurant-Erlebnis.</p>
-        <p>Im Mittelpunkt stehen offene Hitze, gute Zutaten und Handwerk. Unsere Gerichte werden direkt nach der Bestellung zubereitet – mit kräftigen Gewürzen, frischen Kräutern und der Ruhe, die gutes Essen braucht.</p>
-        <p>Digitalisierung bedeutet für uns nicht weniger Persönlichkeit. Sie macht Bestellung und Orientierung einfacher, damit mehr Zeit für das Wesentliche bleibt: Geschmack und Begegnung.</p>
+        <p className="lead">Bei Urfa Grill in Hildesheim erleben Sie den einzigartigen Geschmack der traditionellen türkischen Küche – frisch, herzhaft und authentisch.</p>
+        <p>Ob saftige Kebabs, knusprige Lahmacun oder vegetarische Spezialitäten – wir bereiten jedes Gericht mit Leidenschaft und besten Zutaten zu.</p>
+        <p>Besuchen Sie uns in der Schuhstraße 39, 31134 Hildesheim. Wir freuen uns auf Sie!</p>
         <Link className="arrow-link" to="/menu">Unsere Speisekarte <ArrowRight /></Link>
       </div>
     </section>

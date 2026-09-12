@@ -44,46 +44,83 @@ const CartView = () => {
   }
 
   return (
-    <section className="cart-page">
-      <div className="cart-list-panel">
-        <div className="cart-title">
-          <div><p className="section-kicker">Warenkorb</p><h1>Deine Auswahl</h1></div>
-          <button type="button" onClick={() => dispatch(clearCart())}>Alles entfernen</button>
+    <form className="checkout-page" onSubmit={submitOrder}>
+      <section className="checkout-details" aria-labelledby="checkout-details-title">
+        <div className="checkout-heading-row">
+          <div>
+            <p className="section-kicker">Abholung</p>
+            <h1 id="checkout-details-title">Rechnungs- und Abholdaten</h1>
+          </div>
+          <button type="button" onClick={() => dispatch(clearCart())}>Warenkorb leeren</button>
         </div>
-        <div className="cart-items">
+
+        <div className="checkout-field-grid">
+          <label>Datum<input type="date" name="date" required /></label>
+          <label>Uhrzeit<input type="time" name="time" required /></label>
+          <label>Vorname<input name="firstName" autoComplete="given-name" minLength={2} required placeholder="Vorname" /></label>
+          <label>Nachname<input name="lastName" autoComplete="family-name" minLength={2} required placeholder="Nachname" /></label>
+        </div>
+
+        <fieldset className="pickup-locations">
+          <legend>Abholort</legend>
+          <label><input type="radio" name="location" value="Hildesheim-Mitte" required /> Schuhstraße 39, Hildesheim</label>
+        </fieldset>
+
+        <div className="checkout-field-grid">
+          <label>Telefon<input type="tel" name="phone" autoComplete="tel" required placeholder="Telefonnummer" /></label>
+          <label>E-Mail<input type="email" name="email" autoComplete="email" required placeholder="E-Mail" /></label>
+        </div>
+
+        <section className="additional-info" aria-labelledby="additional-info-title">
+          <h2 id="additional-info-title">Zusätzliche Informationen</h2>
+          <label>Bestellhinweise <span>(optional)</span>
+            <textarea name="notes" rows={3} placeholder="Hinweise zur Abholung oder Zubereitung" />
+          </label>
+        </section>
+      </section>
+
+      <aside className="order-summary" aria-labelledby="order-summary-title">
+        <p className="section-kicker">Bestellung</p>
+        <h2 id="order-summary-title">Deine Bestellung</h2>
+        <div className="checkout-items">
           {cartItems.map((item) => (
-            <article className="cart-item" key={item.id}>
-              <img src={assetUrl(item.imageUrl)} alt={item.name} />
-              <div className="cart-item-copy">
-                <h2>{item.name}</h2>
-                <span>{formatPrice(item.price)} pro Stück</span>
-                <button type="button" onClick={() => dispatch(removeItem(item.id))}><Trash /> Entfernen</button>
-              </div>
-              <div className="quantity-control" aria-label={`Menge für ${item.name}`}>
-                <button type="button" aria-label="Menge verringern" onClick={() => dispatch(setQuantity({ id: item.id, quantity: item.quantity - 1 }))}><Minus /></button>
-                <span aria-live="polite">{item.quantity}</span>
-                <button type="button" aria-label="Menge erhöhen" onClick={() => dispatch(setQuantity({ id: item.id, quantity: item.quantity + 1 }))}><Plus /></button>
+            <article className="checkout-item" key={item.lineId}>
+              <img src={assetUrl(item.imageUrl)} alt="" />
+              <div>
+                <h3>{item.name}</h3>
+                {item.selectedOptions?.map((option) => <p key={`${option.groupId}-${option.optionId}`}>{option.groupName}: {option.optionName}</p>)}
+                {!!item.selectedExtras?.length && <p>Extras: {item.selectedExtras.map((extra) => extra.name).join(', ')}</p>}
+                <div className="checkout-item-controls">
+                  <div className="quantity-control" aria-label={`Menge für ${item.name}`}>
+                    <button type="button" aria-label="Menge verringern" onClick={() => dispatch(setQuantity({ lineId: item.lineId, quantity: item.quantity - 1 }))}><Minus /></button>
+                    <span>{item.quantity}</span>
+                    <button type="button" aria-label="Menge erhöhen" onClick={() => dispatch(setQuantity({ lineId: item.lineId, quantity: item.quantity + 1 }))}><Plus /></button>
+                  </div>
+                  <button className="checkout-remove" type="button" aria-label={`${item.name} entfernen`} onClick={() => dispatch(removeItem(item.lineId))}><Trash /></button>
+                </div>
               </div>
               <strong>{formatPrice(item.price * item.quantity)}</strong>
             </article>
           ))}
         </div>
-      </div>
 
-      <aside className="checkout-panel">
-        <p className="section-kicker light">Bestellung</p>
-        <h2>Zusammenfassung</h2>
-        <div className="summary-row"><span>Zwischensumme</span><strong>{formatPrice(totalAmount)}</strong></div>
-        <div className="summary-row"><span>Abholung</span><strong>Kostenlos</strong></div>
-        <div className="summary-row total"><span>Gesamt</span><strong>{formatPrice(totalAmount)}</strong></div>
-        <form onSubmit={submitOrder}>
-          <label>Name<input name="name" autoComplete="name" minLength={2} required placeholder="Dein Name" /></label>
-          <label>Bestellart<select name="orderType" defaultValue="pickup"><option value="pickup">Abholung</option><option value="delivery">Lieferung (Demo)</option></select></label>
-          <button className="white-button" type="submit">Demo-Bestellung bestätigen</button>
-          <small>Keine echte Bestellung oder Zahlung.</small>
-        </form>
+        <div className="checkout-totals">
+          <div><span>Zwischensumme</span><span>{formatPrice(totalAmount)}</span></div>
+          <div className="checkout-total"><span>Gesamt</span><strong>{formatPrice(totalAmount)}</strong></div>
+        </div>
+
+        <div className="payment-note">
+          <h3>Zahlung bei Abholung</h3>
+          <p>Bezahle vor Ort in bar, mit Karte oder kontaktlos. Diese Website ist eine Bestelldemo und löst keine Zahlung aus.</p>
+        </div>
+
+        <label className="terms-check">
+          <input type="checkbox" name="terms" required />
+          <span>Ich verstehe, dass dies eine Demo ist und keine Bestellung gesendet wird.</span>
+        </label>
+        <button className="place-order-button" type="submit">Demo-Bestellung abschließen</button>
       </aside>
-    </section>
+    </form>
   );
 };
 

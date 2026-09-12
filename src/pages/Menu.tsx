@@ -1,12 +1,14 @@
-import { BowlFood, Fire, ForkKnife, Leaf, SquaresFour } from '@phosphor-icons/react';
+import { BeerBottle, BowlFood, Fire, ForkKnife, Leaf, SquaresFour } from '@phosphor-icons/react';
 import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import ProductList from '../components/product/ProductList';
+import ProductModal from '../components/product/ProductModal';
 import { products } from '../data/products';
 import { addItem } from '../features/cart/cartSlice';
 import type { AppDispatch } from '../store';
 import type { Product } from '../types';
+import { createCartItem } from '../utils/cartItem';
 
 const categories = [
   { name: 'Alle', icon: SquaresFour },
@@ -14,13 +16,24 @@ const categories = [
   { name: 'Wraps', icon: ForkKnife },
   { name: 'Vegetarisch', icon: Leaf },
   { name: 'Beilagen', icon: BowlFood },
+  { name: 'Getränke', icon: BeerBottle },
 ] as const;
 type CategoryFilter = (typeof categories)[number]['name'];
 
 const Menu = () => {
-  const [category, setCategory] = useState<CategoryFilter>('Alle');
+
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
+  const history = useHistory();
+  const requestedCategory = new URLSearchParams(location.search).get('category');
+  const category: CategoryFilter = categories.find(({ name }) => name === requestedCategory)?.name ?? 'Alle';
+  const setCategory = (name: CategoryFilter) => {
+    const params = new URLSearchParams(location.search);
+    if (name === 'Alle') params.delete('category');
+    else params.set('category', name);
+    history.push(`/menu${params.toString() ? `?${params}` : ''}`);
+  };
   const search = new URLSearchParams(location.search).get('search')?.trim().toLocaleLowerCase('de') ?? '';
   const visibleProducts = useMemo(() => products.filter((product) => {
     const categoryMatches = category === 'Alle' || product.category === category;
@@ -28,16 +41,19 @@ const Menu = () => {
     return categoryMatches && searchMatches;
   }), [category, search]);
 
-  const addToCart = (product: Product) => dispatch(addItem({ ...product, quantity: 1 }));
+  const addToCart = (product: Product) => {
+    if (product.optionGroups?.length || product.extras?.length) setSelectedProduct(product);
+    else dispatch(addItem(createCartItem(product)));
+  };
 
   return (
     <div className="menu-page">
       <header className="page-intro">
         <div>
-          <h1>Speisekarte</h1>
-          <p><Link to="/">Startseite</Link> <span>›</span> Speisekarte</p>
+          <h1>{category === 'Alle' ? 'Speisekarte' : category}</h1>
+          <nav className="breadcrumbs" aria-label="Brotkrümelnavigation"><Link to="/">Startseite</Link><span aria-hidden="true">›</span>{category === 'Alle' ? <span aria-current="page">Speisekarte</span> : <><Link to="/menu">Speisekarte</Link><span aria-hidden="true">›</span><span aria-current="page">{category}</span></>}</nav>
         </div>
-        <p>{visibleProducts.length} Gerichte verfügbar{search ? ` für „${search}“` : ''}</p>
+        <p>{visibleProducts.length} Produkte verfügbar{search ? ` für „${search}“` : ''}</p>
       </header>
       <section className="menu-catalog" aria-labelledby="menu-catalog-title">
         <h2 id="menu-catalog-title" className="visually-hidden">Gerichte</h2>
@@ -55,8 +71,11 @@ const Menu = () => {
             </button>
           ))}
         </div>
-        <ProductList products={visibleProducts} onAddToCart={addToCart} />
+        <div className="catalog-transition" key={`${category}-${search}`}>
+          <ProductList products={visibleProducts} onAddToCart={addToCart} onViewProduct={setSelectedProduct} />
+        </div>
       </section>
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
     </div>
   );
 };

@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './features/cart/cartSlice';
-import productsReducer from './features/products/productsSlice';
 import type { CartItem } from './types';
 
-const CART_STORAGE_KEY = 'urfa-cart-v2';
+const CART_STORAGE_KEY = 'urfa-cart-v3';
 
 const readSavedCart = (): CartItem[] => {
   try {
@@ -18,7 +17,6 @@ const readSavedCart = (): CartItem[] => {
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
-    products: productsReducer,
   },
   preloadedState: {
     cart: { items: readSavedCart() },

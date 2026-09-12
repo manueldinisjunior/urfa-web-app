@@ -3,17 +3,49 @@ export interface Product {
     name: string;
     description: string;
     price: number;
-    category: 'Grill' | 'Wraps' | 'Vegetarisch' | 'Beilagen';
+    category: 'Grill' | 'Wraps' | 'Vegetarisch' | 'Beilagen' | 'Getränke';
     imageUrl: string;
     featured?: boolean;
+    optionGroups?: ProductOptionGroup[];
+    extras?: ProductExtra[];
+}
+
+export interface ProductOption {
+    id: string;
+    name: string;
+    price?: number;
+}
+
+export interface ProductOptionGroup {
+    id: string;
+    name: string;
+    required?: boolean;
+    options: ProductOption[];
+}
+
+export interface ProductExtra {
+    id: string;
+    name: string;
+    price: number;
+}
+
+export interface SelectedProductOption {
+    groupId: string;
+    groupName: string;
+    optionId: string;
+    optionName: string;
+    price: number;
 }
 
 export interface CartItem {
+    lineId: string;
     id: string;
     name: string;
     price: number;
     quantity: number;
     imageUrl: string;
+    selectedOptions?: SelectedProductOption[];
+    selectedExtras?: ProductExtra[];
 }
 
 export interface Cart {
@@ -21,21 +53,9 @@ export interface Cart {
     totalAmount: number;
 }
 
-export interface ProductsState {
-    items: Product[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: string | null;
-}
-
 export interface RootState {
-    products: ProductsState;
     cart: {
         items: CartItem[];
     };
 }
 
-export interface ApiResponse<T> {
-    data: T;
-    message?: string;
-    error?: boolean;
-}

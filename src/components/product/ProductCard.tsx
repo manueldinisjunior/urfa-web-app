@@ -1,5 +1,4 @@
-import { Plus } from '@phosphor-icons/react';
-import { Link } from 'react-router-dom';
+import { Eye, Plus } from '@phosphor-icons/react';
 import type { Product } from '../../types';
 import { assetUrl } from '../../utils/assetUrl';
 import { formatPrice } from '../../utils/formatPrice';
@@ -7,22 +6,27 @@ import { formatPrice } from '../../utils/formatPrice';
 interface ProductCardProps {
   product: Product;
   onAddToCart: (product: Product) => void;
+  onViewProduct: (product: Product) => void;
 }
 
-const ProductCard = ({ product, onAddToCart }: ProductCardProps) => (
+const ProductCard = ({ product, onAddToCart, onViewProduct }: ProductCardProps) => (
   <article className="product-card">
-    <Link className="product-image-wrap" to={`/product/${product.id}`} aria-label={`${product.name} ansehen`}>
+    <button className="product-image-wrap" type="button" onClick={() => onViewProduct(product)} aria-label={`${product.name} ansehen`}>
       <img src={assetUrl(product.imageUrl)} alt={product.name} loading="lazy" />
-    </Link>
+      <span className="product-image-cta"><Eye /> Ansehen</span>
+    </button>
     <div className="product-body">
-      <span className="product-category">{product.category}</span>
-      <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
-      <p>{product.description}</p>
-      <div className="product-bottom">
+      <div className="product-card-meta">
+        <span className="product-category">{product.category}</span>
+        <h3><button type="button" onClick={() => onViewProduct(product)}>{product.name}</button></h3>
+        <p>{product.description}</p>
+      </div>
+      <div className="product-bottom product-card-price">
         <strong>{formatPrice(product.price)}</strong>
-        <button type="button" onClick={() => onAddToCart(product)} aria-label={`${product.name} in den Warenkorb`}>
-          <Plus weight="light" />
-        </button>
+      </div>
+      <div className="product-card-actions">
+        <button type="button" onClick={() => onAddToCart(product)}><Plus /> {product.optionGroups?.length || product.extras?.length ? 'Auswählen' : 'Hinzufügen'}</button>
+        <button type="button" onClick={() => onViewProduct(product)}><Eye /> Ansehen</button>
       </div>
     </div>
   </article>

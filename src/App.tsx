@@ -25,9 +25,9 @@ const App = () => (
   <HashRouter>
     <ScrollToTop />
     <div className="app-shell">
-      <a className="skip-link" href="#main-content">Zum Inhalt springen</a>
+      <a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Zum Inhalt springen</a>
       <Header />
-      <main id="main-content" className="main-content">
+      <main id="main-content" tabIndex={-1} className="main-content">
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/menu" exact component={Menu} />

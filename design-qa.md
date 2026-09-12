@@ -1,47 +1,37 @@
-# Design QA
-
-## Comparison set
-
-| Page | Source reference | Implementation capture | Viewport / state |
-| --- | --- | --- | --- |
-| Home | `/workspace/scratch/f49a71a922f7/upload/1f0be704-71d5-49d8-957d-8e2f043d4bab.png` (1280×768) and `/workspace/scratch/f49a71a922f7/upload/e19c87e2-f5ec-44d9-b39f-e21a08343956.png` (838×457) | `cloud-browser:/tmp/urfa-qa/home-section-nav-hero.png` and `cloud-browser:/tmp/urfa-qa/home-section-nav-service.png` | 1363×936, hero and service states, fixed navigation |
-| Menu | `/workspace/scratch/f49a71a922f7/upload/https-kasushi.co.mz-menu-.png` (693×2048) | `cloud-browser:/tmp/urfa-qa/menu-desktop.png` | 1363×936, all categories, six products |
-| About | `/workspace/scratch/f49a71a922f7/upload/https-kasushi.co.mz-sobre-.png` (1280×815) | `cloud-browser:/tmp/urfa-qa/about-desktop.png` | 1363×936, top of page |
-| Contact | `/workspace/scratch/f49a71a922f7/upload/https-kasushi.co.mz-contacto-.png` (1280×1789) | `cloud-browser:/tmp/urfa-qa/contact-desktop.png` | 1363×936, top of page |
-| Careers | `/workspace/scratch/f49a71a922f7/upload/https-kasushi.co.mz-carreiras-.png` (1280×1053) | `cloud-browser:/tmp/urfa-qa/careers-desktop.png` | 1363×936, first role expanded |
-
-The source and implementation captures were opened together for direct visual comparison. Additional supplied references for the split feature, red service, gallery, and location sections were checked against the corresponding home-page sections. The focused navigation reference was compared against both the hero and scrolled service states.
-
-## Interactions tested
-
-- Header menu opens, closes, and exposes all page routes.
-- Global search routes to the menu and filters `Falafel` to one result.
-- Category tabs filter the menu.
-- Product cards route to a complete product detail page.
-- Add-to-cart, quantity increase, calculated total, cart persistence, and local demo confirmation work.
-- Careers accordion and validated local-only application form work.
-- Contact CTA and validated local-only message form work.
-- Route changes reset scroll position to the top.
-- Homepage section dots remain fixed, update their active state while scrolling, and write the selected section into the route query (`?section=...`).
-- Responsive CSS was reviewed at the 1080, 760, and 480 pixel breakpoints; navigation, grids, split layouts, forms, and cart rows collapse without fixed-width overflow.
-
-## Console
-
-No application-origin console errors or warnings were found. The cloud browser reported repeated `chrome-extension://` metadata errors from its own extension; these are outside the application.
-
-## Findings and fixes
-
-1. **P1 — empty map panel:** the external map iframe did not render in the preview environment. Replaced it with a local, art-directed map image so the split contact composition is deterministic and deploy-safe.
-2. **P1 — route scroll retention:** navigating from a lower home section could keep the previous scroll offset. Added route-level scroll reset.
-3. **P2 — mobile search unavailable:** the search control was hidden below 760px. Kept it visible and retained the horizontally scrollable menu categories.
-4. **P2 — cart accessibility copy:** corrected the singular label from `1 Artikeln` to `1 Artikel`.
-5. **P2 — legacy cart schema:** versioned the local-storage key so carts created before image-backed products cannot render broken thumbnails.
-6. **P1 — homepage section dots lost after the hero:** moved the section navigation to a fixed viewport position, added URL-aware smooth scrolling, and kept the active dot legible on both dark and light sections.
-
-## Visual result
-
-- Header proportions, centered wordmark, icon cells, condensed display type, red accent, gray catalog surface, product-card rhythm, dark footer, and generous whitespace closely follow the supplied visual system.
-- Sushi imagery and Portuguese copy were intentionally translated into Turkish grill photography and German content while preserving the reference composition and hierarchy.
-- All product and section imagery is local; no placeholder, emoji, or third-party runtime image dependency remains.
+# Design QA — 2026-09-12
 
 final result: passed
+
+## Sources and evidence
+- Product modal source: `/workspace/scratch/f49a71a922f7/upload/03f74508-141c-4d1b-ae2f-0e9d292c5f0c.png` (1291 × 693).
+- Checkout source: `/workspace/scratch/f49a71a922f7/upload/e8f6300c-2262-47e6-bc90-d1ceda6add0f.png` (1917 × 903).
+- Logo source: `/workspace/scratch/f49a71a922f7/upload/07cf604d-b783-4879-be62-97fdb3f93da1.png` (800 × 800).
+- Browser-rendered implementation: `/workspace/scratch/urfa-modal-qa.jpg`, `/workspace/scratch/urfa-checkout-qa.jpg` (1363 × 936 CSS viewport, 1x).
+- Reference and rendered screenshots were displayed together in the same comparison inputs. Different source viewport sizes and different restaurant content prevent a literal pixel-diff comparison; this review checks the requested design patterns and original logo asset, not an identical KaSushi clone.
+
+## Findings and fidelity
+No actionable P0/P1/P2 differences in the reviewed desktop states.
+- Typography: existing Urfa Inter and Barlow Condensed retained; large modal heading, condensed price and clear form hierarchy. German copy and Euro prices intentionally differ.
+- Layout: image-left/options-right modal, scrollable details, persistent bottom actions; checkout uses paired fields at left and order summary at right. Modal width is capped for desktop readability.
+- Colors: white and light-gray surfaces, red primary actions, dimmed backdrop match the reference pattern.
+- Images: original supplied logo is cropped only around its white margins, rendered without distortion; supplied food photos form the homepage gallery. Compact WebP imagery stays sharp at displayed sizes.
+- Content: real supplied restaurant details, social links, developer attribution and menu category breadcrumbs. Menu prices/options remain demo data; checkout explicitly states that nothing is transmitted.
+Focused logo and modal action regions were readable in the full-resolution comparisons; no additional image crops were necessary.
+
+## Interaction checks
+- Sticky section dot click changes the URL and scrolls to location; dots remain fixed at viewport center (measured top 433px after scrollY 3223).
+- Drinks tab shows two products. Category breadcrumb returns to all eight products.
+- Modal option selection and extra bread update 16.90 EUR to 18.40 EUR. Cart retains selected option and extra.
+- Modal restores focus after closing; Escape and Tab boundaries are implemented.
+- Checkout completed with disposable local demo data; confirmation explicitly states no data/payment transmission.
+- Browser console checked: only browser-extension metadata errors; no application errors observed.
+- Five unit tests passed; TypeScript and Vite production build passed.
+
+## Comparison history and limits
+The current visual comparisons found no required visual corrections. Keyboard focus containment and timeout cleanup were code-review fixes before final screenshots. Existing Urfa typography, translated content and responsive width limits are intentional adaptations. Mobile viewport rendering and real orders/payments were not tested; no mobile pixel-perfect or live-ordering claim is made.
+
+## Implementation checklist
+- [x] Compare product window and checkout against uploaded targets.
+- [x] Preserve original logo artwork.
+- [x] Verify categories, options, cart and local checkout.
+- [x] Build and test.

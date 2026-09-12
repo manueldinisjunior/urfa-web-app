@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react';
 import {
   FacebookLogo,
   InstagramLogo,
-  LinkedinLogo,
   List,
   MagnifyingGlass,
   ShoppingBag,
@@ -10,6 +9,7 @@ import {
 } from '@phosphor-icons/react';
 import { useSelector } from 'react-redux';
 import { Link, NavLink, useHistory } from 'react-router-dom';
+import { assetUrl } from '../../utils/assetUrl';
 import type { RootState } from '../../types';
 
 const Header = () => {
@@ -37,13 +37,12 @@ const Header = () => {
   return (
     <header className="site-header">
       <div className="header-socials" aria-label="Social Media">
-        <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramLogo /></a>
-        <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook"><FacebookLogo /></a>
-        <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn"><LinkedinLogo /></a>
+        <a href="https://www.instagram.com/urfa_grill_hildesheim_/" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramLogo /></a>
+        <a href="https://www.facebook.com/profile.php?id=61579836777680" target="_blank" rel="noreferrer" aria-label="Facebook"><FacebookLogo /></a>
       </div>
 
       <Link className="wordmark" to="/" onClick={closePanels} aria-label="Urfa Grill Startseite">
-        <span>URFA</span><strong>GRILL</strong>
+        <img src={assetUrl('assets/urfa-logo.png')} width="112" height="59" alt="Cano Kebap Urfa Grill" />
       </Link>
 
       <div className="header-tools">

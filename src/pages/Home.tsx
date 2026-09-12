@@ -3,11 +3,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import ProductList from '../components/product/ProductList';
+import ProductModal from '../components/product/ProductModal';
 import { products } from '../data/products';
 import { addItem } from '../features/cart/cartSlice';
 import type { AppDispatch } from '../store';
 import type { Product } from '../types';
 import { assetUrl } from '../utils/assetUrl';
+import { createCartItem } from '../utils/cartItem';
 
 const homepageSections = [
   { id: 'hero', label: 'Startbereich' },
@@ -20,7 +22,11 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const [activeSection, setActiveSection] = useState('hero');
-  const addToCart = (product: Product) => dispatch(addItem({ ...product, quantity: 1 }));
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const addToCart = (product: Product) => {
+    if (product.optionGroups?.length || product.extras?.length) setSelectedProduct(product);
+    else dispatch(addItem(createCartItem(product)));
+  };
 
   const scrollToSection = useCallback((sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -62,11 +68,25 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('.home-reveal'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.01 });
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const dotsOnDarkBackground = activeSection === 'hero' || activeSection === 'service';
 
   return (
     <>
-      <section id="hero" className="editorial-hero" style={{ backgroundImage: `url(${assetUrl('assets/urfa-hero.jpg')})` }}>
+      <section id="hero" className="editorial-hero home-reveal" style={{ backgroundImage: `url(${assetUrl('assets/urfa-hero.webp')})` }}>
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="section-kicker light">Willkommen bei Urfa Grill</p>
@@ -91,7 +111,7 @@ const Home = () => {
         </nav>
       </section>
 
-      <section id="favorites" className="editorial-section favorites-section">
+      <section id="favorites" className="editorial-section favorites-section home-reveal">
         <div className="section-title-row">
           <div>
             <p className="section-kicker">Speisekarte</p>
@@ -99,10 +119,19 @@ const Home = () => {
           </div>
           <Link className="arrow-link" to="/menu">Alle Gerichte ansehen <span>→</span></Link>
         </div>
-        <ProductList products={products.filter((product) => product.featured)} onAddToCart={addToCart} />
+        <ProductList products={products.filter((product) => product.featured)} onAddToCart={addToCart} onViewProduct={setSelectedProduct} />
       </section>
 
-      <section id="service" className="service-showcase">
+      <section className="food-gallery editorial-section" aria-labelledby="food-gallery-title">
+        <div className="section-title-row"><div><p className="section-kicker">Türkische Küche</p><h2 id="food-gallery-title">Frisch. Herzhaft. Authentisch.</h2></div><Link className="red-button" to="/menu">Speisekarte entdecken</Link></div>
+        <div className="food-gallery-grid">
+          <img src={assetUrl('assets/urfa-table.webp')} alt="Türkische Spezialitäten mit Fleisch, Salat und Dips" width="1400" height="613" loading="lazy" decoding="async" />
+          <img src={assetUrl('assets/urfa-skewers.webp')} alt="Gegrillte Fleischspieße mit Gemüse und Saucen" width="679" height="889" loading="lazy" decoding="async" />
+          <img src={assetUrl('assets/urfa-grill.webp')} alt="Grillfleisch mit Paprika und frischen Zwiebeln" width="1400" height="934" loading="lazy" decoding="async" />
+          <img src={assetUrl('assets/urfa-kebab.webp')} alt="Kebab mit Reis, Tomaten und würziger Sauce" width="1400" height="933" loading="lazy" decoding="async" />
+        </div>
+      </section>
+      <section id="service" className="service-showcase home-reveal">
         <div className="service-copy left">
           <MapPin weight="thin" />
           <h3>MITTEN IN HILDESHEIM</h3>
@@ -112,8 +141,8 @@ const Home = () => {
           <p>Bestelle digital und hole deine Auswahl frisch zubereitet ab.</p>
         </div>
         <div className="service-images">
-          <img src={assetUrl('assets/urfa-about.jpg')} alt="Kebabspieße über offenem Holzkohlegrill" />
-          <img src={assetUrl('assets/product-adana-wrap.jpg')} alt="Frisch zubereiteter Adana Wrap" />
+          <img src={assetUrl('assets/urfa-about.webp')} alt="Kebabspieße über offenem Holzkohlegrill" />
+          <img src={assetUrl('assets/product-adana-wrap.webp')} alt="Frisch zubereiteter Adana Wrap" />
         </div>
         <div className="service-copy right">
           <Clock weight="thin" />
@@ -125,21 +154,22 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="location" className="location-section">
+      <section id="location" className="location-section home-reveal">
         <div className="location-photo">
-          <img src={assetUrl('assets/urfa-contact.jpg')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" />
+          <img src={assetUrl('assets/urfa-contact.webp')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" />
         </div>
         <div className="location-copy">
-          <p className="section-kicker">Unser Konzeptstandort</p>
+          <p className="section-kicker">Besuche uns</p>
           <h2>Hildesheim</h2>
           <p>Türkische Gastfreundschaft, offener Grill und ein digitaler Bestellprozess, der sich einfach anfühlt.</p>
           <dl>
-            <div><dt>Region</dt><dd>Hildesheim · Niedersachsen</dd></div>
-            <div><dt>Konzept</dt><dd>Grill · Abholung · Digital</dd></div>
+            <div><dt>Adresse</dt><dd>Schuhstraße 39, 31134 Hildesheim</dd></div>
+            <div><dt>Kontakt</dt><dd><a href="tel:04951219890410">04951 219890410</a></dd></div>
           </dl>
           <Link className="red-button" to="/contact">Kontakt aufnehmen</Link>
         </div>
       </section>
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
     </>
   );
 };
