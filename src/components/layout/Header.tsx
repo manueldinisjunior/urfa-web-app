@@ -96,10 +96,10 @@ const Header = () => {
         aria-label="Urfa Grill Startseite"
       >
         <img
-          src={assetUrl("assets/urfa-logo.png")}
+          src={assetUrl("assets/urfa-brand-light.png")}
           width="112"
           height="59"
-          alt="Cano Kebap Urfa Grill"
+          alt="Urfa Grill"
         />
       </Link>
 

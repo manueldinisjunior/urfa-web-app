@@ -58,6 +58,7 @@ export function createApp(db, cfg) {
     helmet({
       contentSecurityPolicy: {
         directives: {
+          frameSrc: ["'self'", "https://www.tiktok.com"],
           "img-src": ["'self'", "https:", "data:"],
           "script-src": ["'self'"],
           "style-src": ["'self'", "'unsafe-inline'"],

@@ -1,3 +1,4 @@
+import BrandVideos from '../components/BrandVideos';
 import { Clock, CreditCard, MapPin, Package } from '@phosphor-icons/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -19,6 +20,7 @@ const homepageSections = [
   { id: 'hero', label: 'Startbereich' },
   { id: 'favorites', label: 'Favoriten' },
   { id: 'service', label: 'Service' },
+  { id: 'moments', label: 'Urfa auf TikTok' },
   { id: 'location', label: 'Standort' },
 ] as const;
 
@@ -97,7 +99,7 @@ const Home = () => {
         <div className="hero-content">
           <p className="section-kicker light">Willkommen bei Urfa Grill</p>
           {operating && <span className={`status-badge status-${operating.isOpen?'confirmed':'delivered'}`}>{operating.isOpen?'Annahme geöffnet':'Annahme pausiert'}</span>}
-          <h1>Feuer. Handwerk.<br />Echter Geschmack.</h1>
+          <h1>Feuer. Handwerk.<br /><span className="brand-heading-accent">Echter Geschmack.</span></h1>
           <p>Türkische Grillklassiker, frisch zubereitet und in wenigen Schritten bestellt.</p>
           <div className="hero-actions">
             <Link className="red-button" to="/menu">Jetzt bestellen</Link>
@@ -163,6 +165,7 @@ const Home = () => {
         </div>
       </section>
 
+      <BrandVideos />
       <section id="location" className="location-section home-reveal">
         <div className="location-photo">
           <img src={assetUrl('assets/urfa-contact.webp')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" />

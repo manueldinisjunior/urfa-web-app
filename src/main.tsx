@@ -24,3 +24,5 @@ createRoot(rootElement).render(
     </Provider>
   </React.StrictMode>,
 );
+
+import './styles/branding.css';
