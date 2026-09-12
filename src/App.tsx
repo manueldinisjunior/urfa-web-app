@@ -1,3 +1,5 @@
+import { DEMO_MODE } from './utils/api';
+import DemoService from './pages/DemoService';
 import { lazy, Suspense, useEffect } from 'react';
 const Admin = lazy(() => import('./features/admin/Admin'));
 const Booking = lazy(() => import('./features/reservations/Booking'));
@@ -33,13 +35,14 @@ const App = () => (
     <div className="app-shell">
       <a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Zum Inhalt springen</a>
       <Header />
+      {DEMO_MODE && <p className="demo-banner">Website-Vorschau · Es werden keine echten Bestellungen übermittelt.</p>}
       <main id="main-content" tabIndex={-1} className="main-content">
         <Suspense fallback={<p className="op-notice">Seite wird geladen …</p>}><Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/admin" component={Admin} />
-          <Route path="/reservar/cancelar/:id" component={CancelBooking} />
-          <Route path="/reservar" component={Booking} />
-          <Route path="/tracking/:id" component={Tracking} />
+          <Route path="/admin" component={DEMO_MODE ? DemoService : Admin} />
+          <Route path="/reservar/cancelar/:id" component={DEMO_MODE ? DemoService : CancelBooking} />
+          <Route path="/reservar" component={DEMO_MODE ? DemoService : Booking} />
+          <Route path="/tracking/:id" component={DEMO_MODE ? DemoService : Tracking} />
           <Route path="/menu" exact component={Menu} />
           <Route path="/about" exact component={About} />
           <Route path="/contact" exact component={Contact} />

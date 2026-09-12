@@ -1,8 +1,9 @@
+import { DEMO_MODE } from '../utils/api';
 import { Link } from "react-router-dom";
 import { useResource } from "../hooks/useResource";
 import type { Settings } from "../features/operations";
 export default function FAQ() {
-  const { data } = useResource<Settings>("/settings");
+  const { data } = useResource<Settings>(DEMO_MODE ? null : "/settings");
   const days = [
     "Montag",
     "Dienstag",

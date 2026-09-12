@@ -1,0 +1,2 @@
+import { Link } from 'react-router-dom';
+export default function DemoService(){return <section className="message-page"><p className="section-kicker">Urfa Grill · Vorschau</p><h1>Direkt mit uns sprechen.</h1><p>Online-Reservierungen und die Verwaltung sind in dieser Vorschau noch nicht freigeschaltet. Für eine Reservierung oder Fragen kontaktiere bitte das Restaurant.</p><a className="red-button" href="tel:04951219890410">04951 219890410 anrufen</a><p><Link to="/menu">Zur Speisekarte</Link></p></section>;}

@@ -37,7 +37,7 @@ const Home = () => {
   };
 
   const scrollToSection = useCallback((sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     setActiveSection(sectionId);
   }, []);
 
@@ -152,8 +152,8 @@ const Home = () => {
           <p>Bestelle digital und hole deine Auswahl frisch zubereitet ab.</p>
         </div>
         <div className="service-images">
-          <img src={assetUrl('assets/urfa-about.webp')} alt="Kebabspieße über offenem Holzkohlegrill" />
-          <img src={assetUrl('assets/product-adana-wrap.webp')} alt="Frisch zubereiteter Adana Wrap" />
+          <img src={assetUrl('assets/urfa-about.webp')} alt="Kebabspieße über offenem Holzkohlegrill" loading="lazy" decoding="async" />
+          <img src={assetUrl('assets/product-adana-wrap.webp')} alt="Frisch zubereiteter Adana Wrap" loading="lazy" decoding="async" />
         </div>
         <div className="service-copy right">
           <Clock weight="thin" />
@@ -168,7 +168,7 @@ const Home = () => {
       <BrandVideos />
       <section id="location" className="location-section home-reveal">
         <div className="location-photo">
-          <img src={assetUrl('assets/urfa-contact.webp')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" />
+          <img src={assetUrl('assets/urfa-contact.webp')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" loading="lazy" decoding="async" />
         </div>
         <div className="location-copy">
           <p className="section-kicker">Besuche uns</p>
