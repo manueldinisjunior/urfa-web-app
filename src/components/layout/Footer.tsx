@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => (
   <footer className="site-footer">
-    <p>© {new Date().getFullYear()} Urfa Grill.<br /> Developed ByAll Rights Reserved<a href="https://manueldinisjunior.de/" target="_blank" rel="noreferrer">Manuel Dinis Júnior</a></p>
+    <p>© {new Date().getFullYear()} Urfa Grill. All Rights Reserved<br /> Developed By<a href="https://manueldinisjunior.de/" target="_blank" rel="noreferrer">Manuel Dinis Júnior</a></p>
     <nav aria-label="Fußnavigation">
       <Link to="/menu">Speisekarte</Link>
       <Link to="/about">Über uns</Link>
