@@ -3,7 +3,21 @@ export interface Product {
     name: string;
     description: string;
     price: number;
-    category: 'Grill' | 'Wraps' | 'Vegetarisch' | 'Beilagen' | 'Getränke';
+    category: string;
+    variants?: ProductVariant[];
+    ingredients?: string[];
+    modelUrl?: string;
+    productInfo?: string;
+    depositCents?: number;
+    minAge?: number;
+    allergenCodes?: string[];
+    additiveCodes?: string[];
+    configurationPending?: boolean;
+    sourceUrl?: string;
+
+    available?: boolean;
+    stockAvailable?: boolean;
+    internalNotes?: string;
     imageUrl: string;
     featured?: boolean;
     optionGroups?: ProductOptionGroup[];
@@ -38,6 +52,7 @@ export interface SelectedProductOption {
 }
 
 export interface CartItem {
+    minAge?: number;
     lineId: string;
     id: string;
     name: string;
@@ -59,3 +74,5 @@ export interface RootState {
     };
 }
 
+
+export interface ProductVariant { id: string; name: string; price: number; optionGroups: ProductOptionGroup[]; extras: ProductExtra[]; }

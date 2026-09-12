@@ -51,9 +51,9 @@ const ProductModal = ({ product, onClose }: ProductModalProps) => {
     <div className="product-modal-backdrop" onMouseDown={(event) => {
       if (event.target === event.currentTarget) onClose();
     }}>
-      <section ref={dialogRef} className="product-modal" role="dialog" aria-modal="true" aria-labelledby={titleId}>
+      <section ref={dialogRef} className={`product-modal ${product.imageUrl?'':'without-image'}`} role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <div className="product-modal-image">
-          <img src={assetUrl(product.imageUrl)} alt={product.name} />
+          {product.imageUrl && <img src={assetUrl(product.imageUrl)} alt={product.name} />}
         </div>
         <div className="product-modal-content">
           <button ref={closeButtonRef} className="product-modal-close" type="button" aria-label="Produktfenster schließen" onClick={onClose}><X /></button>
@@ -61,6 +61,9 @@ const ProductModal = ({ product, onClose }: ProductModalProps) => {
           <h2 id={titleId}>{product.name}</h2>
           <p className="product-modal-price">ab {formatPrice(product.price)}</p>
           <p className="product-modal-description">{product.description}</p>
+          {product.productInfo && <p className="muted">{product.productInfo}</p>}
+          {!!product.ingredients?.length && <div><h3>Zutaten</h3><p>{product.ingredients.join(', ')}</p></div>}
+          {!!product.allergenCodes?.length && <p className="muted">Allergenkennzeichnung der Quelle: {product.allergenCodes.join(', ')}. Details bitte beim Restaurant erfragen.</p>}
           <ProductConfigurator product={product} formId={formId} showSubmitButton={false} onAdded={onClose} />
         </div>
         <footer className="product-modal-actions">

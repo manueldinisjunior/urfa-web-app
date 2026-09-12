@@ -1,1 +1,1 @@
-export const assetUrl = (path: string): string => `${import.meta.env.BASE_URL}${path}`;
+export const assetUrl = (path: string): string => /^https:\/\//.test(path) ? path : `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;

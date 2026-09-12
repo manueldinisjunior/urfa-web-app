@@ -4,7 +4,11 @@ import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import ProductList from '../components/product/ProductList';
 import ProductModal from '../components/product/ProductModal';
-import { products } from '../data/products';
+import { useCatalog } from '../hooks/useCatalog';
+import { Notice } from '../components/OperationsUI';
+import { useResource } from '../hooks/useResource';
+import type { Settings } from '../features/operations';
+import { DEMO_MODE } from '../utils/api';
 import { addItem } from '../features/cart/cartSlice';
 import type { AppDispatch } from '../store';
 import type { Product } from '../types';
@@ -19,12 +23,14 @@ const homepageSections = [
 ] as const;
 
 const Home = () => {
+  const { products, loading, error } = useCatalog();
+  const { data: operating } = useResource<Settings>(DEMO_MODE?null:'/settings',30000);
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const [activeSection, setActiveSection] = useState('hero');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const addToCart = (product: Product) => {
-    if (product.optionGroups?.length || product.extras?.length) setSelectedProduct(product);
+    if (product.variants?.length || product.configurationPending || product.optionGroups?.length || product.extras?.length) setSelectedProduct(product);
     else dispatch(addItem(createCartItem(product)));
   };
 
@@ -90,11 +96,13 @@ const Home = () => {
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="section-kicker light">Willkommen bei Urfa Grill</p>
+          {operating && <span className={`status-badge status-${operating.isOpen?'confirmed':'delivered'}`}>{operating.isOpen?'Annahme geöffnet':'Annahme pausiert'}</span>}
           <h1>Feuer. Handwerk.<br />Echter Geschmack.</h1>
           <p>Türkische Grillklassiker, frisch zubereitet und in wenigen Schritten bestellt.</p>
           <div className="hero-actions">
             <Link className="red-button" to="/menu">Jetzt bestellen</Link>
             <Link className="outline-button light" to="/about">Unsere Geschichte</Link>
+            <Link className="outline-button light" to="/reservar">Tisch reservieren</Link>
           </div>
         </div>
         <nav className={`section-dots ${dotsOnDarkBackground ? 'on-dark' : 'on-light'}`} aria-label="Startseitenabschnitte">
@@ -119,6 +127,7 @@ const Home = () => {
           </div>
           <Link className="arrow-link" to="/menu">Alle Gerichte ansehen <span>→</span></Link>
         </div>
+        {loading && <Notice>Speisekarte wird geladen …</Notice>}{error && <Notice error>{error}</Notice>}
         <ProductList products={products.filter((product) => product.featured)} onAddToCart={addToCart} onViewProduct={setSelectedProduct} />
       </section>
 

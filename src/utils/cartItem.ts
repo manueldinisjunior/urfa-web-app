@@ -6,6 +6,9 @@ export const createCartItem = (
   selectedExtraIds: string[] = [],
   quantity = 1,
 ): CartItem => {
+  const variant=product.variants?.find(v=>v.id===selectedOptionIds.variant);
+  const baseProduct=product;
+  if(variant)product={...product,price:variant.price,optionGroups:variant.optionGroups,extras:variant.extras};
   const selectedOptions: SelectedProductOption[] = (product.optionGroups ?? []).flatMap((group) => {
     const option = group.options.find((entry) => entry.id === selectedOptionIds[group.id]);
     return option ? [{
@@ -17,6 +20,7 @@ export const createCartItem = (
     }] : [];
   });
 
+  if(variant)selectedOptions.unshift({groupId:'variant',groupName:'Größe',optionId:variant.id,optionName:variant.name,price:0});
   const selectedExtras: ProductExtra[] = (product.extras ?? []).filter((extra) => selectedExtraIds.includes(extra.id));
   const optionTotal = selectedOptions.reduce((sum, option) => sum + option.price, 0);
   const extrasTotal = selectedExtras.reduce((sum, extra) => sum + extra.price, 0);
@@ -27,9 +31,10 @@ export const createCartItem = (
 
   return {
     lineId: configurationKey ? `${product.id}::${configurationKey}` : product.id,
-    id: product.id,
+    id: baseProduct.id,
+    minAge: baseProduct.minAge,
     name: product.name,
-    price: product.price + optionTotal + extrasTotal,
+    price: Math.round((product.price + optionTotal + extrasTotal)*100)/100,
     quantity,
     imageUrl: product.imageUrl,
     selectedOptions,

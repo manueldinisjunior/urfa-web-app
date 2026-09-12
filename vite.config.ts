@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
     port: 3000,
     open: false,
     allowedHosts: ['terminal.local'],
+    proxy: { '/api': { target: 'http://127.0.0.1:4000', changeOrigin: false } },
   },
   build: {
     outDir: 'dist',
