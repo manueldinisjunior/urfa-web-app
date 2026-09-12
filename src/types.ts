@@ -4,8 +4,7 @@ export interface Product {
     description: string;
     price: number;
     category: 'Grill' | 'Wraps' | 'Vegetarisch' | 'Beilagen';
-    emoji: string;
-    accent: string;
+    imageUrl: string;
     featured?: boolean;
 }
 
@@ -14,8 +13,7 @@ export interface CartItem {
     name: string;
     price: number;
     quantity: number;
-    emoji: string;
-    accent: string;
+    imageUrl: string;
 }
 
 export interface Cart {

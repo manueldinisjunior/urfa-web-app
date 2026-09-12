@@ -1,3 +1,4 @@
+import { Clock, CreditCard, MapPin, Package } from '@phosphor-icons/react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductList from '../components/product/ProductList';
@@ -5,78 +6,81 @@ import { products } from '../data/products';
 import { addItem } from '../features/cart/cartSlice';
 import type { AppDispatch } from '../store';
 import type { Product } from '../types';
+import { assetUrl } from '../utils/assetUrl';
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
-
-  const addToCart = (product: Product) => {
-    dispatch(addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-      emoji: product.emoji,
-      accent: product.accent,
-    }));
-  };
+  const addToCart = (product: Product) => dispatch(addItem({ ...product, quantity: 1 }));
 
   return (
     <>
-      <section className="hero-section">
-        <div className="hero-copy">
-          <p className="eyebrow">Türkische Grillkultur · neu gedacht</p>
-          <h1>Frisch vom Grill. Einfach bestellt.</h1>
-          <p className="hero-text">
-            Entdecke beliebte Urfa-Spezialitäten, stelle deinen Warenkorb zusammen
-            und erlebe einen schnellen, klaren Bestellablauf.
-          </p>
+      <section id="hero" className="editorial-hero" style={{ backgroundImage: `url(${assetUrl('assets/urfa-hero.jpg')})` }}>
+        <div className="hero-overlay" />
+        <div className="hero-content">
+          <p className="section-kicker light">Willkommen bei Urfa Grill</p>
+          <h1>Feuer. Handwerk.<br />Echter Geschmack.</h1>
+          <p>Türkische Grillklassiker, frisch zubereitet und in wenigen Schritten bestellt.</p>
           <div className="hero-actions">
-            <Link className="button button-primary" to="/menu">Speisekarte öffnen</Link>
-            <Link className="button button-secondary" to="/cart">Warenkorb ansehen</Link>
-          </div>
-          <div className="trust-row" aria-label="Unsere Vorteile">
-            <span>✓ Frisch zubereitet</span>
-            <span>✓ Vegetarische Auswahl</span>
-            <span>✓ Mobil optimiert</span>
+            <Link className="red-button" to="/menu">Jetzt bestellen</Link>
+            <Link className="outline-button light" to="/about">Unsere Geschichte</Link>
           </div>
         </div>
-        <div className="hero-art" aria-label="Urfa Grill Mix Illustration">
-          <div className="hero-plate" aria-hidden="true">🔥</div>
-          <div className="floating-note">
-            <span>Heute beliebt</span>
-            <strong>Urfa Grill Mix</strong>
-            <small>ab 16,90 €</small>
-          </div>
-        </div>
+        <nav className="section-dots" aria-label="Startseitenabschnitte">
+          <a href="#hero" className="active" aria-label="Hero" />
+          <a href="#favorites" aria-label="Favoriten" />
+          <a href="#service" aria-label="Service" />
+          <a href="#location" aria-label="Standort" />
+        </nav>
       </section>
 
-      <section className="content-section" aria-labelledby="favorites-title">
-        <div className="section-heading">
+      <section id="favorites" className="editorial-section favorites-section">
+        <div className="section-title-row">
           <div>
-            <p className="eyebrow dark">Unsere Favoriten</p>
-            <h2 id="favorites-title">Direkt auf den Geschmack kommen.</h2>
+            <p className="section-kicker">Speisekarte</p>
+            <h2>Beliebt am Grill.</h2>
           </div>
-          <Link className="text-link" to="/menu">Alle Gerichte ansehen →</Link>
+          <Link className="arrow-link" to="/menu">Alle Gerichte ansehen <span>→</span></Link>
         </div>
         <ProductList products={products.filter((product) => product.featured)} onAddToCart={addToCart} />
       </section>
 
-      <section className="promise-grid" aria-label="So funktioniert es">
-        <article>
-          <span>01</span>
-          <h3>Gericht wählen</h3>
-          <p>Finde Grillgerichte, Wraps und vegetarische Favoriten.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Warenkorb prüfen</h3>
-          <p>Ändere Mengen und behalte den Gesamtpreis im Blick.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Bestellung vorbereiten</h3>
-          <p>Schließe den Demo-Ablauf sicher und ohne echte Zahlung ab.</p>
-        </article>
+      <section id="service" className="service-showcase">
+        <div className="service-copy left">
+          <MapPin weight="thin" />
+          <h3>MITTEN IN HILDESHEIM</h3>
+          <p>Ein moderner Treffpunkt für ehrliche Grillküche und entspannte Abende.</p>
+          <Package weight="thin" />
+          <h3>ABHOLUNG</h3>
+          <p>Bestelle digital und hole deine Auswahl frisch zubereitet ab.</p>
+        </div>
+        <div className="service-images">
+          <img src={assetUrl('assets/urfa-about.jpg')} alt="Kebabspieße über offenem Holzkohlegrill" />
+          <img src={assetUrl('assets/product-adana-wrap.jpg')} alt="Frisch zubereiteter Adana Wrap" />
+        </div>
+        <div className="service-copy right">
+          <Clock weight="thin" />
+          <h3>TÄGLICH FRISCH</h3>
+          <p>Kurze Wege, klare Abläufe und Zubereitung direkt nach deiner Bestellung.</p>
+          <CreditCard weight="thin" />
+          <h3>TRANSPARENT</h3>
+          <p>Alle Preise, Mengen und Bestellschritte jederzeit im Blick.</p>
+        </div>
+      </section>
+
+      <section id="location" className="location-section">
+        <div className="location-photo">
+          <img src={assetUrl('assets/urfa-contact.jpg')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" />
+        </div>
+        <div className="location-copy">
+          <p className="section-kicker">Unser Konzeptstandort</p>
+          <h2>Hildesheim</h2>
+          <p>Türkische Gastfreundschaft, offener Grill und ein digitaler Bestellprozess, der sich einfach anfühlt.</p>
+          <dl>
+            <div><dt>Region</dt><dd>Hildesheim · Niedersachsen</dd></div>
+            <div><dt>Konzept</dt><dd>Grill · Abholung · Digital</dd></div>
+          </dl>
+          <Link className="red-button" to="/contact">Kontakt aufnehmen</Link>
+        </div>
       </section>
     </>
   );

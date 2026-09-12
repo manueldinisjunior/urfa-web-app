@@ -4,12 +4,14 @@ A responsive restaurant ordering demo built with React, TypeScript, Redux Toolki
 
 ## What works
 
-- Responsive home page and mobile navigation
-- Filterable German menu
+- Kasushi-inspired responsive editorial design with local food imagery
+- Complete home, menu, about, contact, careers, product, and cart pages
+- Mobile navigation plus global search and category filters
 - Product detail pages
 - Add-to-cart flow with quantity controls and calculated totals
 - Cart persistence in local storage
 - Validated demo checkout with a clear no-payment notice
+- Validated local-only contact and careers forms
 - Hash-based routing compatible with GitHub Pages
 - Automated type checking, unit tests, production build, and Pages deployment
 

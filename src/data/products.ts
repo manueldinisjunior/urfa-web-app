@@ -7,8 +7,7 @@ export const products: Product[] = [
     description: 'Lammspieß, Hähnchen, Köfte, Bulgur, Salat und zwei hausgemachte Saucen.',
     price: 16.9,
     category: 'Grill',
-    emoji: '🔥',
-    accent: '#d95724',
+    imageUrl: 'assets/product-urfa-mix.jpg',
     featured: true,
   },
   {
@@ -17,8 +16,7 @@ export const products: Product[] = [
     description: 'Würziges Hackfleisch, Tomate, Petersilie, Sumach-Zwiebeln und Lavash.',
     price: 8.9,
     category: 'Wraps',
-    emoji: '🌯',
-    accent: '#e8762f',
+    imageUrl: 'assets/product-adana-wrap.jpg',
     featured: true,
   },
   {
@@ -27,8 +25,7 @@ export const products: Product[] = [
     description: 'Marinierter Hähnchenspieß vom Grill mit Bulgur, Salat und Joghurt.',
     price: 13.5,
     category: 'Grill',
-    emoji: '🍢',
-    accent: '#b94d2b',
+    imageUrl: 'assets/product-tavuk-sis.jpg',
     featured: true,
   },
   {
@@ -37,8 +34,7 @@ export const products: Product[] = [
     description: 'Knusprige Falafel, Hummus, Bulgur, Kräuter, Gemüse und Tahini.',
     price: 10.9,
     category: 'Vegetarisch',
-    emoji: '🥙',
-    accent: '#527a45',
+    imageUrl: 'assets/product-falafel-bowl.jpg',
     featured: true,
   },
   {
@@ -47,8 +43,7 @@ export const products: Product[] = [
     description: 'Cremige rote Linsensuppe mit Zitrone, Minze und frischem Fladenbrot.',
     price: 5.5,
     category: 'Vegetarisch',
-    emoji: '🥣',
-    accent: '#d88a24',
+    imageUrl: 'assets/product-mercimek.jpg',
   },
   {
     id: 'mezze',
@@ -56,8 +51,7 @@ export const products: Product[] = [
     description: 'Hummus, Acılı Ezme, Haydari, Oliven, Salat und warmes Fladenbrot.',
     price: 9.5,
     category: 'Beilagen',
-    emoji: '🫓',
-    accent: '#9d6b3c',
+    imageUrl: 'assets/product-mezze.jpg',
   },
 ];
 

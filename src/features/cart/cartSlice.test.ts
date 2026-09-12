@@ -6,8 +6,7 @@ const item = {
   name: 'Adana Wrap',
   price: 8.9,
   quantity: 1,
-  emoji: '🌯',
-  accent: '#e8762f',
+  imageUrl: 'assets/product-adana-wrap.jpg',
 };
 
 describe('cart reducer', () => {
