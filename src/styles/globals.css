@@ -144,9 +144,14 @@ textarea:focus-visible {
 .section-kicker { margin-bottom: 0.8rem; color: var(--red); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
 .section-kicker.light { color: white; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2rem; }
-.section-dots { position: absolute; z-index: 3; right: 30px; top: 50%; display: grid; gap: 14px; transform: translateY(-50%); }
-.section-dots a { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.44); }
-.section-dots a.active { width: 13px; height: 13px; margin: -3px; border: 2px solid white; background: transparent; }
+.section-dots { position: fixed; z-index: 45; right: 30px; top: 50%; display: grid; gap: 14px; transform: translateY(-50%); }
+.section-dots a { display: block; width: 7px; height: 7px; border-radius: 50%; background: #8a8a8a; transition: background 160ms ease, border-color 160ms ease; }
+.section-dots a.active { width: 13px; height: 13px; margin: -3px; border: 2px solid var(--red); background: transparent; }
+.section-dots.on-dark a { background: rgba(255,255,255,0.44); }
+.section-dots.on-dark a.active { border-color: white; background: transparent; }
+.section-dots a:focus-visible { outline-color: var(--red); outline-offset: 5px; }
+.section-dots.on-dark a:focus-visible { outline-color: white; }
+.editorial-hero, .favorites-section, .service-showcase, .location-section { scroll-margin-top: var(--header-height); }
 
 .editorial-section { padding: clamp(5rem, 9vw, 9rem) clamp(1.25rem, 7vw, 7rem); }
 .favorites-section { min-height: 780px; background: white; }
@@ -340,7 +345,7 @@ textarea:focus-visible {
   .hero-overlay { background: linear-gradient(0deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.46) 58%, rgba(0,0,0,0.12) 100%); }
   .hero-content { width: auto; margin: 0; padding: 3rem 1.25rem 4.5rem; }
   .hero-content h1 { font-size: clamp(3.6rem, 17vw, 5.4rem); }
-  .section-dots { display: none; }
+  .section-dots { right: 12px; gap: 12px; }
   .section-title-row { align-items: flex-start; flex-direction: column; }
   .product-list { grid-template-columns: 1fr; }
   .favorites-section { min-height: auto; }

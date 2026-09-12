@@ -1,6 +1,7 @@
 import { Clock, CreditCard, MapPin, Package } from '@phosphor-icons/react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ProductList from '../components/product/ProductList';
 import { products } from '../data/products';
 import { addItem } from '../features/cart/cartSlice';
@@ -8,9 +9,60 @@ import type { AppDispatch } from '../store';
 import type { Product } from '../types';
 import { assetUrl } from '../utils/assetUrl';
 
+const homepageSections = [
+  { id: 'hero', label: 'Startbereich' },
+  { id: 'favorites', label: 'Favoriten' },
+  { id: 'service', label: 'Service' },
+  { id: 'location', label: 'Standort' },
+] as const;
+
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
+  const [activeSection, setActiveSection] = useState('hero');
   const addToCart = (product: Product) => dispatch(addItem({ ...product, quantity: 1 }));
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setActiveSection(sectionId);
+  }, []);
+
+  useEffect(() => {
+    const requestedSection = new URLSearchParams(location.search).get('section');
+
+    if (requestedSection && homepageSections.some(({ id }) => id === requestedSection)) {
+      requestAnimationFrame(() => scrollToSection(requestedSection));
+    }
+  }, [location.search, scrollToSection]);
+
+  useEffect(() => {
+    let animationFrame = 0;
+
+    const updateActiveSection = () => {
+      const pageMarker = window.scrollY + window.innerHeight * 0.45;
+      const currentSection = homepageSections.reduce((current, section) => {
+        const element = document.getElementById(section.id);
+        return element && element.offsetTop <= pageMarker ? section.id : current;
+      }, homepageSections[0].id as string);
+
+      setActiveSection(currentSection);
+      animationFrame = 0;
+    };
+
+    const handleScroll = () => {
+      if (!animationFrame) animationFrame = requestAnimationFrame(updateActiveSection);
+    };
+
+    updateActiveSection();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
+  const dotsOnDarkBackground = activeSection === 'hero' || activeSection === 'service';
 
   return (
     <>
@@ -25,11 +77,17 @@ const Home = () => {
             <Link className="outline-button light" to="/about">Unsere Geschichte</Link>
           </div>
         </div>
-        <nav className="section-dots" aria-label="Startseitenabschnitte">
-          <a href="#hero" className="active" aria-label="Hero" />
-          <a href="#favorites" aria-label="Favoriten" />
-          <a href="#service" aria-label="Service" />
-          <a href="#location" aria-label="Standort" />
+        <nav className={`section-dots ${dotsOnDarkBackground ? 'on-dark' : 'on-light'}`} aria-label="Startseitenabschnitte">
+          {homepageSections.map(({ id, label }) => (
+            <Link
+              key={id}
+              to={`/?section=${id}`}
+              className={activeSection === id ? 'active' : ''}
+              aria-label={`Zu ${label} scrollen`}
+              aria-current={activeSection === id ? 'location' : undefined}
+              onClick={() => scrollToSection(id)}
+            />
+          ))}
         </nav>
       </section>
 
