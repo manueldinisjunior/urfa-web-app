@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: urfa
+      POSTGRES_DB: urfa
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U urfa"]
+      interval: 5s
+      retries: 10
+  app:
+    build: .
+    ports: ["4000:4000"]
+    environment:
+      DATABASE_URL: postgresql://urfa:${POSTGRES_PASSWORD}@postgres:5432/urfa
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET}
+      PUBLIC_URL: ${PUBLIC_URL:?Set HTTPS PUBLIC_URL}
+      ALLOWED_ORIGINS: ${PUBLIC_URL}
+      SMTP_URL: ${SMTP_URL:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  postgres_data:

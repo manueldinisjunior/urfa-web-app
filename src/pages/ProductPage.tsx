@@ -1,12 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
 import ProductConfigurator from '../components/product/ProductConfigurator';
-import { getProductById } from '../data/products';
+import { useCatalog } from '../hooks/useCatalog';
+import { Notice } from '../components/OperationsUI';
 import { assetUrl } from '../utils/assetUrl';
 import { formatPrice } from '../utils/formatPrice';
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
-  const product = getProductById(id);
+  const {products,loading,error}=useCatalog();
+  const product = products.find(product=>product.id===id);
+  if(loading)return <Notice>Produkt wird geladen …</Notice>;
+  if(error)return <Notice error>{error}</Notice>;
 
   if (!product) {
     return (
@@ -19,9 +23,9 @@ const ProductPage = () => {
   }
 
   return (
-    <section className="product-detail-page">
+    <section className={`product-detail-page ${product.imageUrl?'':'without-image'}`}>
       <div className="product-detail-image">
-        <img src={assetUrl(product.imageUrl)} alt={product.name} />
+        {product.imageUrl && <img src={assetUrl(product.imageUrl)} alt={product.name} />}
       </div>
       <div className="product-detail-copy">
         <p className="breadcrumb"><Link to="/menu">Speisekarte</Link> <span>›</span> {product.category}</p>
@@ -29,7 +33,10 @@ const ProductPage = () => {
         <h1>{product.name}</h1>
         <p>{product.description}</p>
         <strong>{formatPrice(product.price)}</strong>
-        <ProductConfigurator key={product.id} product={product} formId={`product-page-${product.id}`} />
+        {product.productInfo && <p className="muted">{product.productInfo}</p>}
+          {!!product.ingredients?.length && <div><h3>Zutaten</h3><p>{product.ingredients.join(', ')}</p></div>}
+          {!!product.allergenCodes?.length && <p className="muted">Allergenkennzeichnung der Quelle: {product.allergenCodes.join(', ')}. Details bitte beim Restaurant erfragen.</p>}
+          <ProductConfigurator key={product.id} product={product} formId={`product-page-${product.id}`} />
       </div>
     </section>
   );

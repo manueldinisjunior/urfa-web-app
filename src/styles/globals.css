@@ -23,7 +23,7 @@ a { color: inherit; text-decoration: none; }
 button { color: inherit; }
 img { display: block; max-width: 100%; }
 h1, h2, h3, p { margin-top: 0; }
-h1, h2 { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 300; }
+h1, h2 { font-family: 'Inter', Arial, sans-serif; font-weight: 300; }
 
 button:focus-visible,
 a:focus-visible,
@@ -56,7 +56,7 @@ textarea:focus-visible {
 .header-socials a, .footer-socials a { display: grid; place-items: center; }
 .header-socials svg { width: 17px; height: 17px; }
 .header-socials a:hover { color: var(--red); }
-.wordmark { display: inline-flex; align-items: center; gap: 0.35rem; font-family: 'Barlow Condensed', sans-serif; font-size: 1.55rem; font-weight: 500; letter-spacing: 0.2em; }
+.wordmark { display: inline-flex; align-items: center; gap: 0.35rem; font-family: 'Inter', Arial, sans-serif; font-size: 1.55rem; font-weight: 500; letter-spacing: 0.2em; }
 .wordmark strong { color: var(--red); font-weight: 500; }
 .header-tools { justify-self: end; display: flex; align-self: stretch; }
 .header-tools > button, .header-tools > a {
@@ -101,7 +101,7 @@ textarea:focus-visible {
   background: #222;
   box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
-.nav-drawer a { border-bottom: 1px solid rgba(255,255,255,0.1); color: #bbb; padding: 1rem 1.5rem; font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; letter-spacing: 0.04em; }
+.nav-drawer a { border-bottom: 1px solid rgba(255,255,255,0.1); color: #bbb; padding: 1rem 1.5rem; font-family: 'Inter', Arial, sans-serif; font-size: 1.25rem; letter-spacing: 0.04em; }
 .nav-drawer a:hover, .nav-drawer a.active { background: var(--red); color: white; }
 
 .red-button, .white-button, .outline-button {
@@ -338,7 +338,7 @@ textarea:focus-visible {
 .product-modal-close svg { width: 25px; height: 25px; }
 .product-modal-content h2 { margin: 0 3.2rem 0.7rem 0; font-family: Inter, sans-serif; font-size: clamp(2.2rem, 4vw, 3.3rem); font-weight: 700; line-height: 1.08; }
 .product-modal-description { color: var(--muted); font-size: 0.82rem; line-height: 1.65; }
-.product-modal-price { display: block; margin: 0.8rem 0 2rem; color: #666; font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 300; }
+.product-modal-price { display: block; margin: 0.8rem 0 2rem; color: #666; font-family: 'Inter', Arial, sans-serif; font-size: 2rem; font-weight: 300; }
 .product-modal-actions { display: grid; grid-column: 2; grid-template-columns: 1fr 1fr; min-height: 66px; animation: modal-content-in 420ms ease 420ms both; }
 .product-modal-actions > * { display: flex; align-items: center; justify-content: center; border: 0; border-top: 1px solid #e8e8e8; background: #f5f5f5; cursor: pointer; font-size: 0.72rem; }
 .product-modal-actions > button { background: #ff8587; color: white; }
@@ -392,7 +392,7 @@ textarea:focus-visible {
 .checkout-item img { width: 94px; height: 94px; object-fit: cover; background: #e6e6e6; }
 .checkout-item h3 { margin: 0 0 0.4rem; font-size: 0.78rem; letter-spacing: 0.14em; line-height: 1.5; text-transform: uppercase; }
 .checkout-item p { margin: 0.15rem 0; color: #777; font-size: 0.67rem; line-height: 1.45; }
-.checkout-item > strong { align-self: start; margin-top: 0.35rem; color: #666; font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 300; white-space: nowrap; }
+.checkout-item > strong { align-self: start; margin-top: 0.35rem; color: #666; font-family: 'Inter', Arial, sans-serif; font-size: 1.05rem; font-weight: 300; white-space: nowrap; }
 .checkout-item-controls { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.65rem; }
 .checkout-item-controls .quantity-control button { width: 28px; height: 28px; }
 .checkout-item-controls .quantity-control span { font-size: 0.72rem; }

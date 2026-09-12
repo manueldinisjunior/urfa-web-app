@@ -13,3 +13,8 @@ backend/target/
 
 # OS
 .DS_Store
+
+# Local database and secrets
+.local-db/
+.env.*
+!.env.example

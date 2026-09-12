@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { products } from '../data/products';
+import type { Product } from '../types';
 import { createCartItem } from './cartItem';
 
 describe('createCartItem', () => {
   it('adds selected option and extra prices and creates a stable cart line', () => {
-    const wrap = products.find((product) => product.id === 'adana-wrap');
+    const wrap: Product = {id:'adana-wrap',name:'Wrap',description:'',price:8.9,category:'Wraps',imageUrl:'',optionGroups:[{id:'schaerfe',name:'Schärfe',options:[{id:'urfa',name:'Urfa scharf',price:.5}]}],extras:[{id:'kaese',name:'Schafskäse',price:1.8}]};
     expect(wrap).toBeDefined();
 
     const item = createCartItem(wrap!, { schaerfe: 'urfa' }, ['kaese'], 2);

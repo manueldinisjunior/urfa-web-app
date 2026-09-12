@@ -1,31 +1,50 @@
 {
   "name": "urfa-web-app",
   "version": "1.0.0",
-  "description": "Responsive digital menu and ordering demo for Urfa Grill.",
+  "description": "Urfa Grill ordering, reservations and restaurant administration",
   "main": "src/main.tsx",
   "scripts": {
-    "dev": "vite",
-    "test": "vitest run",
+    "dev": "node --env-file-if-exists=.env scripts/dev.mjs",
+    "test": "vitest run src",
     "typecheck": "tsc --noEmit",
     "build": "npm run typecheck && vite build",
     "preview": "vite preview",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "server": "node --env-file-if-exists=.env server/index.mjs",
+    "db:setup": "node --env-file-if-exists=.env server/setup.mjs",
+    "test:api": "node --test server/tests/*.test.mjs",
+    "test:all": "npm test && npm run test:api",
+    "build:server": "tsc --noEmit && vite build --mode server",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"server/**/*.mjs\""
   },
   "dependencies": {
-    "@fontsource/barlow-condensed": "^5.3.0",
     "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
     "@phosphor-icons/react": "^2.1.10",
     "@reduxjs/toolkit": "^1.8.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "jose": "^6.2.12",
+    "luxon": "^3.7.2",
+    "nodemailer": "^10.0.9",
+    "pg": "^8.23.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.0",
-    "react-router-dom": "^5.3.0"
+    "react-router-dom": "^5.3.0",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.6.2"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-router-dom": "^5.3.0",
     "@vitejs/plugin-react": "^6.0.4",
+    "cheerio": "^1.2.0",
+    "prettier": "^3.9.6",
+    "supertest": "^7.2.2",
     "typescript": "^5.9.3",
     "vite": "^8.1.5",
     "vitest": "^3.2.4"
@@ -37,6 +56,6 @@
     "react",
     "redux"
   ],
-  "author": "Manuel Dinis Júnior <91975829+manueldinisjunior@users.noreply.github.com> (https://manueldinisjunior.de/) ",
+  "author": "Manuel Dinis J\u00fanior <91975829+manueldinisjunior@users.noreply.github.com> (https://manueldinisjunior.de/) ",
   "license": "MIT"
 }

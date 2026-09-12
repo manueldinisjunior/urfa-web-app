@@ -1,10 +1,15 @@
+import BrandVideos from '../components/BrandVideos';
 import { Clock, CreditCard, MapPin, Package } from '@phosphor-icons/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import ProductList from '../components/product/ProductList';
 import ProductModal from '../components/product/ProductModal';
-import { products } from '../data/products';
+import { useCatalog } from '../hooks/useCatalog';
+import { Notice } from '../components/OperationsUI';
+import { useResource } from '../hooks/useResource';
+import type { Settings } from '../features/operations';
+import { DEMO_MODE } from '../utils/api';
 import { addItem } from '../features/cart/cartSlice';
 import type { AppDispatch } from '../store';
 import type { Product } from '../types';
@@ -15,21 +20,24 @@ const homepageSections = [
   { id: 'hero', label: 'Startbereich' },
   { id: 'favorites', label: 'Favoriten' },
   { id: 'service', label: 'Service' },
+  { id: 'moments', label: 'Urfa auf TikTok' },
   { id: 'location', label: 'Standort' },
 ] as const;
 
 const Home = () => {
+  const { products, loading, error } = useCatalog();
+  const { data: operating } = useResource<Settings>(DEMO_MODE?null:'/settings',30000);
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const [activeSection, setActiveSection] = useState('hero');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const addToCart = (product: Product) => {
-    if (product.optionGroups?.length || product.extras?.length) setSelectedProduct(product);
+    if (product.variants?.length || product.configurationPending || product.optionGroups?.length || product.extras?.length) setSelectedProduct(product);
     else dispatch(addItem(createCartItem(product)));
   };
 
   const scrollToSection = useCallback((sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     setActiveSection(sectionId);
   }, []);
 
@@ -90,11 +98,13 @@ const Home = () => {
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="section-kicker light">Willkommen bei Urfa Grill</p>
-          <h1>Feuer. Handwerk.<br />Echter Geschmack.</h1>
+          {operating && <span className={`status-badge status-${operating.isOpen?'confirmed':'delivered'}`}>{operating.isOpen?'Annahme geöffnet':'Annahme pausiert'}</span>}
+          <h1>Feuer. Handwerk.<br /><span className="brand-heading-accent">Echter Geschmack.</span></h1>
           <p>Türkische Grillklassiker, frisch zubereitet und in wenigen Schritten bestellt.</p>
           <div className="hero-actions">
             <Link className="red-button" to="/menu">Jetzt bestellen</Link>
             <Link className="outline-button light" to="/about">Unsere Geschichte</Link>
+            <Link className="outline-button light" to="/reservar">Tisch reservieren</Link>
           </div>
         </div>
         <nav className={`section-dots ${dotsOnDarkBackground ? 'on-dark' : 'on-light'}`} aria-label="Startseitenabschnitte">
@@ -119,6 +129,7 @@ const Home = () => {
           </div>
           <Link className="arrow-link" to="/menu">Alle Gerichte ansehen <span>→</span></Link>
         </div>
+        {loading && <Notice>Speisekarte wird geladen …</Notice>}{error && <Notice error>{error}</Notice>}
         <ProductList products={products.filter((product) => product.featured)} onAddToCart={addToCart} onViewProduct={setSelectedProduct} />
       </section>
 
@@ -141,8 +152,8 @@ const Home = () => {
           <p>Bestelle digital und hole deine Auswahl frisch zubereitet ab.</p>
         </div>
         <div className="service-images">
-          <img src={assetUrl('assets/urfa-about.webp')} alt="Kebabspieße über offenem Holzkohlegrill" />
-          <img src={assetUrl('assets/product-adana-wrap.webp')} alt="Frisch zubereiteter Adana Wrap" />
+          <img src={assetUrl('assets/urfa-about.webp')} alt="Kebabspieße über offenem Holzkohlegrill" loading="lazy" decoding="async" />
+          <img src={assetUrl('assets/product-adana-wrap.webp')} alt="Frisch zubereiteter Adana Wrap" loading="lazy" decoding="async" />
         </div>
         <div className="service-copy right">
           <Clock weight="thin" />
@@ -154,9 +165,10 @@ const Home = () => {
         </div>
       </section>
 
+      <BrandVideos />
       <section id="location" className="location-section home-reveal">
         <div className="location-photo">
-          <img src={assetUrl('assets/urfa-contact.webp')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" />
+          <img src={assetUrl('assets/urfa-contact.webp')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" loading="lazy" decoding="async" />
         </div>
         <div className="location-copy">
           <p className="section-kicker">Besuche uns</p>

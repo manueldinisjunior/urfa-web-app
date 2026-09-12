@@ -1,7 +1,15 @@
-import { useEffect } from 'react';
+import { DEMO_MODE } from './utils/api';
+import DemoService from './pages/DemoService';
+import { lazy, Suspense, useEffect } from 'react';
+const Admin = lazy(() => import('./features/admin/Admin'));
+const Booking = lazy(() => import('./features/reservations/Booking'));
+const CancelBooking = lazy(() => import('./features/reservations/Booking').then(m=>({default:m.CancelBooking})));
+const Tracking = lazy(() => import('./pages/Tracking'));
 import { HashRouter, Route, Switch, useLocation } from 'react-router-dom';
 import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
+import Basket from './features/cart/Basket';
+import FAQ from './pages/FAQ';
 import CartView from './features/cart/CartView';
 import About from './pages/About';
 import Careers from './pages/Careers';
@@ -27,17 +35,24 @@ const App = () => (
     <div className="app-shell">
       <a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Zum Inhalt springen</a>
       <Header />
+      {DEMO_MODE && <p className="demo-banner">Website-Vorschau · Es werden keine echten Bestellungen übermittelt.</p>}
       <main id="main-content" tabIndex={-1} className="main-content">
-        <Switch>
+        <Suspense fallback={<p className="op-notice">Seite wird geladen …</p>}><Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/admin" component={DEMO_MODE ? DemoService : Admin} />
+          <Route path="/reservar/cancelar/:id" component={DEMO_MODE ? DemoService : CancelBooking} />
+          <Route path="/reservar" component={DEMO_MODE ? DemoService : Booking} />
+          <Route path="/tracking/:id" component={DEMO_MODE ? DemoService : Tracking} />
           <Route path="/menu" exact component={Menu} />
           <Route path="/about" exact component={About} />
           <Route path="/contact" exact component={Contact} />
           <Route path="/careers" exact component={Careers} />
           <Route path="/product/:id" component={ProductPage} />
-          <Route path="/cart" component={CartView} />
+          <Route path="/cart" component={Basket} />
+          <Route path="/checkout" component={CartView} />
+          <Route path="/faq" component={FAQ} />
           <Route component={NotFound} />
-        </Switch>
+        </Switch></Suspense>
       </main>
       <Footer />
     </div>
