@@ -1,3 +1,4 @@
+import { requestId } from '../../utils/requestId';
 import { Check, Minus, Plus, Trash } from "@phosphor-icons/react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,8 +26,8 @@ const CartView = () => {
   }, []);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [requestKey, setRequestKey] = useState(() => crypto.randomUUID());
-  useEffect(() => setRequestKey(crypto.randomUUID()), [cartItems]);
+  const [requestKey, setRequestKey] = useState(() => requestId());
+  useEffect(() => setRequestKey(requestId()), [cartItems]);
   const minimumAge = Math.max(0, ...cartItems.map((item) => item.minAge || 0));
   const [orderPlaced, setOrderPlaced] = useState(false);
   const totalAmount = cartItems.reduce(
@@ -152,7 +153,7 @@ const CartView = () => {
       className="checkout-page"
       onSubmit={submitOrder}
       onChange={(event) => {
-        setRequestKey(crypto.randomUUID());
+        setRequestKey(requestId());
         if (event.target instanceof HTMLInputElement)
           event.target.removeAttribute("aria-invalid");
       }}
