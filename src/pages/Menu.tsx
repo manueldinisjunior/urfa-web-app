@@ -121,7 +121,7 @@ const Menu = () => {
           />
         </div>
         {visibleProducts.length > limit && (
-          <button className="red-button" onClick={() => setLimit(limit + 24)}>
+          <button className="red-button menu-load-more" onClick={() => setLimit(limit + 24)}>
             Weitere Gerichte anzeigen ({visibleProducts.length - limit})
           </button>
         )}
