@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, type FormEvent } from "react";
 import {
   FacebookLogo,
   InstagramLogo,
+  TiktokLogo,
   List,
   MagnifyingGlass,
   ShoppingBag,
@@ -10,7 +11,8 @@ import {
 import { useSelector } from "react-redux";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { assetUrl } from "../../utils/assetUrl";
-import categories from "../../data/categories.json";
+// Navigation shortcuts; sales rankings require actual order analytics.
+const categories = ["Dönergerichte", "Gegrilltes in der Teigrolle - Dürüm", "Grillgerichte - Izgaralar vom Holzkohlegrill", "Pizza"];
 import type { RootState } from "../../types";
 
 const Header = () => {
@@ -87,6 +89,7 @@ const Header = () => {
         >
           <FacebookLogo />
         </a>
+        <a href="https://www.tiktok.com/@mehmettemel__" target="_blank" rel="noreferrer" aria-label="Urfa-Videos auf TikTok"><TiktokLogo /></a>
       </div>
 
       <Link

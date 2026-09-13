@@ -111,7 +111,6 @@ const Menu = () => {
             </button>
           ))}
         </div>
-        <p className="photo-notice">Bilder sind illustrative Serviervorschläge; Zutaten und Anrichtung können abweichen. Maßgeblich ist die Produktbeschreibung. Bildquellen: <a href="https://commons.wikimedia.org/wiki/File:Wiener_Schnitzel_in_Wien.JPG" target="_blank" rel="noreferrer">Schnitzel</a> · <a href="https://commons.wikimedia.org/wiki/File:Pizza-3007395.jpg" target="_blank" rel="noreferrer">Pizza</a> (CC0).</p>
         <div className="catalog-transition" key={`${category}-${search}`}>
           {loading && <Notice>Speisekarte wird geladen …</Notice>}
           {error && <Notice error>{error}</Notice>}

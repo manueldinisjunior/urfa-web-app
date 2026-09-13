@@ -1,4 +1,4 @@
-import { FacebookLogo, InstagramLogo } from '@phosphor-icons/react';
+import { FacebookLogo, InstagramLogo, TiktokLogo } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => (
@@ -13,6 +13,7 @@ const Footer = () => (
         <Link to="/admin">Verwaltung</Link>
     </nav>
     <div className="footer-socials" aria-label="Social Media">
+      <a href="https://www.tiktok.com/@mehmettemel__" target="_blank" rel="noreferrer" aria-label="Urfa-Videos auf TikTok"><TiktokLogo /></a>
       <a href="https://www.instagram.com/urfa_grill_hildesheim_/" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramLogo /></a>
       <a href="https://www.facebook.com/profile.php?id=61579836777680" target="_blank" rel="noreferrer" aria-label="Facebook"><FacebookLogo /></a>
     </div>

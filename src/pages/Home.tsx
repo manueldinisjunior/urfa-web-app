@@ -104,7 +104,6 @@ const Home = () => {
           <div className="hero-actions">
             <Link className="red-button" to="/menu">Jetzt bestellen</Link>
             <Link className="outline-button light" to="/about">Unsere Geschichte</Link>
-            <Link className="outline-button light" to="/reservar">Tisch reservieren</Link>
           </div>
         </div>
         <nav className={`section-dots ${dotsOnDarkBackground ? 'on-dark' : 'on-light'}`} aria-label="Startseitenabschnitte">
@@ -178,7 +177,7 @@ const Home = () => {
             <div><dt>Adresse</dt><dd>Schuhstraße 39, 31134 Hildesheim</dd></div>
             <div><dt>Kontakt</dt><dd><a href="tel:04951219890410">04951 219890410</a></dd></div>
           </dl>
-          <Link className="red-button" to="/contact">Kontakt aufnehmen</Link>
+          <Link className="red-button" to="/reservar">Tisch reservieren</Link>
         </div>
       </section>
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />

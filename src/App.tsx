@@ -35,7 +35,6 @@ const App = () => (
     <div className="app-shell">
       <a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Zum Inhalt springen</a>
       <Header />
-      {DEMO_MODE && <p className="demo-banner">Website-Vorschau · Es werden keine echten Bestellungen übermittelt.</p>}
       <main id="main-content" tabIndex={-1} className="main-content">
         <Suspense fallback={<p className="op-notice">Seite wird geladen …</p>}><Switch>
           <Route path="/" exact component={Home} />
