@@ -1,13 +1,9 @@
 import {
-  BeerBottle,
-  BowlFood,
-  Fire,
-  ForkKnife,
-  Leaf,
   SquaresFour,
 } from "@phosphor-icons/react";
 import { useEffect, useMemo, useState } from "react";
 import categoryNames from "../data/categories.json";
+import CategoryIcon from "../components/CategoryIcon";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import ProductList from "../components/product/ProductList";
@@ -19,36 +15,7 @@ import type { AppDispatch } from "../store";
 import type { Product } from "../types";
 import { createCartItem } from "../utils/cartItem";
 
-const WrapIcon = (_props: unknown) => (
-  <svg
-    viewBox="0 0 32 32"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.4"
-    aria-hidden="true"
-  >
-    <path d="M7 11 15 29 26 8M7 11l15 9M11 18l9-7" />
-    <ellipse cx="16.5" cy="9" rx="10" ry="5" transform="rotate(-12 16.5 9)" />
-    <path d="m11 8 3-2 3 3 3-3 3 2M14 11l3-2" />
-  </svg>
-);
-const categories = [
-  { name: "Alle", icon: SquaresFour },
-  ...categoryNames.map((name) => ({
-    name,
-    icon: /dürüm|wrap/i.test(name)
-      ? WrapIcon
-      : /getränk/i.test(name)
-        ? BeerBottle
-        : /salat/i.test(name)
-          ? Leaf
-          : /grill/i.test(name)
-            ? Fire
-            : /suppe/i.test(name)
-              ? BowlFood
-              : ForkKnife,
-  })),
-];
+const categories = ["Alle", ...categoryNames].map(name => ({name}));
 type CategoryFilter = string;
 
 const Menu = () => {
@@ -131,7 +98,7 @@ const Menu = () => {
           Gerichte
         </h2>
         <div className="category-tabs" aria-label="Speisekarte filtern">
-          {categories.map(({ name, icon: Icon }) => (
+          {categories.map(({ name }) => (
             <button
               className={name === category ? "active" : ""}
               key={name}
@@ -139,11 +106,12 @@ const Menu = () => {
               aria-pressed={name === category}
               onClick={() => setCategory(name)}
             >
-              <Icon weight="thin" />
+              {name === 'Alle' ? <SquaresFour weight="thin" /> : <CategoryIcon name={name} />}
               <span>{name}</span>
             </button>
           ))}
         </div>
+        <p className="photo-notice">Bilder sind illustrative Serviervorschläge; Zutaten und Anrichtung können abweichen. Maßgeblich ist die Produktbeschreibung. Bildquellen: <a href="https://commons.wikimedia.org/wiki/File:Wiener_Schnitzel_in_Wien.JPG" target="_blank" rel="noreferrer">Schnitzel</a> · <a href="https://commons.wikimedia.org/wiki/File:Pizza-3007395.jpg" target="_blank" rel="noreferrer">Pizza</a> (CC0).</p>
         <div className="catalog-transition" key={`${category}-${search}`}>
           {loading && <Notice>Speisekarte wird geladen …</Notice>}
           {error && <Notice error>{error}</Notice>}
