@@ -1,8 +1,10 @@
 import type { Product } from '../../types';
 import { assetUrl } from '../../utils/assetUrl';
+import additionalReferences from '../../data/product-photo-references.json';
 
 // User-supplied example photos; never substitute a different dish or imply Urfa provenance.
 const references: Record<string, string> = {
+  ...additionalReferences,
   'Lahmacun mit Dönerfleisch': 'example-lahmacun.png',
   'Dönertasche': 'example-doener.png',
   'Döner Box': 'example-doener-box.png',
