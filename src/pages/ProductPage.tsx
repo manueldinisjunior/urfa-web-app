@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import ProductConfigurator from '../components/product/ProductConfigurator';
+import { FavoriteButton } from '../features/CustomerAccount';
 import { useCatalog } from '../hooks/useCatalog';
 import { Notice } from '../components/OperationsUI';
 import ProductPhoto, { hasProductPhoto } from '../components/product/ProductPhoto';
@@ -37,6 +38,7 @@ const ProductPage = () => {
           {!!product.ingredients?.length && <div><h3>Zutaten</h3><p>{product.ingredients.join(', ')}</p></div>}
           {!!product.allergenCodes?.length && <p className="muted">Allergenkennzeichnung der Quelle: {product.allergenCodes.join(', ')}. Details bitte beim Restaurant erfragen.</p>}
           <ProductConfigurator key={product.id} product={product} formId={`product-page-${product.id}`} />
+          <FavoriteButton id={product.id}/>
       </div>
     </section>
   );

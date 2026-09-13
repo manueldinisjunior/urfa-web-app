@@ -4,6 +4,9 @@ import { queueEmail, reservationMail } from "./domain.mjs";
 // Outbox delivery is at-least-once: a provider accepting mail before a DB commit
 // can cause a retry. A stable Message-ID assists deduplication.
 export async function processNotifications(db, cfg, transport) {
+  await db.query('DELETE FROM customer_carts WHERE expires_at<=now()');
+  await db.query('DELETE FROM customer_tokens WHERE expires_at<=now()');
+  await db.query('DELETE FROM customer_sessions WHERE expires_at<=now()');
   if (!cfg.emailEnabled && !cfg.smsEnabled) return { enabled: false, sent: 0 };
   const mailer =
     transport ||

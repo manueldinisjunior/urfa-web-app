@@ -132,15 +132,7 @@ const Home = () => {
         <ProductList products={products.filter((product) => product.featured)} onAddToCart={addToCart} onViewProduct={setSelectedProduct} />
       </section>
 
-      <section className="food-gallery editorial-section" aria-labelledby="food-gallery-title">
-        <div className="section-title-row"><div><p className="section-kicker">Türkische Küche</p><h2 id="food-gallery-title">Frisch. Herzhaft. Authentisch.</h2></div><Link className="red-button" to="/menu">Speisekarte entdecken</Link></div>
-        <div className="food-gallery-grid">
-          <img src={assetUrl('assets/urfa-table.webp')} alt="Türkische Spezialitäten mit Fleisch, Salat und Dips" width="1400" height="613" loading="lazy" decoding="async" />
-          <img src={assetUrl('assets/urfa-skewers.webp')} alt="Gegrillte Fleischspieße mit Gemüse und Saucen" width="679" height="889" loading="lazy" decoding="async" />
-          <img src={assetUrl('assets/urfa-grill.webp')} alt="Grillfleisch mit Paprika und frischen Zwiebeln" width="1400" height="934" loading="lazy" decoding="async" />
-          <img src={assetUrl('assets/urfa-kebab.webp')} alt="Kebab mit Reis, Tomaten und würziger Sauce" width="1400" height="933" loading="lazy" decoding="async" />
-        </div>
-      </section>
+      <BrandVideos />
       <section id="service" className="service-showcase home-reveal">
         <div className="service-copy left">
           <MapPin weight="thin" />
@@ -164,7 +156,16 @@ const Home = () => {
         </div>
       </section>
 
-      <BrandVideos />
+      <section id="gallery" className="food-gallery editorial-section" aria-labelledby="food-gallery-title">
+        <div className="section-title-row"><div><p className="section-kicker">Türkische Küche</p><h2 id="food-gallery-title">Frisch. Herzhaft. Authentisch.</h2></div><Link className="red-button" to="/menu">Speisekarte entdecken</Link></div>
+        <div className="food-gallery-grid">
+          <img src={assetUrl('assets/urfa-table.webp')} alt="Türkische Spezialitäten mit Fleisch, Salat und Dips" width="1400" height="613" loading="lazy" decoding="async" />
+          <img src={assetUrl('assets/urfa-skewers.webp')} alt="Gegrillte Fleischspieße mit Gemüse und Saucen" width="679" height="889" loading="lazy" decoding="async" />
+          <img src={assetUrl('assets/urfa-grill.webp')} alt="Grillfleisch mit Paprika und frischen Zwiebeln" width="1400" height="934" loading="lazy" decoding="async" />
+          <img src={assetUrl('assets/urfa-kebab.webp')} alt="Kebab mit Reis, Tomaten und würziger Sauce" width="1400" height="933" loading="lazy" decoding="async" />
+        </div>
+      </section>
+
       <section id="location" className="location-section home-reveal">
         <div className="location-photo">
           <img src={assetUrl('assets/urfa-contact.webp')} alt="Warmer Innenraum eines modernen türkischen Grillrestaurants" loading="lazy" decoding="async" />

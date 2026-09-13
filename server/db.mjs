@@ -57,4 +57,10 @@ export async function migrate(db) {
       await tx.query(statement);
     await tx.query("INSERT INTO schema_migrations VALUES ('001')");
   });
+  await db.tx(async tx => {
+    if ((await tx.query("SELECT version FROM schema_migrations WHERE version='002'")).rows.length) return;
+    const sql = await readFile(new URL('./migrations/002_customers.sql', import.meta.url), 'utf8');
+    for (const statement of sql.split(';').map(s=>s.trim()).filter(Boolean)) await tx.query(statement);
+    await tx.query("INSERT INTO schema_migrations VALUES ('002')");
+  });
 }

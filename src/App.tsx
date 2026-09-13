@@ -1,7 +1,7 @@
 import { DEMO_MODE } from './utils/api';
 import DemoService from './pages/DemoService';
 import { Impressum, Privacy } from './pages/Legal';
-const TeamPreview = lazy(() => import('./features/admin/TeamPreview'));
+import CustomerAccount, { CustomerProvider } from './features/CustomerAccount';
 import { lazy, Suspense, useEffect } from 'react';
 const Admin = lazy(() => import('./features/admin/Admin'));
 const Booking = lazy(() => import('./features/reservations/Booking'));
@@ -33,6 +33,7 @@ const ScrollToTop = () => {
 
 const App = () => (
   <HashRouter>
+    <CustomerProvider>
     <ScrollToTop />
     <div className="app-shell">
       <a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Zum Inhalt springen</a>
@@ -40,7 +41,8 @@ const App = () => (
       <main id="main-content" tabIndex={-1} className="main-content">
         <Suspense fallback={<p className="op-notice">Seite wird geladen …</p>}><Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/admin" component={DEMO_MODE ? TeamPreview : Admin} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/account" component={CustomerAccount} />
           <Route path="/impressum" component={Impressum} />
           <Route path="/datenschutz" component={Privacy} />
           <Route path="/reservar/cancelar/:id" component={DEMO_MODE ? DemoService : CancelBooking} />
@@ -59,6 +61,7 @@ const App = () => (
       </main>
       <Footer />
     </div>
+    </CustomerProvider>
   </HashRouter>
 );
 

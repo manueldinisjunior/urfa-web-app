@@ -18,6 +18,7 @@ const cfg = {
     PUBLIC_URL: "http://localhost:3000",
   }),
   emailEnabled: true,
+  adminEmail: 'restaurant@example.com',
 };
 const customer = {
   name: "Test Customer",
@@ -182,6 +183,7 @@ test("server computes prices; retries are idempotent; tracking hides contact dat
   savedOrder = response.body;
   const retry = await write(request(app), "post", "/api/orders", input);
   assert.equal(retry.body.id, response.body.id);
+  assert.equal((await db.query('SELECT * FROM outbox WHERE dedupe_key=$1',[`admin-order:${response.body.id}`])).rows.length,1);
   assert.equal(
     (await request(app).get(`/api/orders/${savedOrder.id}`)).status,
     401,

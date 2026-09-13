@@ -1,0 +1,28 @@
+import { createContext,useContext,useEffect,useState,type ReactNode } from 'react';
+import { Link,useHistory,useLocation } from 'react-router-dom';
+import { api,mutate,DEMO_MODE } from '../utils/api';
+import { store } from '../store';
+import { replaceCart,clearCart } from './cart/cartSlice';
+import type { CartItem } from '../types';
+import { useCatalog } from '../hooks/useCatalog';
+type Customer={id:string;email:string};
+type SavedCart={items:CartItem[];expires_at:string|null};
+const Context=createContext<{customer:Customer|null;favorites:string[];reload:()=>Promise<void>;toggle:(id:string)=>Promise<void>}>({customer:null,favorites:[],reload:async()=>{},toggle:async()=>{}});
+export function CustomerProvider({children}:{children:ReactNode}){
+ const [customer,setCustomer]=useState<Customer|null>(null),[favorites,setFavorites]=useState<string[]>([]);
+ const reload=async()=>{if(DEMO_MODE)return;try{const user=await api<Customer>('/customer/me');setCustomer(user);setFavorites(await api<string[]>('/customer/favorites'));}catch{setCustomer(null);setFavorites([]);}};
+ useEffect(()=>{void reload();},[]);
+ useEffect(()=>{
+  if(!customer)return;let active=true,unsubscribe=()=>{},timer:number|undefined,expiry:number|undefined;let chain=Promise.resolve();
+  const arm=(date:string|null)=>{window.clearTimeout(expiry);if(date)expiry=window.setTimeout(()=>{if(active)store.dispatch(clearCart());},Math.max(0,new Date(date).getTime()-Date.now()));};
+  void api<SavedCart>('/customer/cart').then(saved=>{if(!active)return;store.dispatch(replaceCart(saved.items));arm(saved.expires_at);let previous=store.getState().cart.items;unsubscribe=store.subscribe(()=>{const items=store.getState().cart.items;if(items===previous)return;previous=items;window.clearTimeout(timer);timer=window.setTimeout(()=>{chain=chain.then(async()=>{if(!active)return;try{const saved=await mutate<SavedCart>('/customer/cart','PUT',{items});if(active)arm(saved.expires_at);}catch{/* Keep local selection; retry on the next change. */}});},300);});}).catch(()=>{});
+  return()=>{active=false;unsubscribe();window.clearTimeout(timer);window.clearTimeout(expiry);};
+ },[customer?.id]);
+ const toggle=async(id:string)=>{if(!customer)throw Error('Bitte zuerst im Kundenkonto anmelden.');const exists=favorites.includes(id);await mutate(`/customer/favorites/${encodeURIComponent(id)}`,exists?'DELETE':'PUT');setFavorites(values=>exists?values.filter(x=>x!==id):[...values,id]);};
+ return <Context.Provider value={{customer,favorites,reload,toggle}}>{children}</Context.Provider>;
+}
+export function FavoriteButton({id}:{id:string}){const {customer,favorites,toggle}=useContext(Context);const [error,setError]=useState(''),[busy,setBusy]=useState(false);if(!customer)return <Link className="op-button secondary" to="/account">♡ Anmelden und merken</Link>;return <><button className="op-button secondary" type="button" disabled={busy} aria-pressed={favorites.includes(id)} onClick={async()=>{setBusy(true);try{await toggle(id);setError('');}catch(e){setError((e as Error).message);}finally{setBusy(false);}}}>{favorites.includes(id)?'♥ Gemerkt':'♡ Zu Favoriten hinzufügen'}</button>{error&&<p role="alert">{error}</p>}</>;}
+export default function CustomerAccount(){const {customer,favorites,reload}=useContext(Context),{products}=useCatalog();const [message,setMessage]=useState(''),[busy,setBusy]=useState(false),[orders,setOrders]=useState<{id:string;order_number:string;status:string;total_cents:number}[]>([]);const location=useLocation(),history=useHistory();const token=new URLSearchParams(location.search).get('token');
+ useEffect(()=>{if(customer)void api<typeof orders>('/customer/orders').then(setOrders).catch(()=>setMessage('Bestellungen konnten nicht geladen werden.'));},[customer?.id]);
+ return <section className="legal-page"><p className="section-kicker">Mein Urfa</p><h1>Mein Konto</h1>{DEMO_MODE?<p>Die sichere Kontoanmeldung ist verfügbar, sobald der Shop-Server verbunden ist. Hier werden keine Zugangsdaten abgefragt.</p>:customer?<><p>{customer.email}</p><button className="op-button secondary" onClick={async()=>{await mutate('/customer/logout','POST');store.dispatch(clearCart());await reload();}}>Abmelden</button><h2>Meine Favoriten</h2>{favorites.length?<ul>{products.filter(p=>favorites.includes(p.id)).map(p=><li key={p.id}><Link to={`/product/${p.id}`}>{p.name}</Link></li>)}</ul>:<p>Noch keine gespeicherten Produkte.</p>}<h2>Meine Bestellungen</h2>{orders.length?<ul>{orders.map(o=><li key={o.id}>{o.order_number} · {o.status} · {(o.total_cents/100).toLocaleString('de-DE',{style:'currency',currency:'EUR'})}</li>)}</ul>:<p>Noch keine Bestellungen.</p>}</>:token?<><p>Bestätige deine E-Mail-Adresse, um dein Konto sicher zu öffnen.</p><button className="op-button primary" disabled={busy} onClick={async()=>{setBusy(true);try{await mutate('/customer/verify','POST',{token});history.replace('/account');await reload();}catch(e){setMessage((e as Error).message);}finally{setBusy(false);}}}>E-Mail bestätigen und anmelden</button></>:<form className="op-form" onSubmit={async e=>{e.preventDefault();setBusy(true);const email=new FormData(e.currentTarget).get('email');try{const result=await mutate<{message:string}>('/customer/login','POST',{email});setMessage(result.message);}catch(e){setMessage((e as Error).message);}finally{setBusy(false);}}}><p>Bei deiner ersten Bestellung wird dein Konto angelegt. Melde dich anschließend über einen sicheren E-Mail-Link an.</p><label>E-Mail<input name="email" type="email" required autoComplete="email"/></label><button className="op-button primary" disabled={busy}>Anmeldelink senden</button></form>}{message&&<p role="status">{message}</p>}</section>;
+}

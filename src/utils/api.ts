@@ -4,7 +4,7 @@ export class ApiError extends Error { constructor(public status: number, message
 let refresh: Promise<unknown> | null = null;
 export async function api<T>(path: string, options: RequestInit = {}, retry = true): Promise<T> {
  const response = await fetch(`${base}${path}`, { ...options, credentials: 'include', headers: { 'Content-Type': 'application/json', 'X-Urfa-Request': '1', ...options.headers } });
- if (response.status === 401 && retry && !path.startsWith('/auth/login') && !path.startsWith('/auth/refresh') && path !== '/auth/logout') {
+ if (response.status === 401 && retry && !path.startsWith('/customer/') && !path.startsWith('/auth/login') && !path.startsWith('/auth/refresh') && path !== '/auth/logout') {
   if (!refresh) refresh = api('/auth/refresh', { method: 'POST', body: '{}' }, false).finally(() => { refresh = null; });
   try { await refresh; return api<T>(path, options, false); } catch { window.dispatchEvent(new Event('urfa:logout')); }
  }

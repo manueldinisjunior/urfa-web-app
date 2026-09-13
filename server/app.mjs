@@ -34,6 +34,7 @@ import {
   zone,
 } from "./domain.mjs";
 import { openapi } from "./openapi.mjs";
+import { customerRoutes, accountAfterOrder } from './customers.mjs';
 
 const uuid = z.string().uuid();
 const statusInput = z.object({
@@ -117,6 +118,7 @@ export function createApp(db, cfg) {
   const privateToken = (kind, key) =>
     createHmac("sha256", cfg.secret).update(`${kind}:${key}`).digest("hex");
   const emailState = () => (cfg.emailEnabled ? "queued" : "disabled");
+  customerRoutes(app,db,cfg,admin,limit);
   app.get("/api/health", async (req, res) => {
     await db.query("SELECT 1");
     res.json({ ok: true });
@@ -316,6 +318,9 @@ export function createApp(db, cfg) {
             `${app.locals.config.publicUrl}/#/tracking/${id}?token=${trackingToken}`,
           ),
         );
+      await accountAfterOrder(tx,app.locals.config,data.customer.email);
+      await tx.query("DELETE FROM customer_carts WHERE customer_id IN (SELECT c.id FROM customers c JOIN customer_sessions s ON s.customer_id=c.id WHERE c.email=$1 AND s.token_hash=$2 AND s.expires_at>now())",[data.customer.email.toLowerCase(),hash(req.cookies.urfa_customer||'')]);
+      if(app.locals.config.emailEnabled && app.locals.config.adminEmail) await queueEmail(tx,`admin-order:${id}`,app.locals.config.adminEmail,`Neue Bestellung – ${number}`,`Neue Bestellung ${number}. Details nach Anmeldung: ${app.locals.config.publicUrl}/#/admin/pedidos`);
       return row;
     });
     res

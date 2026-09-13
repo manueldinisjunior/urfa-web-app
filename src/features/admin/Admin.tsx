@@ -1,14 +1,15 @@
 import { useEffect,useState,type FormEvent } from 'react';
 import { Link,NavLink,Redirect,Route,Switch,useHistory } from 'react-router-dom';
 import { Button,Notice } from '../../components/OperationsUI';
-import { api,mutate } from '../../utils/api';
+import { api,mutate,DEMO_MODE } from '../../utils/api';
 import Dashboard from './Dashboard';
 import Orders from './Orders';
 import Products from './Products';
 import Reservations from './Reservations';
 import SettingsPage from './Settings';
 interface Session{email:string;expiresAt:number;}
-export default function Admin(){const [session,setSession]=useState<Session>();const [loading,setLoading]=useState(true);const history=useHistory();
+export default function Admin(){if(DEMO_MODE)return <section className="admin-login"><p className="section-kicker">Geschützter Team-Zugang</p><h1>Admin-Anmeldung</h1><p>Die Anmeldung ist noch nicht freigeschaltet. Dafür muss der sichere Shop-Server verbunden sein. Verwaltungs- und Kundendaten sind öffentlich nicht zugänglich.</p><Link to="/">Zur Startseite</Link></section>;return <ConnectedAdmin/>;}
+function ConnectedAdmin(){const [session,setSession]=useState<Session>();const [loading,setLoading]=useState(true);const history=useHistory();
  useEffect(()=>{let active=true;const verify=async()=>{try{const result=await api<Session>('/auth/verify');if(active)setSession(result);}catch{if(active)setSession(undefined);}finally{if(active)setLoading(false);}};void verify();const timer=window.setInterval(()=>void verify(),45000);const logout=()=>{setSession(undefined);history.replace('/admin/login');};window.addEventListener('urfa:logout',logout);return()=>{active=false;window.clearInterval(timer);window.removeEventListener('urfa:logout',logout);};},[history]);
  if(loading)return <div className="admin-page"><Notice>Sitzung wird geprüft …</Notice></div>;
  if(!session)return <><Route path="/admin/login"><Login onLogin={setSession}/></Route><Route path="/admin" exact><Redirect to="/admin/login"/></Route><Route path="/admin/:section" render={({match})=>match.params.section!=='login'?<Redirect to="/admin/login"/>:null}/></>;

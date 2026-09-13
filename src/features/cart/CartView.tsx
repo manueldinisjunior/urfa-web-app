@@ -388,6 +388,7 @@ const CartView = () => {
           </p>
         </div>
 
+        <p className="muted">Mit deiner ersten Bestellung wird ein Kundenkonto angelegt. Der Zugriff erfolgt erst nach Bestätigung deiner E-Mail-Adresse. Angemeldete Warenkörbe sind für das Restaurant sichtbar und werden nach 24 Stunden gelöscht. <Link to="/datenschutz">Datenschutz</Link></p>
         <label className="terms-check">
           <input type="checkbox" name="terms" required />
           <span>

@@ -5,6 +5,7 @@ import type { Product } from '../../types';
 import ProductPhoto, { hasProductPhoto } from './ProductPhoto';
 import { formatPrice } from '../../utils/formatPrice';
 import ProductConfigurator from './ProductConfigurator';
+import { FavoriteButton } from '../../features/CustomerAccount';
 
 interface ProductModalProps {
   product: Product | null;
@@ -65,6 +66,7 @@ const ProductModal = ({ product, onClose }: ProductModalProps) => {
           {!!product.ingredients?.length && <div><h3>Zutaten</h3><p>{product.ingredients.join(', ')}</p></div>}
           {!!product.allergenCodes?.length && <p className="muted">Allergenkennzeichnung der Quelle: {product.allergenCodes.join(', ')}. Details bitte beim Restaurant erfragen.</p>}
           <ProductConfigurator product={product} formId={formId} showSubmitButton={false} onAdded={onClose} />
+          <FavoriteButton id={product.id}/>
         </div>
         <footer className="product-modal-actions">
           <button type="submit" form={formId}>Hinzufügen</button>

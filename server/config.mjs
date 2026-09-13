@@ -23,6 +23,7 @@ export function config(env = process.env) {
     ),
     smtpUrl: env.SMTP_URL,
     mailFrom: env.MAIL_FROM,
+    adminEmail: env.ADMIN_NOTIFICATION_EMAIL,
     port: Number(env.PORT || 4000),
     emailEnabled: Boolean(env.SMTP_URL && env.MAIL_FROM),
   };
