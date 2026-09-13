@@ -1,4 +1,5 @@
 import { requestId } from '../../utils/requestId';
+import { pickupTimes } from '../../utils/pickupTimes';
 import { Check, Minus, Plus, Trash } from "@phosphor-icons/react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +21,8 @@ const CartView = () => {
   const history = useHistory();
   const [selectedDate, setSelectedDate] = useState("");
   const [clock, setClock] = useState(() => new Date());
+  const [selectedTime,setSelectedTime]=useState('');
+  const times=pickupTimes(selectedDate,clock);
   useEffect(() => {
     const timer = window.setInterval(() => setClock(new Date()), 30000);
     return () => clearInterval(timer);
@@ -40,8 +43,8 @@ const CartView = () => {
     if (busy) return;
     const form = event.currentTarget;
     const invalid = Array.from(form.elements).filter(
-      (element): element is HTMLInputElement =>
-        element instanceof HTMLInputElement && !element.validity.valid,
+      (element): element is HTMLInputElement | HTMLSelectElement =>
+        (element instanceof HTMLInputElement || element instanceof HTMLSelectElement) && !element.validity.valid,
     );
     if (invalid.length) {
       setFieldErrors(
@@ -204,23 +207,10 @@ const CartView = () => {
           </label>
           <label>
             Uhrzeit
-            <input
-              type="time"
-              name="time"
-              min={
-                selectedDate === berlinDate(clock)
-                  ? new Date(clock.getTime() + 60000).toLocaleTimeString(
-                      "de-DE",
-                      {
-                        timeZone: "Europe/Berlin",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      },
-                    )
-                  : undefined
-              }
-              required
-            />
+            <select name="time" value={times.includes(selectedTime)?selectedTime:''} onChange={e=>setSelectedTime(e.target.value)} required>
+              <option value="">{selectedDate?'Uhrzeit auswählen':'Zuerst Datum auswählen'}</option>
+              {times.map(time=><option key={time} value={time}>{time}</option>)}
+            </select>
           </label>
           <label>
             Vorname

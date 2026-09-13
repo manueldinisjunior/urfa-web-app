@@ -63,4 +63,12 @@ export async function migrate(db) {
     for (const statement of sql.split(';').map(s=>s.trim()).filter(Boolean)) await tx.query(statement);
     await tx.query("INSERT INTO schema_migrations VALUES ('002')");
   });
+  await db.tx(async tx => {
+    if((await tx.query("SELECT version FROM schema_migrations WHERE version='003'")).rows.length)return;
+    // Supabase Data API must not expose tables created by the server migrations.
+    // The trusted database-owner connection used by Express bypasses RLS.
+    for(const table of ['admins','sessions','products','settings','restaurant_tables','orders','reservations','audit_log','outbox','rate_limits','customers','customer_tokens','customer_sessions','customer_favorites','customer_carts','schema_migrations'])
+      await tx.query(`ALTER TABLE ${table} ENABLE ROW LEVEL SECURITY`);
+    await tx.query("INSERT INTO schema_migrations VALUES ('003')");
+  });
 }

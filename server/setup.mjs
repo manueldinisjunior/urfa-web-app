@@ -37,7 +37,9 @@ if (process.argv[1]?.endsWith("/setup.mjs")) {
   const db = await openDatabase();
   try {
     await initialize(db, { seed: process.argv.includes("--seed") });
-    if (process.argv.includes("--admin")) {
+    const bootstrap = process.argv.includes('--bootstrap-admin');
+    const needsAdmin = bootstrap && !(await db.query('SELECT id FROM admins LIMIT 1')).rows.length;
+    if (process.argv.includes("--admin") || needsAdmin) {
       const email = process.env.ADMIN_EMAIL?.toLowerCase();
       const password = process.env.ADMIN_PASSWORD;
       if (
@@ -50,7 +52,7 @@ if (process.argv[1]?.endsWith("/setup.mjs")) {
           "ADMIN_EMAIL and ADMIN_PASSWORD (12+ characters) required",
         );
       await db.query(
-        "INSERT INTO admins(id,email,password_hash) VALUES($1,$2,$3) ON CONFLICT(email) DO UPDATE SET password_hash=$3",
+        bootstrap ? "INSERT INTO admins(id,email,password_hash) VALUES($1,$2,$3) ON CONFLICT(email) DO NOTHING" : "INSERT INTO admins(id,email,password_hash) VALUES($1,$2,$3) ON CONFLICT(email) DO UPDATE SET password_hash=$3",
         [randomUUID(), email, await passwordHash(password)],
       );
       await db.query(
