@@ -1,5 +1,7 @@
 import { DEMO_MODE } from './utils/api';
 import DemoService from './pages/DemoService';
+import { Impressum, Privacy } from './pages/Legal';
+const TeamPreview = lazy(() => import('./features/admin/TeamPreview'));
 import { lazy, Suspense, useEffect } from 'react';
 const Admin = lazy(() => import('./features/admin/Admin'));
 const Booking = lazy(() => import('./features/reservations/Booking'));
@@ -38,7 +40,9 @@ const App = () => (
       <main id="main-content" tabIndex={-1} className="main-content">
         <Suspense fallback={<p className="op-notice">Seite wird geladen …</p>}><Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/admin" component={DEMO_MODE ? DemoService : Admin} />
+          <Route path="/admin" component={DEMO_MODE ? TeamPreview : Admin} />
+          <Route path="/impressum" component={Impressum} />
+          <Route path="/datenschutz" component={Privacy} />
           <Route path="/reservar/cancelar/:id" component={DEMO_MODE ? DemoService : CancelBooking} />
           <Route path="/reservar" component={DEMO_MODE ? DemoService : Booking} />
           <Route path="/tracking/:id" component={DEMO_MODE ? DemoService : Tracking} />

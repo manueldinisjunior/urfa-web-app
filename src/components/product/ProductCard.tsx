@@ -1,6 +1,6 @@
 import { Eye, Plus } from '@phosphor-icons/react';
 import type { Product } from '../../types';
-import { assetUrl } from '../../utils/assetUrl';
+import ProductPhoto, { hasProductPhoto } from './ProductPhoto';
 import { formatPrice } from '../../utils/formatPrice';
 
 interface ProductCardProps {
@@ -10,9 +10,9 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, onAddToCart, onViewProduct }: ProductCardProps) => (
-  <article className={`product-card ${product.imageUrl?'':'product-card-text'}`}>
-    {product.imageUrl && <button className="product-image-wrap" type="button" onClick={() => onViewProduct(product)} aria-label={`${product.name} ansehen`}>
-      <img src={assetUrl(product.imageUrl)} alt={product.name} loading="lazy" />
+  <article className={`product-card ${hasProductPhoto(product)?'':'product-card-text'}`}>
+    {hasProductPhoto(product) && <button className="product-image-wrap" type="button" onClick={() => onViewProduct(product)} aria-label={`${product.name} ansehen`}>
+      <ProductPhoto product={product} />
       <span className="product-image-cta"><Eye /> Ansehen</span>
     </button>}
     <div className="product-body">

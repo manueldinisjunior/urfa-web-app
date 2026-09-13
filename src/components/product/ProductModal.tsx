@@ -2,7 +2,7 @@ import { X } from '@phosphor-icons/react';
 import { useEffect, useId, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import type { Product } from '../../types';
-import { assetUrl } from '../../utils/assetUrl';
+import ProductPhoto, { hasProductPhoto } from './ProductPhoto';
 import { formatPrice } from '../../utils/formatPrice';
 import ProductConfigurator from './ProductConfigurator';
 
@@ -51,9 +51,9 @@ const ProductModal = ({ product, onClose }: ProductModalProps) => {
     <div className="product-modal-backdrop" onMouseDown={(event) => {
       if (event.target === event.currentTarget) onClose();
     }}>
-      <section ref={dialogRef} className={`product-modal ${product.imageUrl?'':'without-image'}`} role="dialog" aria-modal="true" aria-labelledby={titleId}>
+      <section ref={dialogRef} className={`product-modal ${hasProductPhoto(product)?'':'without-image'}`} role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <div className="product-modal-image">
-          {product.imageUrl && <img src={assetUrl(product.imageUrl)} alt={product.name} />}
+          <ProductPhoto product={product} />
         </div>
         <div className="product-modal-content">
           <button ref={closeButtonRef} className="product-modal-close" type="button" aria-label="Produktfenster schließen" onClick={onClose}><X /></button>

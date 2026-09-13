@@ -5,12 +5,9 @@ const Footer = () => (
   <footer className="site-footer">
     <p>© {new Date().getFullYear()} Urfa Grill. All Rights Reserved<br /> Developed By <a href="https://manueldinisjunior.de/" target="_blank" rel="noreferrer">Manuel Dinis Júnior</a></p>
     <nav aria-label="Fußnavigation">
-      <Link to="/faq">FAQ</Link>
-      <Link to="/menu">Speisekarte</Link>
-      <Link to="/about">Über uns</Link>
-      <Link to="/contact">Kontakt</Link>
-      <Link to="/careers">Karriere</Link>
-        <Link to="/admin">Verwaltung</Link>
+      <div className="footer-link-group"><strong>Entdecken</strong><Link to="/menu">Speisekarte</Link><Link to="/about">Über uns</Link><Link to="/careers">Karriere</Link></div>
+      <div className="footer-link-group"><strong>Service</strong><Link to="/contact">Kontakt</Link><Link to="/faq">FAQ</Link><Link to="/admin/login">Team-Bereich</Link></div>
+      <div className="footer-link-group"><strong>Rechtliches</strong><Link to="/impressum">Impressum</Link><Link to="/datenschutz">Datenschutz</Link></div>
     </nav>
     <div className="footer-socials" aria-label="Social Media">
       <a href="https://www.tiktok.com/@mehmettemel__" target="_blank" rel="noreferrer" aria-label="Urfa-Videos auf TikTok"><TiktokLogo /></a>

@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import ProductConfigurator from '../components/product/ProductConfigurator';
 import { useCatalog } from '../hooks/useCatalog';
 import { Notice } from '../components/OperationsUI';
-import { assetUrl } from '../utils/assetUrl';
+import ProductPhoto, { hasProductPhoto } from '../components/product/ProductPhoto';
 import { formatPrice } from '../utils/formatPrice';
 
 const ProductPage = () => {
@@ -23,9 +23,9 @@ const ProductPage = () => {
   }
 
   return (
-    <section className={`product-detail-page ${product.imageUrl?'':'without-image'}`}>
+    <section className={`product-detail-page ${hasProductPhoto(product)?'':'without-image'}`}>
       <div className="product-detail-image">
-        {product.imageUrl && <img src={assetUrl(product.imageUrl)} alt={product.name} />}
+        <ProductPhoto product={product} />
       </div>
       <div className="product-detail-copy">
         <p className="breadcrumb"><Link to="/menu">Speisekarte</Link> <span>›</span> {product.category}</p>
