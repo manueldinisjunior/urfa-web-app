@@ -6,6 +6,9 @@ const references: Record<string, string> = {
   'Lahmacun mit Dönerfleisch': 'example-lahmacun.png',
   'Dönertasche': 'example-doener.png',
   'Döner Box': 'example-doener-box.png',
+  'Tavuk Şi̇ş': 'example-tavuk-sis.png',
+  'Urfa Karisik Izgara': 'example-karisik-izgara.png',
+  'Baklava Portion': 'example-baklava.png',
 };
 export const hasProductPhoto = (product: Product) => Boolean(product.imageUrl || references[product.name]);
 export default function ProductPhoto({ product }: { product: Product }) {
