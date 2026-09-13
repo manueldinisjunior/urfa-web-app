@@ -15,4 +15,4 @@ COPY server ./server
 COPY src/data/categories.json ./src/data/categories.json
 USER node
 EXPOSE 4000
-CMD ["node", "server/index.mjs"]
+CMD ["sh", "server/start.sh"]
