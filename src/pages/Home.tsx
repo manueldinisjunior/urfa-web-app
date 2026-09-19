@@ -1,5 +1,5 @@
 import BrandVideos from '../components/BrandVideos';
-import { Clock, CreditCard, MapPin, Package } from '@phosphor-icons/react';
+import { ArrowUpRight, Flame, MapPin } from '@phosphor-icons/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -90,7 +90,7 @@ const Home = () => {
     };
   }, []);
 
-  const dotsOnDarkBackground = activeSection === 'hero' || activeSection === 'service';
+  const dotsOnDarkBackground = activeSection === 'hero';
 
   return (
     <>
@@ -133,26 +133,27 @@ const Home = () => {
       </section>
 
       <BrandVideos />
-      <section id="service" className="service-showcase home-reveal">
-        <div className="service-copy left">
-          <MapPin weight="thin" />
-          <h3>MITTEN IN HILDESHEIM</h3>
-          <p>Ein moderner Treffpunkt für ehrliche Grillküche und entspannte Abende.</p>
-          <Package weight="thin" />
-          <h3>ABHOLUNG</h3>
-          <p>Bestelle digital und hole deine Auswahl frisch zubereitet ab.</p>
+      <section id="service" className="urfa-craft home-reveal" aria-labelledby="craft-title">
+        <div className="craft-heading">
+          <p className="section-kicker"><Flame weight="fill" aria-hidden="true" /> Das ist Urfa</p>
+          <span className="craft-location"><MapPin aria-hidden="true" /> Hildesheim · Schuhstraße 39</span>
         </div>
-        <div className="service-images">
-          <img src={assetUrl('assets/urfa-about.webp')} alt="Kebabspieße über offenem Holzkohlegrill" loading="lazy" decoding="async" />
-          <img src={assetUrl('assets/product-adana-wrap.webp')} alt="Frisch zubereiteter Adana Wrap" loading="lazy" decoding="async" />
-        </div>
-        <div className="service-copy right">
-          <Clock weight="thin" />
-          <h3>TÄGLICH FRISCH</h3>
-          <p>Kurze Wege, klare Abläufe und Zubereitung direkt nach deiner Bestellung.</p>
-          <CreditCard weight="thin" />
-          <h3>TRANSPARENT</h3>
-          <p>Alle Preise, Mengen und Bestellschritte jederzeit im Blick.</p>
+        <div className="craft-layout">
+          <div className="craft-story">
+            <h2 id="craft-title">Am Feuer gemacht.<br /><em>Für dich.</em></h2>
+            <p className="craft-intro">Der Duft vom Grill. Der erste Bissen. Ein guter Abend. Türkische Grillküche, die Menschen an einen Tisch bringt.</p>
+            <Link className="craft-menu-link" to="/menu">Entdecke deinen Geschmack <ArrowUpRight size={24} aria-hidden="true" /></Link>
+            <div className="craft-details">
+              <article><span>01 / ZUBEREITUNG</span><h3>Frisch vom Grill.</h3><p>Deine Auswahl wird nach deiner Bestellung zubereitet.</p></article>
+              <article><span>02 / DEIN MOMENT</span><h3>Hier oder bei dir.</h3><p>Bei uns Platz nehmen oder online bestellen und abholen.</p></article>
+              <article><span>03 / DEINE AUSWAHL</span><h3>Alles im Blick.</h3><p>Gerichte, Extras und Preise. Du entscheidest, was auf deinen Teller kommt.</p></article>
+            </div>
+          </div>
+          <figure className="craft-photo">
+            <img src={assetUrl('assets/urfa-about.webp')} alt="Kebabspieße werden über glühender Holzkohle gegrillt" loading="lazy" decoding="async" width="900" height="1100" />
+            <figcaption><span>FEUER. HANDWERK. URFA.</span><p>Guter Geschmack<br />beginnt am Grill.</p></figcaption>
+            <span className="craft-photo-mark" aria-hidden="true"><Flame weight="light" size={30} />URFA<br /><small>GRILLKÜCHE</small></span>
+          </figure>
         </div>
       </section>
 
