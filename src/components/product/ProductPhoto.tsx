@@ -5,12 +5,12 @@ import additionalReferences from '../../data/product-photo-references.json';
 // User-supplied example photos; never substitute a different dish or imply Urfa provenance.
 const references: Record<string, string> = {
   ...additionalReferences,
-  'Lahmacun mit Dönerfleisch': 'example-lahmacun.png',
-  'Dönertasche': 'example-doener.png',
+  'Lahmacun mit Dönerfleisch': 'example-lahmacun-white.webp',
+  'Dönertasche': 'example-doener-white.webp',
   'Döner Box': 'example-doener-box.png',
-  'Tavuk Şi̇ş': 'example-tavuk-sis.png',
-  'Urfa Karisik Izgara': 'example-karisik-izgara.png',
-  'Baklava Portion': 'example-baklava.png',
+  'Tavuk Şi̇ş': 'example-tavuk-sis-white.webp',
+  'Urfa Karisik Izgara': 'example-karisik-izgara-white.webp',
+  'Baklava Portion': 'example-baklava-white.webp',
 };
 export const hasProductPhoto = (product: Product) => Boolean(product.imageUrl || references[product.name]);
 export default function ProductPhoto({ product }: { product: Product }) {
