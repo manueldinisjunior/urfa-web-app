@@ -403,9 +403,17 @@ textarea:focus-visible {
 .checkout-totals > div { display: flex; justify-content: space-between; gap: 1rem; color: #555; font-size: 0.78rem; }
 .checkout-total { font-size: 0.9rem !important; }
 .checkout-total strong { font-size: 1.3rem; }
-.payment-note { padding-top: 1.6rem; }
-.payment-note h3 { margin-bottom: 0.6rem; font-size: 0.78rem; font-weight: 600; }
-.payment-note > p { color: #666; font-size: 0.76rem; line-height: 1.75; }
+.payment-methods { border: 0; margin: 0; padding: 1.8rem 0 0; }
+.payment-methods legend { margin-bottom: 1rem; padding: 0; font-size: 0.9rem; font-weight: 700; }
+.payment-method-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.payment-method-grid label { position: relative; display: grid; min-height: 112px; place-items: center; align-content: center; gap: 0.55rem; border: 1px solid #d7d7d7; background: #fff; color: #555; padding: 1rem 0.65rem; cursor: pointer; transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease; }
+.payment-method-grid label:hover { border-color: #a9a9a9; transform: translateY(-2px); }
+.payment-method-grid label.active { border-color: var(--red); background: #fff6f6; color: var(--red-dark); box-shadow: inset 0 0 0 1px var(--red); }
+.payment-method-grid input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.payment-method-grid label:focus-within { outline: 3px solid rgba(245, 34, 36, 0.22); outline-offset: 3px; }
+.payment-method-grid svg { width: 28px; height: 28px; }
+.payment-method-grid span { color: var(--ink); font-size: 0.74rem; font-weight: 600; text-align: center; }
+.payment-method-note { min-height: 62px; margin: 0.8rem 0 0; border-left: 3px solid var(--red); background: #f3f3f3; color: #5f5f5f; padding: 0.9rem 1rem; font-size: 0.74rem; line-height: 1.6; }
 .terms-check { display: flex; align-items: flex-start; gap: 0.65rem; margin: 2.2rem 0 1.1rem; color: #555; font-size: 0.76rem; line-height: 1.5; }
 .terms-check input { margin-top: 0.15rem; accent-color: var(--red); }
 .terms-check a { color: var(--red); }
@@ -478,6 +486,8 @@ textarea:focus-visible {
 }
 
 @media (max-width: 480px) {
+  .payment-method-grid { grid-template-columns: 1fr; }
+  .payment-method-grid label { min-height: 82px; grid-template-columns: auto 1fr; justify-items: start; padding-inline: 1.1rem; }
   .header-tools > button, .header-tools > a { width: 50px; }
   .header-tools > a { border-left: 0; }
   .wordmark { letter-spacing: 0.12em; }
