@@ -7523,7 +7523,7 @@
     "description": "Alle Gerichte werden zu 100% ohne Schweinefleisch zubereitet und mit einer Beilage nach Wahl serviert.",
     "category": "Schnitzel",
     "price": 14.5,
-    "imageUrl": "",
+    "imageUrl": "assets/example-haehnchenschnitzel.png",
     "featured": false,
     "available": true,
     "stockAvailable": true,
