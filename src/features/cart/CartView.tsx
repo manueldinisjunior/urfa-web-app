@@ -1,6 +1,6 @@
 import { requestId } from '../../utils/requestId';
 import { pickupTimes } from '../../utils/pickupTimes';
-import { Check, Minus, Plus, Trash } from "@phosphor-icons/react";
+import { Check, CreditCard, Money, Minus, PaypalLogo, Plus, Trash } from "@phosphor-icons/react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -14,6 +14,7 @@ import { formatPrice } from "../../utils/formatPrice";
 import { clearCart, removeItem, setQuantity } from "./cartSlice";
 
 const CartView = () => {
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal" | "cash">("cash");
   const [fieldErrors, setFieldErrors] = useState<string[]>([]);
   const errorRef = useRef<HTMLDivElement>(null);
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -41,6 +42,10 @@ const CartView = () => {
   const submitOrder = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (busy) return;
+    if (!DEMO_MODE && paymentMethod !== "cash") {
+      setError("Die Online-Zahlung ist noch nicht technisch freigeschaltet. Bitte wähle Barzahlung bei Abholung.");
+      return;
+    }
     const form = event.currentTarget;
     const invalid = Array.from(form.elements).filter(
       (element): element is HTMLInputElement | HTMLSelectElement =>
@@ -369,14 +374,53 @@ const CartView = () => {
           </div>
         </div>
 
-        <div className="payment-note">
-          <h3>Zahlung bei Abholung</h3>
-          <p>
+        <fieldset className="payment-methods">
+          <legend>Zahlungsart</legend>
+          <div className="payment-method-grid">
+            <label className={paymentMethod === "card" ? "active" : ""}>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="card"
+                checked={paymentMethod === "card"}
+                onChange={() => setPaymentMethod("card")}
+              />
+              <CreditCard weight="regular" />
+              <span>Kreditkarte</span>
+            </label>
+            <label className={paymentMethod === "paypal" ? "active" : ""}>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="paypal"
+                checked={paymentMethod === "paypal"}
+                onChange={() => setPaymentMethod("paypal")}
+              />
+              <PaypalLogo weight="regular" />
+              <span>PayPal</span>
+            </label>
+            <label className={paymentMethod === "cash" ? "active" : ""}>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="cash"
+                checked={paymentMethod === "cash"}
+                onChange={() => setPaymentMethod("cash")}
+              />
+              <Money weight="regular" />
+              <span>Barzahlung</span>
+            </label>
+          </div>
+          <p className="payment-method-note" aria-live="polite">
             {DEMO_MODE
-              ? "Diese Website ist eine Bestelldemo und löst keine Zahlung aus."
-              : "Die Bestellung wird an das Restaurant übermittelt. Bezahlt wird bei der Abholung. Der Endpreis wird anhand der aktuellen Speisekarte berechnet."}
+              ? paymentMethod === "cash"
+                ? "Barzahlung bei Abholung – in dieser Demo wird keine Bestellung oder Zahlung ausgelöst."
+                : `${paymentMethod === "card" ? "Kreditkartenzahlung" : "PayPal"} ist als Vorschau ausgewählt. In dieser Demo wird keine Zahlung ausgelöst.`
+              : paymentMethod === "cash"
+                ? "Du bezahlst deine Bestellung bei der Abholung im Restaurant."
+                : "Diese Online-Zahlungsart ist vorbereitet, aber noch nicht technisch freigeschaltet."}
           </p>
-        </div>
+        </fieldset>
 
         <p className="muted">Mit deiner ersten Bestellung wird ein Kundenkonto angelegt. Der Zugriff erfolgt erst nach Bestätigung deiner E-Mail-Adresse. Angemeldete Warenkörbe sind für das Restaurant sichtbar und werden nach 24 Stunden gelöscht. <Link to="/datenschutz">Datenschutz</Link></p>
         <label className="terms-check">
