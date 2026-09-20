@@ -25,7 +25,7 @@ const schnitzelViewports: Record<string, string> = {
 export const hasProductPhoto = (product: Product) => Boolean(product.imageUrl || references[product.name] || schnitzelViewports[product.name]);
 export default function ProductPhoto({ product }: { product: Product }) {
   if (product.imageUrl) return <img src={assetUrl(product.imageUrl)} alt={product.name} loading="lazy" />;
-  if (product.name === 'Urfa Schnitzel (Kalbfleisch)' || product.name === 'Rahmschnitzel (Hähnchenschnitzel)') {
+  if (product.name === 'Urfa Schnitzel (Kalbfleisch)') {
     return <img src={assetUrl(`assets/${references[product.name]}`)} alt={`${product.name} – Beispielabbildung`} loading="lazy" decoding="async" style={{ objectFit: 'contain', background: '#fff' }} />;
   }
   const viewport = schnitzelViewports[product.name];
