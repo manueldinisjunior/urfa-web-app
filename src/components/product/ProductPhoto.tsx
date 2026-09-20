@@ -5,7 +5,8 @@ import additionalReferences from '../../data/product-photo-references.json';
 // User-supplied example photos; never substitute a different dish or imply Urfa provenance.
 const references: Record<string, string> = {
   ...additionalReferences,
-  'Rahmschnitzel (Hähnchenschnitzel)': 'example-rahmschnitzel.png',
+  'Rahmschnitzel (Hähnchenschnitzel)': 'uploaded-rahm-schnitzel.webp',
+  'Urfa Schnitzel (Kalbfleisch)': 'uploaded-urfa-schnitzel.webp',
   'Lahmacun mit Dönerfleisch': 'example-lahmacun-white.webp',
   'Dönertasche': 'example-doener-white.webp',
   'Döner Box': 'example-doener-box.png',
@@ -20,11 +21,13 @@ const schnitzelViewports: Record<string, string> = {
   'Paprikaschnitzel (Putenfleisch)': '768 135 384 280',
   'Hawaii Schnitzel (Hähnchenschnitzel)': '1152 135 384 280',
   'Hähnchenschnitzel': '90 520 445 310',
-  'Urfa Schnitzel (Kalbfleisch)': '540 520 445 310',
 };
 export const hasProductPhoto = (product: Product) => Boolean(product.imageUrl || references[product.name] || schnitzelViewports[product.name]);
 export default function ProductPhoto({ product }: { product: Product }) {
   if (product.imageUrl) return <img src={assetUrl(product.imageUrl)} alt={product.name} loading="lazy" />;
+  if (product.name === 'Urfa Schnitzel (Kalbfleisch)' || product.name === 'Rahmschnitzel (Hähnchenschnitzel)') {
+    return <img src={assetUrl(`assets/${references[product.name]}`)} alt={`${product.name} – Beispielabbildung`} loading="lazy" decoding="async" style={{ objectFit: 'contain', background: '#fff' }} />;
+  }
   const viewport = schnitzelViewports[product.name];
   if (viewport) return <span className="product-studio-photo">
     <span style={{ display: 'flex', alignItems: 'center', width: '100%', aspectRatio: '1', padding: '16px', boxSizing: 'border-box' }}>
