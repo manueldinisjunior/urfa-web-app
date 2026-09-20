@@ -5,7 +5,7 @@ import additionalReferences from '../../data/product-photo-references.json';
 // User-supplied example photos; never substitute a different dish or imply Urfa provenance.
 const references: Record<string, string> = {
   ...additionalReferences,
-  'Rahmschnitzel (Hähnchenschnitzel)': 'uploaded-rahm-schnitzel.webp',
+  'Rahmschnitzel (Hähnchenschnitzel)': 'rahmschnitzel-full-plate-white.webp',
   'Urfa Schnitzel (Kalbfleisch)': 'uploaded-urfa-schnitzel.webp',
   'Lahmacun mit Dönerfleisch': 'example-lahmacun-white.webp',
   'Dönertasche': 'example-doener-white.webp',
