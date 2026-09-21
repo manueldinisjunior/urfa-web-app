@@ -4390,7 +4390,7 @@
     "description": "Alle Gerichte werden mit Salat und Sauce zubereitet.",
     "category": "Dönergerichte",
     "price": 15,
-    "imageUrl": "assets/example-koefte-tasche-gemuese.webp",
+    "imageUrl": "assets/example-koefte-tasche-gemuese-v2.webp",
     "featured": false,
     "available": true,
     "stockAvailable": true,
