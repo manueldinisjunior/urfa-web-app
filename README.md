@@ -1,61 +1,120 @@
 # Urfa Grill
 
+Restaurant menu, basket, checkout and reservation interface built with React and TypeScript.
+
+[Open the GitHub Pages demo](https://manueldinisjunior.github.io/urfa-web-app/#/menu)
+
 Developed by **Manuel Dinis Júnior** — https://manueldinisjunior.de/
 
-React/TypeScript storefront with Express, PostgreSQL, private order tracking, reservations and restaurant administration. German customer interface, Europe/Berlin scheduling and EUR pricing.
+## Technology stack
 
-## Run locally
+| Area | Technologies |
+| --- | --- |
+| Frontend | React 18, TypeScript, Vite 8, React Router 5, Redux Toolkit |
+| Styling | CSS, Phosphor icons, Inter and JetBrains Mono fonts |
+| API | Node.js, Express 5, Zod validation, JOSE authentication, Helmet |
+| Database | PostgreSQL; persistent PGlite for local development without a database URL |
+| Supporting services | Luxon for dates, Nodemailer for optional email, Swagger UI for API documentation |
+| Verification | Vitest, Node test runner, Supertest, TypeScript |
+| Publishing | GitHub Actions and GitHub Pages |
 
-Node 22.12+ is required.
+Exact dependency versions are recorded in `package-lock.json`.
+
+## Using the app
+
+1. Open **Speisekarte** and select a category.
+2. Open a product, review its description and choose available options or extras.
+3. Add products to the basket, then adjust quantities or remove items.
+4. Continue to checkout and complete the required customer and pickup fields.
+
+GitHub Pages runs the **demonstration storefront** with `VITE_DEMO_MODE=true`. It does not run Express or PostgreSQL and does not submit real orders. Operational ordering, reservations and administration require the backend. Product pictures are example illustrations; the menu description and selected options determine the order. Online payment processing is not implemented.
+
+## Local setup
+
+Use Node.js **22.12 or later within the Node 22 release line** and npm.
 
 ```sh
 npm ci
 cp .env.example .env
+```
+
+Edit `.env` and replace `JWT_SECRET` with a private random value of at least 32 characters. Leave `DATABASE_URL` unset to use local PGlite, or configure a development PostgreSQL database.
+
+```sh
 npm run db:setup -- --seed
 npm run dev
 ```
 
-Open http://localhost:3000. Without DATABASE_URL, development uses a persistent PGlite database in `.local-db`. Production requires PostgreSQL. Configure ADMIN_EMAIL and ADMIN_PASSWORD (12+ characters) privately, then run `npm run db:setup -- --admin`. This command also supports resetting an existing admin and revokes its sessions. Remove ADMIN_PASSWORD from the environment afterwards.
+Open http://localhost:3000. The development script starts Vite and the API; Vite proxies `/api` to port 4000. Local PGlite data is stored in `.local-db`.
 
-The restaurant starts paused with all weekdays closed. Set opening hours, tables, capacity and lead time under `/#/admin`, then enable acceptance. No opening hours are invented. Reservations hold one table; automatic combination of tables is not implemented.
+For a frontend-only demo, set `VITE_DEMO_MODE=true` in `.env` and run `npx vite`.
 
-## Features
+### Local administration
 
-- Separate basket and checkout, quantity updates, product choices/extras, error summary and field validation.
-- 169 products across 13 categories imported from https://www.urfagrill-hildesheim.de/ on 12 September 2026. Includes source size variants, required choices, extras, drink deposit information and age confirmation. Import is a snapshot, not ongoing synchronization. Restaurant must review changes before accepting orders.
-- No unrelated dish photograph is assigned to imported products. Existing supplied photography remains in the homepage gallery. Ingredient and optional GLB/GLTF fields prepare future product experiences; no 3D renderer or Next.js migration is included.
-- Orders have server-calculated prices, expected-total checks, transactional idempotency, private tracking links and enforced status transitions. Past dates/times, closed days and insufficient preparation time are rejected on the server. Checkout uses native date minimums and validates before submission.
-- Four-step booking with availability, overlapping-table protection, private cancellation link and optional automatic confirmation.
-- Cookie-based admin authentication, dashboard, order management, product CRUD, reservation calendar and operating settings. Audit history and soft-deleted products preserve historical references.
-- Polling updates menus, orders, reservations and tracking. Notifications reflect actual status changes, never simulated timers.
-- FAQ, green navigation drawer, category navigation, breadcrumbs, keyboard focus handling and reduced-motion support.
-
-## Production
+Set `ADMIN_EMAIL` and a private `ADMIN_PASSWORD` of at least 12 characters in `.env`, then run:
 
 ```sh
-npm run build:server
-NODE_ENV=production npm run db:setup -- --seed
-NODE_ENV=production npm run server
+npm run db:setup -- --admin
 ```
 
-Set DATABASE_URL, a stable JWT_SECRET of at least 32 characters, PUBLIC_URL and ALLOWED_ORIGINS. Serve the frontend and API through the same HTTPS origin so Secure/SameSite cookies work reliably. Dockerfile, compose.yml and railway.json are included. Railway pre-deploy runs migrations; explicitly run initial seeding/admin creation once. Configure PostgreSQL backups and deployment secrets in your hosting account. Provider provisioning and production deployment are not completed by this source change.
+Remove `ADMIN_PASSWORD` from `.env` afterward. Open `/#/admin` and sign in. Configure opening hours, tables, capacity and lead time before enabling order acceptance. The initial restaurant configuration is paused with all weekdays closed. Running the admin setup again can reset the existing administrator and revoke its sessions.
 
-The GitHub Pages workflow explicitly builds a **demonstration storefront** (`VITE_DEMO_MODE=true`): Pages cannot run Express/PostgreSQL and does not submit real orders. Use the server build for the operational application. A separate frontend host needs a same-origin `/api` reverse proxy to the backend; simply pointing at an unrelated domain is insufficient for SameSite cookies.
+## Commands
 
-Email requires SMTP_URL and MAIL_FROM. An outbox worker retries failures and sends reservation reminders within two hours. Delivery is at-least-once; stable Message-IDs help deduplication but cannot guarantee exactly-once delivery. Optional Twilio reminders require TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN and TWILIO_FROM plus explicit customer opt-in and international phone format. No real email or SMS delivery has been verified without provider credentials. After eight failures, inspect the provider and outbox before retrying.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start frontend and backend locally |
+| `npm run server` | Start the API server |
+| `npm run typecheck` | Check TypeScript |
+| `npm test` | Run frontend tests |
+| `npm run test:api` | Run API tests |
+| `npm run test:all` | Run both test suites |
+| `npm run build` | Type-check and build with the GitHub Pages base path |
+| `npm run build:server` | Type-check and build for same-origin server hosting |
+| `npm run preview` | Preview the built frontend locally |
+| `npm run format` | Format frontend and server source |
 
-Keep JWT_SECRET stable: private idempotent-response tokens are derived from it. Secret rotation invalidates sessions and can affect retried private links. No public account creation, online payment processing, password-reset email, MFA or multi-table booking is included. Payment is at pickup; revenue widgets report completed-order value, not settled payment transactions.
+API tests must use a disposable database, never production. CI can use `TEST_DATABASE_URL` for PostgreSQL; local tests support PGlite.
 
-## API and checks
+## Project structure
 
-Interactive endpoint reference: `/api/docs`; machine-readable: `/api/openapi.json`. Request shapes are defined in `server/validation.mjs`. Mutations require JSON, an allowed Origin and `X-Urfa-Request: 1`. Private tracking uses `X-Order-Token`; cancellation uses `X-Reservation-Token`. Never expose private links in analytics or public logs.
+- `src/`: React interface, state, styles and frontend data.
+- `src/data/catalog.json`: bundled storefront product catalog.
+- `src/data/branded-product-photos.json`: exact product-name to image-filename mapping.
+- `src/components/product/ProductPhoto.tsx`: shared product-image presentation.
+- `public/assets/`: static images and other public assets.
+- `server/`: API, database setup, validation and backend tests.
+- `server/seed-products.json`: backend seed catalog.
+- `scripts/`: development and menu-import utilities.
+- `.github/workflows/`: automated checks and GitHub Pages deployment.
 
-```sh
-npm run test:all
-npm run build:server
-npm audit --omit=dev
-```
+## Product and image guidelines
 
-Tests cover authentication, refresh/logout, CSRF, server pricing, stock/choices, idempotency, status transitions, overlapping reservations, cancellation, past dates, DST gaps, notification retries and all imported configurations. Local API tests use PGlite. GitHub CI uses PostgreSQL 17 via TEST_DATABASE_URL and a disposable database. Do not point tests at production.
+- Keep product names, prices, ingredients, options and availability source-backed. Do not infer a new dish from a similar photograph.
+- Use supplied or otherwise authorized photos. Preserve the food when editing its presentation; do not invent ingredients to make a match.
+- Use white ceramic dishes with thin double dark-green rims, a tiny decorative detail, white backgrounds, warm soft light and subtle shadows.
+- Keep the whole dish visible and use consistent centered sizing. Packaging such as the fries carton does not need a plate.
+- Export square **768 × 768 WebP** images, each strictly below **35,000 bytes**. Check the final compressed image for clarity and cropping.
+- Save images in `public/assets/` and map them to the exact catalog product name in `src/data/branded-product-photos.json`. Use a new filename for replacements to avoid stale cached images.
+- Use the shared `ProductPhoto` component and preserve its example-image disclosure and accessible alternative text.
+- Keep catalog and backend seed changes consistent when modifying products. Seeding inserts missing products; it does not overwrite existing administrative edits.
 
-Import scripts accept downloaded public source files: `node scripts/import-menu.mjs path/to/source.html`, followed by `node scripts/merge-menu-options.mjs path/to/options-directory`. `--seed` inserts missing products and does not overwrite administrative edits. Retire legacy demo products through administration when upgrading an existing development database.
+## Development guidelines
+
+Keep changes focused and reuse existing components. Maintain TypeScript types, keyboard access, visible focus states and responsive layouts. Keep business rules and trusted price calculations on the server. Add tests for changed behavior and run `npm run test:all` plus `npm run build` before publishing.
+
+Never commit credentials, `.env`, private tracking links or customer data. Browser-visible `VITE_` variables must contain no secrets. Product-image updates should not change prices, descriptions or hosting configuration.
+
+## Publishing to GitHub Pages
+
+The workflow in `.github/workflows/pages.yml` runs on pushes to `main` and supports manual dispatch. It installs dependencies, runs both test suites, builds with `VITE_DEMO_MODE=true`, uploads `dist` and deploys to Pages.
+
+In repository settings, select **GitHub Actions** as the Pages source. After publishing, check the workflow result and verify updated images on the live menu. Hash routes and the `/urfa-web-app/` base path support repository hosting.
+
+## Backend reference
+
+Backend development and operation are separate from the Pages demo. A server build requires PostgreSQL in production, `DATABASE_URL`, a stable `JWT_SECRET`, `PUBLIC_URL` and `ALLOWED_ORIGINS`. Use a single HTTPS origin for frontend and `/api` so secure cookies work correctly.
+
+Interactive API documentation is available at `/api/docs`, with the specification at `/api/openapi.json`. Request validation is defined in `server/validation.mjs`. Mutations require JSON, an allowed Origin and `X-Urfa-Request: 1`.
+
+Optional email delivery requires `SMTP_URL` and `MAIL_FROM`. Delivery depends on configured provider credentials; a successful frontend build does not verify email delivery. Keep private order and reservation tokens out of public logs and analytics.
