@@ -76,6 +76,12 @@ const Home = () => {
         return element && element.offsetTop <= pageMarker ? section.id : current;
       }, homepageSections[0].id as string);
 
+      const service = document.getElementById('service');
+      const bounds = service?.getBoundingClientRect();
+      if (service && bounds) {
+        if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) service.classList.remove('is-visible');
+        else if (bounds.top <= window.innerHeight * 0.55 && bounds.bottom >= window.innerHeight * 0.45) service.classList.add('is-visible');
+      }
       setActiveSection(currentSection);
       animationFrame = 0;
     };
@@ -86,9 +92,11 @@ const Home = () => {
 
     updateActiveSection();
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
       if (animationFrame) cancelAnimationFrame(animationFrame);
     };
   }, []);
@@ -108,16 +116,10 @@ const Home = () => {
       });
     }, { threshold: [0, 0.01] });
     sections.forEach((section) => observer.observe(section));
-    // Start at the centre of the viewport, not at the first glimpse while scrolling.
-    const service = document.getElementById('service');
-    const serviceObserver = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) entry.target.classList.add('is-visible');
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-    if (service) serviceObserver.observe(service);
+
 
     return () => {
       observer.disconnect();
-      serviceObserver.disconnect();
     };
   }, []);
 
