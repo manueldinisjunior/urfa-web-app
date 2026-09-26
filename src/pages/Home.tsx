@@ -80,9 +80,12 @@ const Home = () => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>('.home-reveal'));
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+        if (entry.isIntersecting && entry.intersectionRatio >= (entry.target.id === 'service' ? 0.2 : 0.01)) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
       });
-    }, { threshold: 0.01 });
+    }, { threshold: [0.01, 0.2] });
     sections.forEach((section) => observer.observe(section));
 
     return () => {
