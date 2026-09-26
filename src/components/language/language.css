@@ -14,3 +14,5 @@
 .translation-provider .goog-te-combo{display:none}
 @media(max-width:600px){.language-trigger{padding:0 9px;gap:5px}.language-trigger img{width:22px;height:16px}.language-trigger>svg{display:none}.site-header .header-tools>button,.site-header .header-tools>a{width:43px}.site-header .wordmark img{width:125px}.site-header .wordmark{padding-left:8px}}
 @media(max-width:360px){.language-trigger{padding:0 6px}.site-header .header-tools>button,.site-header .header-tools>a{width:36px}.site-header .wordmark img{width:112px}}
+
+@media(max-width:600px){.language-options{position:fixed;top:76px;right:12px;max-width:calc(100vw - 24px)}}
