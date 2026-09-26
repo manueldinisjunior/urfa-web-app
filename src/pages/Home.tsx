@@ -97,16 +97,27 @@ const Home = () => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>('.home-reveal'));
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= (entry.target.id === 'service' ? 0.2 : 0.01)) {
+        if (entry.target.id === 'service') {
+          if (!entry.isIntersecting) entry.target.classList.remove('is-visible');
+          return;
+        }
+        if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: [0.01, 0.2] });
+    }, { threshold: [0, 0.01] });
     sections.forEach((section) => observer.observe(section));
+    // Start at the centre of the viewport, not at the first glimpse while scrolling.
+    const service = document.getElementById('service');
+    const serviceObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) entry.target.classList.add('is-visible');
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    if (service) serviceObserver.observe(service);
 
     return () => {
       observer.disconnect();
+      serviceObserver.disconnect();
     };
   }, []);
 

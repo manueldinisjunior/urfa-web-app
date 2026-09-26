@@ -588,3 +588,7 @@ textarea:focus-visible {
   .service-showcase.home-reveal .service-images img,
   .service-showcase.home-reveal .service-copy > * { opacity: 1; transform: none; transition: none; }
 }
+
+/* Reset outside the viewport so each return replays the entrance. */
+.service-showcase.home-reveal:not(.is-visible) .service-images img,
+.service-showcase.home-reveal:not(.is-visible) .service-copy > * { transition: none; }
