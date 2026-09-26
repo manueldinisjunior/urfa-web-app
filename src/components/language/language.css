@@ -10,9 +10,14 @@
 .language-options p{font-size:12px;padding:6px 10px;margin:0}
 .language-options button:disabled{opacity:.6;cursor:wait}
 .language-selector button:focus-visible{outline:2px solid var(--brand-green);outline-offset:-3px}
-.translation-provider{position:fixed;bottom:0;left:0;z-index:1000;background:white;font-size:10px}
+.translation-provider{display:none}
 .translation-provider .goog-te-combo{display:none}
 @media(max-width:600px){.language-trigger{padding:0 9px;gap:5px}.language-trigger img{width:22px;height:16px}.language-trigger>svg{display:none}.site-header .header-tools>button,.site-header .header-tools>a{width:43px}.site-header .wordmark img{width:125px}.site-header .wordmark{padding-left:8px}}
 @media(max-width:360px){.language-trigger{padding:0 6px}.site-header .header-tools>button,.site-header .header-tools>a{width:36px}.site-header .wordmark img{width:112px}}
 
 @media(max-width:600px){.language-options{position:fixed;top:76px;right:12px;max-width:calc(100vw - 24px)}}
+
+/* Keep translation UI inside our language menu, without Google's page offset. */
+body:has(#urfa-google-translate){top:0!important}
+body:has(#urfa-google-translate)>.skiptranslate{display:none!important}
+.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none!important}
