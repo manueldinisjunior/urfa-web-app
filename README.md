@@ -118,3 +118,7 @@ Backend development and operation are separate from the Pages demo. A server bui
 Interactive API documentation is available at `/api/docs`, with the specification at `/api/openapi.json`. Request validation is defined in `server/validation.mjs`. Mutations require JSON, an allowed Origin and `X-Urfa-Request: 1`.
 
 Optional email delivery requires `SMTP_URL` and `MAIL_FROM`. Delivery depends on configured provider credentials; a successful frontend build does not verify email delivery. Keep private order and reservation tokens out of public logs and analytics.
+
+### Languages
+
+The header language menu offers German (default), English, Turkish, and Portuguese with the Mozambique flag. Non-German options load Google Translate on demand and remember the selection in local storage (`urfa-language`). Translation requires access to Google and is automatic; review original German wording for accuracy. Returning to German clears the translation cookie and reloads the app. Flag SVGs are from flag-icons (MIT; see `public/assets/flags/LICENSE`).

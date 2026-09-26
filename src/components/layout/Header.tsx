@@ -1,3 +1,4 @@
+import LanguageSelector from "../language/LanguageSelector";
 import { useState, useEffect, useRef, type FormEvent } from "react";
 import {
   FacebookLogo,
@@ -107,6 +108,7 @@ const Header = () => {
       </Link>
 
       <div className="header-tools">
+        <LanguageSelector />
         <button
           type="button"
           aria-label={
