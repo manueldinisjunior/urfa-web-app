@@ -127,7 +127,7 @@ const Home = () => {
         <div className="section-title-row">
           <div>
             <p className="section-kicker">Speisekarte</p>
-            <h2>Beliebt am Grill.</h2>
+            <h2>Beliebt im Restaurant.</h2>
           </div>
           <Link className="arrow-link" to="/menu">Alle Gerichte ansehen <span>→</span></Link>
         </div>
