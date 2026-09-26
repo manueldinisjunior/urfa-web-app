@@ -1,5 +1,4 @@
 import BrandVideos from '../components/BrandVideos';
-import { Clock, CreditCard, MapPin, Package } from '@phosphor-icons/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -168,10 +167,10 @@ const Home = () => {
       <BrandVideos />
       <section id="service" className="service-showcase home-reveal">
         <div className="service-copy left">
-          <MapPin weight="thin" />
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path pathLength="100" d="M32 59S9 39 9 24a23 23 0 0 1 46 0c0 15-23 35-23 35Z" /><path pathLength="100" d="M41 24a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
           <h3>MITTEN IN HILDESHEIM</h3>
           <p>Ein moderner Treffpunkt für ehrliche Grillküche und entspannte Abende.</p>
-          <Package weight="thin" />
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path pathLength="100" d="M4 17 32 3l28 14v30L32 61 4 47Z" /><path pathLength="100" d="M4 17l28 15 28-15M32 32v29M18 10l28 15v15" /></svg>
           <h3>ABHOLUNG</h3>
           <p>Bestelle digital und hole deine Auswahl frisch zubereitet ab.</p>
         </div>
@@ -180,10 +179,10 @@ const Home = () => {
           <img src={assetUrl('assets/product-adana-wrap.webp')} alt="Frisch zubereiteter Adana Wrap" loading="lazy" decoding="async" />
         </div>
         <div className="service-copy right">
-          <Clock weight="thin" />
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path pathLength="100" d="M60 32a28 28 0 1 1-56 0 28 28 0 0 1 56 0Z" /><path pathLength="100" d="M32 13v19h17" /></svg>
           <h3>TÄGLICH FRISCH</h3>
           <p>Kurze Wege, klare Abläufe und Zubereitung direkt nach deiner Bestellung.</p>
-          <CreditCard weight="thin" />
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path pathLength="100" d="M5 10h54a2 2 0 0 1 2 2v40a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2Z" /><path pathLength="100" d="M3 22h58M32 43h6M47 43h8" /></svg>
           <h3>TRANSPARENT</h3>
           <p>Alle Preise, Mengen und Bestellschritte jederzeit im Blick.</p>
         </div>
