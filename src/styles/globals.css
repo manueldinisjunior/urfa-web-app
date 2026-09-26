@@ -151,7 +151,7 @@ textarea:focus-visible {
 .section-dots.on-dark a.active { border-color: white; background: transparent; }
 .section-dots a:focus-visible { outline-color: var(--red); outline-offset: 5px; }
 .section-dots.on-dark a:focus-visible { outline-color: white; }
-.editorial-hero, .favorites-section, .service-showcase, .location-section { scroll-margin-top: var(--header-height); }
+.editorial-hero, .favorites-section, .brand-moments, .service-showcase, .food-gallery, .location-section { scroll-margin-top: var(--header-height); }
 
 .editorial-section { padding: clamp(5rem, 9vw, 9rem) clamp(1.25rem, 7vw, 7rem); }
 .favorites-section { min-height: 780px; background: white; }
@@ -567,27 +567,27 @@ textarea:focus-visible {
   opacity: 0;
   transform: translateY(55px) scale(.65);
   clip-path: inset(12% 12% 12% 12% round 1rem);
-  transition: opacity 1200ms ease, transform 2000ms cubic-bezier(.25,.8,.25,1), clip-path 2000ms cubic-bezier(.25,.8,.25,1);
-  transition-delay: 150ms;
+  transition: opacity 1100ms ease, transform 1100ms cubic-bezier(.25,.8,.25,1), clip-path 1100ms cubic-bezier(.25,.8,.25,1);
+  transition-delay: 0ms;
 }
-.service-showcase.home-reveal .service-images img:last-child { transition-delay: 550ms; }
+.service-showcase.home-reveal .service-images img:last-child { transition-delay: 200ms; }
 .service-showcase.home-reveal .service-copy > * {
   opacity: 0;
   transform: translateY(36px);
   transition: opacity 1200ms ease, transform 1500ms cubic-bezier(.25,.8,.25,1);
-  transition-delay: 1200ms;
+  transition-delay: 400ms;
 }
-.service-showcase.home-reveal .service-copy > :nth-child(n+4) { transition-delay: 1900ms; }
-.service-showcase.home-reveal .service-copy > svg { transition-delay: 1400ms; }
-.service-showcase.home-reveal .service-copy > svg:nth-child(4) { transition-delay: 2100ms; }
+.service-showcase.home-reveal .service-copy > :nth-child(n+4) { transition-delay: 900ms; }
+.service-showcase.home-reveal .service-copy > svg { transition-delay: 200ms; }
+.service-showcase.home-reveal .service-copy > svg:nth-child(4) { transition-delay: 700ms; }
 .service-showcase.home-reveal .service-copy svg path {
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
-  transition: stroke-dashoffset 2400ms cubic-bezier(.4,0,.2,1) 1600ms;
+  transition: stroke-dashoffset 3400ms cubic-bezier(.4,0,.2,1) 200ms;
 }
-.service-showcase.home-reveal .service-copy svg path:nth-child(2) { transition-delay: 1900ms; }
-.service-showcase.home-reveal .service-copy svg:nth-child(4) path { transition-delay: 2300ms; }
-.service-showcase.home-reveal .service-copy svg:nth-child(4) path:nth-child(2) { transition-delay: 2600ms; }
+.service-showcase.home-reveal .service-copy svg path:nth-child(2) { transition-delay: 900ms; }
+.service-showcase.home-reveal .service-copy svg:nth-child(4) path { transition-delay: 700ms; }
+.service-showcase.home-reveal .service-copy svg:nth-child(4) path:nth-child(2) { transition-delay: 1000ms; }
 .service-showcase.home-reveal.is-visible .service-images img,
 .service-showcase.home-reveal.is-visible .service-copy > * { opacity: 1; transform: none; }
 .service-showcase.home-reveal.is-visible .service-images img { clip-path: inset(0 round 1rem); }
