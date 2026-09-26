@@ -16,6 +16,14 @@ import type { Product } from '../types';
 import { assetUrl } from '../utils/assetUrl';
 import { createCartItem } from '../utils/cartItem';
 
+const favoritesHeadings = { de: 'Beliebt im Restaurant.', en: 'Popular at the restaurant.', tr: 'Restoranda sevilenler.', pt: 'Populares no restaurante.' };
+function currentHeadingLanguage(): keyof typeof favoritesHeadings {
+  try {
+    const code = localStorage.getItem('urfa-language');
+    return code && Object.prototype.hasOwnProperty.call(favoritesHeadings, code) ? code as keyof typeof favoritesHeadings : 'de';
+  } catch { return 'de'; }
+}
+
 const homepageSections = [
   { id: 'hero', label: 'Startbereich' },
   { id: 'favorites', label: 'Favoriten' },
@@ -29,6 +37,15 @@ const Home = () => {
   const { data: operating } = useResource<Settings>(DEMO_MODE?null:'/settings',30000);
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
+  const [headingLanguage, setHeadingLanguage] = useState(currentHeadingLanguage);
+  useEffect(() => {
+    const update = (event: Event) => {
+      const code = (event as CustomEvent<string>).detail;
+      if (Object.prototype.hasOwnProperty.call(favoritesHeadings, code)) setHeadingLanguage(code as keyof typeof favoritesHeadings);
+    };
+    window.addEventListener('urfa-language-change', update);
+    return () => window.removeEventListener('urfa-language-change', update);
+  }, []);
   const [activeSection, setActiveSection] = useState('hero');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const addToCart = (product: Product) => {
@@ -127,7 +144,7 @@ const Home = () => {
         <div className="section-title-row">
           <div>
             <p className="section-kicker">Speisekarte</p>
-            <h2>Beliebt im Restaurant.</h2>
+            <h2 className="notranslate" translate="no" lang={headingLanguage}>{favoritesHeadings[headingLanguage]}</h2>
           </div>
           <Link className="arrow-link" to="/menu">Alle Gerichte ansehen <span>→</span></Link>
         </div>

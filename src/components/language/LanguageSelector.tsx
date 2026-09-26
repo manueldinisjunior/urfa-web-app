@@ -95,6 +95,7 @@ export default function LanguageSelector() {
       select.value = code;
       select.dispatchEvent(new Event('change', { bubbles: true }));
       setLanguage(code);
+      window.dispatchEvent(new CustomEvent('urfa-language-change', { detail: code }));
       document.documentElement.lang = code === 'pt' ? 'pt-MZ' : code;
       try { localStorage.setItem(storageKey, code); } catch { /* Storage may be disabled. */ }
       setOpen(false);
