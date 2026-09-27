@@ -14,23 +14,23 @@
 .service-heading h2 em { font-family: Georgia, serif; font-weight: 400; color: #ffe0b2; }
 .service-heading > p:last-child { margin: 0; color: #fff; font-size: clamp(.85rem, 1.2vw, 1rem); line-height: 1.6; }
 #service .service-copy { justify-items: start; text-align: left; }
-#service .service-copy svg { box-sizing: border-box; width: 54px; height: 54px; padding: 13px; border-radius: 50%; background: #fff4ed; color: #c0121c; margin-bottom: 1rem; }
+#service .service-copy svg { box-sizing: border-box; width: 54px; height: 54px; padding: 0; border-radius: 0; background: transparent; color: #fff; margin-bottom: 1rem; }
 #service .service-copy h3 { font-size: .68rem; line-height: 1.6; letter-spacing: .12em; }
 #service .service-copy p { font-size: .84rem; line-height: 1.7; color: #fff0ed; margin-bottom: 3rem; }
 #service .service-copy p:last-child { margin-bottom: 0; }
-#service .service-images { min-height: 490px; margin: .75rem 0 1.5rem; }
+#service .service-images { width: 90%; justify-self: center; min-height: 440px; margin: 1rem 0 1.5rem; }
 #service .service-images img { width: 70%; height: 86%; border: 1px solid #ffdaa080; box-shadow: 0 22px 40px #60000855; }
 #service .service-images img:first-child { rotate: -8deg; top: 0; left: 2%; }
 #service .service-images img:last-child { rotate: 5deg; right: 1%; bottom: 0; }
 @media (max-width: 900px) {
   #service.service-showcase { grid-template-columns: 1fr 1.8fr 1fr; padding: 3rem 1.5rem; gap: 2rem 1.2rem; min-height: auto; }
   #service .service-copy.right { display: grid; }
-  #service .service-images { min-height: 390px; }
+  #service .service-images { min-height: 350px; }
 }
 @media (max-width: 620px) {
   #service.service-showcase { grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; }
   #service .service-heading { grid-row: 1; }
-  #service .service-images { grid-column: 1 / -1; grid-row: 2; width: min(100%, 380px); justify-self: center; min-height: 350px; margin: .5rem 0; }
+  #service .service-images { grid-column: 1 / -1; grid-row: 2; width: min(90%, 340px); justify-self: center; min-height: 320px; margin: .5rem 0; }
   #service .service-copy.left, #service .service-copy.right { grid-row: 3; align-self: start; }
   #service .service-copy p { font-size: .8rem; min-height: 5.5rem; margin-bottom: 1.6rem; }
   #service .service-copy h3 { min-height: 2.2rem; margin-bottom: .4rem; }
