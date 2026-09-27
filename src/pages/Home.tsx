@@ -1,3 +1,4 @@
+import HeroVideo from '../components/HeroVideo';
 import BrandVideos from '../components/BrandVideos';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -135,6 +136,7 @@ const Home = () => {
   return (
     <>
       <section id="hero" className="editorial-hero home-reveal" style={{ backgroundImage: `url(${assetUrl('assets/urfa-hero.webp')})` }}>
+        <HeroVideo />
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="section-kicker light">Willkommen bei Urfa Grill</p>
