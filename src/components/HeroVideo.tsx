@@ -19,7 +19,12 @@ export default function HeroVideo() {
     let visible = true;
     const sync = () => {
       if (paused || !visible || document.hidden) element.pause();
-      else void element.play().catch(() => {});
+      else {
+        element.muted = true;
+        void element.play().catch(error => {
+          if (error.name === 'NotAllowedError') setPaused(true);
+        });
+      }
     };
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
     observer.observe(element);
@@ -29,7 +34,13 @@ export default function HeroVideo() {
   }, [enabled, paused]);
   if (!enabled) return null;
   return <>
-    <video ref={video} className="hero-background-video" src={assetUrl('assets/hero-background.mp4')} muted loop playsInline preload="none" aria-hidden="true" />
-    <button className="hero-video-toggle" onClick={() => setPaused(value => !value)} aria-label={paused ? 'Hintergrundvideo abspielen' : 'Hintergrundvideo pausieren'}>{paused ? '▶' : 'Ⅱ'}</button>
+    <video ref={video} className="hero-background-video" src={assetUrl('assets/hero-background.mp4')} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+    <button className="hero-video-toggle" onClick={() => {
+      const element = video.current;
+      if (paused && element) {
+        element.muted = true;
+        void element.play().then(() => setPaused(false)).catch(() => setPaused(true));
+      } else { element?.pause(); setPaused(true); }
+    }} aria-label={paused ? 'Hintergrundvideo abspielen' : 'Hintergrundvideo pausieren'}>{paused ? '▶' : 'Ⅱ'}</button>
   </>;
 }
