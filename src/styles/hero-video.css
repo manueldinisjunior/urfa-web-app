@@ -48,6 +48,3 @@
   .hero-video-toggle {
   }
 }
-
-.hero-video-stop { left: 4.75rem; width: auto; padding: 0 1rem; border-radius: 24px; font-size: .8rem; }
-.hero-video-stop[aria-pressed="true"] { background: #242424; border-color: #fff; }
