@@ -1,0 +1,52 @@
+.hero-background-video {
+  opacity: 0;
+  filter: brightness(0.78) saturate(0.94);
+  transition: opacity 220ms ease;
+}
+
+.hero-background-video.is-playing {
+  opacity: 1;
+}
+
+.hero-video-toggle {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  background: rgba(18, 18, 18, 0.48);
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: none;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.hero-video-toggle:hover {
+  background: rgba(18, 18, 18, 0.62);
+  border-color: rgba(255, 255, 255, 0.9);
+  color: #fff;
+}
+
+.hero-video-toggle:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+
+.hero-video-toggle span {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-background-video {
+    display: none;
+    transition: none;
+  }
+
+  .hero-video-toggle {
+    display: none;
+  }
+}
