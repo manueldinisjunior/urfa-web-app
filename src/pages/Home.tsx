@@ -1,3 +1,4 @@
+import '../styles/service-showcase.css';
 import HeroVideo from '../components/HeroVideo';
 import BrandVideos from '../components/BrandVideos';
 import { useCallback, useEffect, useState } from 'react';
@@ -175,7 +176,12 @@ const Home = () => {
       </section>
 
       <BrandVideos />
-      <section id="service" className="service-showcase home-reveal">
+      <section id="service" className="service-showcase home-reveal" aria-labelledby="service-title">
+        <header className="service-heading">
+          <p className="service-eyebrow">URFA GRILL</p>
+          <h2 id="service-title">Einfach. Frisch. <em>Authentisch.</em></h2>
+          <p>Deine Lieblingsgerichte – frisch zubereitet und jederzeit für dich da.</p>
+        </header>
         <div className="service-copy left">
           <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path pathLength="100" d="M32 59S9 39 9 24a23 23 0 0 1 46 0c0 15-23 35-23 35Z" /><path pathLength="100" d="M41 24a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
           <h3>MITTEN IN HILDESHEIM</h3>
