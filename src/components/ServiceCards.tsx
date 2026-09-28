@@ -19,17 +19,17 @@ export default function ServiceCards() {
   const dragged = useRef(false);
   const pointer = useRef<number | null>(null);
   const firstCycle = useRef(true);
-  const next = () => setActive(value => (value + 1) % cards.length);
 
   useEffect(() => {
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     const sync = () => setReduced(motion.matches);
     sync();
     motion.addEventListener('change', sync);
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: .35 });
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting && entry.intersectionRatio >= .25), { threshold: [.25] });
     const onVisibilityChange = () => setPageVisible(!document.hidden);
     document.addEventListener('visibilitychange', onVisibilityChange);
-    if (root.current) observer.observe(root.current);
+    const section = root.current?.closest('section');
+    if (section) observer.observe(section);
     return () => { motion.removeEventListener('change', sync); document.removeEventListener('visibilitychange', onVisibilityChange); observer.disconnect(); };
   }, []);
 
