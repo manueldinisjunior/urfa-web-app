@@ -8,15 +8,15 @@
   isolation: isolate;
 }
 .service-heading { grid-column: 1 / -1; text-align: center; z-index: 1; }
-.service-heading .service-eyebrow { display: flex; align-items: center; justify-content: center; gap: 1rem; font-size: .65rem; letter-spacing: .2em; margin: 0 0 1rem; }
+.service-heading .service-eyebrow { display: flex; align-items: center; justify-content: center; gap: 1rem; font-size: .75rem; letter-spacing: .12em; margin: 0 0 1rem; }
 .service-eyebrow::before, .service-eyebrow::after { content: ''; width: 36px; height: 1px; background: #ffffff45; }
 .service-heading h2 { margin: 0 0 .8rem; font-size: clamp(2rem, 4.3vw, 3.6rem); line-height: 1.12; letter-spacing: -.04em; }
 .service-heading h2 em { font-family: Georgia, serif; font-weight: 400; color: #ffe0b2; }
-.service-heading > p:last-child { margin: 0; color: #fff; font-size: clamp(.85rem, 1.2vw, 1rem); line-height: 1.6; }
+.service-heading > p:last-child { max-width: 48ch; margin: 0 auto; color: #fff; font-size: 1rem; line-height: 1.55; }
 #service .service-copy { justify-items: start; text-align: left; }
 #service .service-copy svg { box-sizing: border-box; width: 54px; height: 54px; padding: 0; border-radius: 0; background: transparent; color: #fff; margin-bottom: 1rem; }
-#service .service-copy h3 { font-size: .68rem; line-height: 1.6; letter-spacing: .12em; }
-#service .service-copy p { font-size: .84rem; line-height: 1.7; color: #fff0ed; margin-bottom: 3rem; }
+#service .service-copy h3 { font-size: .81rem; line-height: 1.45; letter-spacing: .06em; }
+#service .service-copy p { font-size: .94rem; line-height: 1.6; color: #fff0ed; margin-bottom: 2.5rem; }
 #service .service-copy p:last-child { margin-bottom: 0; }
 #service .service-images { width: 90%; justify-self: center; min-height: 440px; margin: 1rem 0 1.5rem; }
 #service .service-images img { width: 70%; height: 86%; border: 1px solid #ffdaa080; box-shadow: 0 22px 40px #60000855; }
@@ -32,11 +32,11 @@
   #service .service-heading { grid-row: 1; }
   #service .service-images { grid-column: 1 / -1; grid-row: 2; width: min(90%, 340px); justify-self: center; min-height: 320px; margin: .5rem 0; }
   #service .service-copy.left, #service .service-copy.right { grid-row: 3; align-self: start; }
-  #service .service-copy p { font-size: .8rem; min-height: 5.5rem; margin-bottom: 1.6rem; }
+  #service .service-copy p { font-size: .9rem; min-height: 5.5rem; margin-bottom: 1.6rem; }
   #service .service-copy h3 { min-height: 2.2rem; margin-bottom: .4rem; }
 }
 
-#service .service-heading h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+#service .service-heading h2 { font-size: clamp(2rem, 3.2vw, 2.75rem); line-height: 1.15; letter-spacing: -.025em; }
 #service .service-images.service-collage { min-height: 0; width: 100%; margin: 0; }
 #service .service-images.service-collage img { position: relative; display: block; width: 100%; height: auto; inset: auto; rotate: none; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; }
 @media (max-width: 620px) { #service .service-images.service-collage { width: min(100%, 380px); } }
@@ -73,6 +73,8 @@
   #service .service-copy > :nth-child(2), #service .service-copy > :nth-child(5) { grid-row: 2; }
   #service .service-copy > :nth-child(3), #service .service-copy > :nth-child(6) { grid-row: 3; }
   #service .service-copy p { min-height: 0; margin-bottom: 0; }
+  #service .service-copy h3 { font-size: .75rem; letter-spacing: .04em; }
+  #service .service-heading > p:last-child { font-size: .94rem; }
   .service-card-carousel { grid-column: 1; grid-row: 3; width: min(100%, 370px); max-width: 370px; margin: 0 auto; }
   .service-card-stage { height: 340px; }
 }
