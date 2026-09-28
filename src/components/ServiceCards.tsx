@@ -8,8 +8,7 @@ const cards = [
 
 export default function ServiceCards() {
   const [active, setActive] = useState(0);
-  const [visible, setVisible] = useState(false);
-  const [pageVisible, setPageVisible] = useState(!document.hidden);
+  const [started, setStarted] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -25,25 +24,29 @@ export default function ServiceCards() {
     const sync = () => setReduced(motion.matches);
     sync();
     motion.addEventListener('change', sync);
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting && entry.intersectionRatio >= .25), { threshold: [.25] });
-    const onVisibilityChange = () => setPageVisible(!document.hidden);
-    document.addEventListener('visibilitychange', onVisibilityChange);
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= .25) {
+        setStarted(true);
+        observer.disconnect();
+      }
+    }, { threshold: [.25] });
     const section = root.current?.closest('section');
     if (section) observer.observe(section);
-    return () => { motion.removeEventListener('change', sync); document.removeEventListener('visibilitychange', onVisibilityChange); observer.disconnect(); };
+    return () => { motion.removeEventListener('change', sync); observer.disconnect(); };
   }, []);
 
   useEffect(() => {
-    if (!visible) firstCycle.current = true;
-    if (reduced || !visible || !pageVisible || dragging) return;
+    if (reduced || !started || dragging) return;
     let interval: number | undefined;
     const timer = window.setTimeout(() => {
-      setActive(value => (value + 1) % cards.length);
+      if (!document.hidden) setActive(value => (value + 1) % cards.length);
       firstCycle.current = false;
-      interval = window.setInterval(() => setActive(value => (value + 1) % cards.length), 4000);
+      interval = window.setInterval(() => {
+        if (!document.hidden) setActive(value => (value + 1) % cards.length);
+      }, 4000);
     }, firstCycle.current ? 3000 : 4000);
     return () => { window.clearTimeout(timer); window.clearInterval(interval); };
-  }, [reduced, visible, pageVisible, dragging]);
+  }, [reduced, started, dragging]);
 
   const endDrag = (clientX: number, index: number, cancelled = false) => {
     const distance = start.current === null ? 0 : clientX - start.current;
