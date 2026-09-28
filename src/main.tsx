@@ -27,3 +27,4 @@ createRoot(rootElement).render(
 );
 
 import './styles/branding.css';
+import './styles/footer.css';
