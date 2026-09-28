@@ -1,16 +1,16 @@
 import { FacebookLogo, InstagramLogo, TiktokLogo } from '@phosphor-icons/react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { assetUrl } from '../../utils/assetUrl';
 
 const Footer = () => (
-  <footer className="site-footer">
-    <div className="footer-invite" style={{ backgroundImage: `linear-gradient(90deg, rgba(12, 19, 14, .94), rgba(12, 19, 14, .72)), url(${assetUrl('assets/urfa-hero.webp')})` }}>
+  <footer id="footer" className="site-footer" style={{ backgroundImage: `linear-gradient(rgba(9, 16, 11, .86), rgba(9, 16, 11, .9)), url(${assetUrl('assets/urfa-hero.webp')})` }}>
+    <div className="footer-invite">
       <div><span className="footer-kicker">URFA GRILL · HILDESHEIM</span><h2>Guter Geschmack. Ganz einfach.</h2><p>Entdecke unsere Gerichte und erfahre mehr über Urfa Grill.</p></div>
-      <div className="footer-actions"><Link to="/menu" className="footer-primary">Speisekarte ansehen</Link><Link to="/contact" className="footer-secondary">Kontakt</Link></div>
+      <div className="footer-actions"><NavLink to="/menu" activeClassName="is-current" className="footer-primary">Speisekarte ansehen</NavLink><NavLink to="/contact" activeClassName="is-current" className="footer-secondary">Kontakt</NavLink></div>
     </div>
     <div className="footer-main">
       <div className="footer-identity">
-        <Link to="/" className="footer-wordmark" aria-label="Urfa Grill – Startseite"><strong>URFA</strong><span>GRILL</span></Link>
+        <NavLink exact to="/" activeClassName="is-current" className="footer-wordmark" aria-label="Urfa Grill – Startseite"><strong>URFA</strong><span>GRILL</span></NavLink>
         <p>Türkische Küche in Hildesheim.</p>
         <div className="footer-socials" aria-label="Social Media">
           <a href="https://www.instagram.com/urfa_grill_hildesheim_/" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramLogo /></a>
@@ -19,12 +19,12 @@ const Footer = () => (
         </div>
       </div>
       <nav aria-label="Fußnavigation">
-        <div className="footer-link-group"><strong>Entdecken</strong><Link to="/menu">Speisekarte</Link><Link to="/about">Über uns</Link><Link to="/careers">Karriere</Link></div>
-        <div className="footer-link-group"><strong>Service</strong><Link to="/contact">Kontakt</Link><Link to="/faq">FAQ</Link><Link to="/account">Mein Konto</Link></div>
+        <div className="footer-link-group"><strong>Entdecken</strong><NavLink to="/menu" activeClassName="is-current">Speisekarte</NavLink><NavLink to="/about" activeClassName="is-current">Über uns</NavLink><NavLink to="/careers" activeClassName="is-current">Karriere</NavLink></div>
+        <div className="footer-link-group"><strong>Service</strong><NavLink to="/contact" activeClassName="is-current">Kontakt</NavLink><NavLink to="/faq" activeClassName="is-current">FAQ</NavLink><NavLink to="/account" activeClassName="is-current">Mein Konto</NavLink></div>
       </nav>
       <div className="footer-contact"><strong>Besuche uns</strong><p>Schuhstraße 39<br />31134 Hildesheim</p><a href="https://www.google.com/maps/search/?api=1&query=Schuhstra%C3%9Fe+39+31134+Hildesheim" target="_blank" rel="noreferrer">Route ansehen</a></div>
     </div>
-    <div className="footer-bottom"><p>© {new Date().getFullYear()} Urfa Grill · Entwickelt von <a href="https://manueldinisjunior.de/" target="_blank" rel="noreferrer">Manuel Dinis Júnior</a></p><div><Link to="/impressum">Impressum</Link><Link to="/datenschutz">Datenschutz</Link></div></div>
+    <div className="footer-bottom"><p>© {new Date().getFullYear()} Urfa Grill · Entwickelt von <a href="https://manueldinisjunior.de/" target="_blank" rel="noreferrer">Manuel Dinis Júnior</a></p><div><NavLink to="/impressum" activeClassName="is-current">Impressum</NavLink><NavLink to="/datenschutz" activeClassName="is-current">Datenschutz</NavLink></div></div>
   </footer>
 );
 

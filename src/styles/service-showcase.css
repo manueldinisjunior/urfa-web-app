@@ -47,7 +47,7 @@
 .service-photo-card { position: absolute; width: 68%; height: 85%; padding: 0; border: 1px solid #ffe3b880; border-radius: 16px; overflow: hidden; background: #86101a; cursor: grab; touch-action: pan-y; box-shadow: 0 24px 35px #57000b55, 0 3px 7px #57000b33; transition: transform 700ms cubic-bezier(.22,.68,.2,1), filter 700ms, box-shadow 700ms; }
 .service-photo-card.is-front { z-index: 2; transform: translate(39%, 12%) translateX(var(--drag-offset, 0px)) rotate(5deg); }
 .service-photo-card[data-dragging="true"] { transition: none; cursor: grabbing; }
-.service-photo-card.is-back { z-index: 1; transform: translate(1%, 0) rotate(-9deg) scale(.93); filter: brightness(.8); box-shadow: 0 14px 25px #57000b44; }
+.service-photo-card.is-back { z-index: 1; transform: translate(1%, 0) translateX(var(--drag-offset, 0px)) rotate(-9deg) scale(.93); filter: brightness(.8); box-shadow: 0 14px 25px #57000b44; }
 .service-photo-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .service-photo-card.is-front img[src$="service-wrap-detail.png"] { object-position: center; }
 .service-photo-card:active { cursor: grabbing; }

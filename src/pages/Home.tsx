@@ -33,6 +33,7 @@ const homepageSections = [
   { id: 'service', label: 'Service' },
   { id: 'gallery', label: 'Türkische Küche' },
   { id: 'location', label: 'Standort' },
+  { id: 'footer', label: 'Footer' },
 ] as const;
 
 const Home = () => {
@@ -127,7 +128,7 @@ const Home = () => {
     };
   }, []);
 
-  const dotsOnDarkBackground = activeSection === 'hero' || activeSection === 'service';
+  const dotsOnDarkBackground = activeSection === 'hero' || activeSection === 'service' || activeSection === 'footer';
 
   return (
     <>

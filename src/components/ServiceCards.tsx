@@ -13,6 +13,7 @@ export default function ServiceCards() {
   const [reduced, setReduced] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [dragCard, setDragCard] = useState<number | null>(null);
   const root = useRef<HTMLDivElement>(null);
   const start = useRef<number | null>(null);
   const dragged = useRef(false);
@@ -42,13 +43,17 @@ export default function ServiceCards() {
     return () => window.clearTimeout(timer);
   }, [active, reduced, visible, pageVisible, dragging]);
 
-  const endDrag = (clientX: number, cancelled = false) => {
+  const endDrag = (clientX: number, index: number, cancelled = false) => {
     const distance = start.current === null ? 0 : clientX - start.current;
-    if (!cancelled && Math.abs(distance) > 45) { dragged.current = true; next(); }
+    if (!cancelled && Math.abs(distance) > 45) {
+      dragged.current = true;
+      setActive(value => index === value ? (value + 1) % cards.length : index);
+    }
     start.current = null;
     pointer.current = null;
     setDragOffset(0);
     setDragging(false);
+    setDragCard(null);
   };
 
   return <div ref={root} className="service-card-carousel" role="region" aria-label="Einblicke in unsere Küche">
@@ -56,16 +61,17 @@ export default function ServiceCards() {
     <div className="service-card-stage">
       {cards.map((card, index) => <button key={card.image} type="button"
         className={`service-photo-card ${active === index ? 'is-front' : 'is-back'}`}
-        style={active === index ? { '--drag-offset': `${dragOffset}px` } as React.CSSProperties : undefined}
-        data-dragging={active === index && dragging ? 'true' : undefined}
+        style={dragCard === index ? { '--drag-offset': `${dragOffset}px` } as React.CSSProperties : undefined}
+        data-dragging={dragCard === index && dragging ? 'true' : undefined}
         aria-label={`${card.alt} – nächstes Bild anzeigen`}
         tabIndex={active === index ? 0 : -1}
         onPointerDown={event => {
-          if (index !== active || event.button !== 0) return;
+          if (event.button !== 0) return;
           start.current = event.clientX;
           pointer.current = event.pointerId;
           dragged.current = false;
           setDragging(true);
+          setDragCard(index);
           event.currentTarget.setPointerCapture(event.pointerId);
         }}
         onPointerMove={event => {
@@ -73,9 +79,9 @@ export default function ServiceCards() {
             setDragOffset(Math.max(-110, Math.min(110, (event.clientX - start.current) * .55)));
           }
         }}
-        onPointerUp={event => { if (pointer.current === event.pointerId) endDrag(event.clientX); }}
-        onPointerCancel={event => { if (pointer.current === event.pointerId) endDrag(event.clientX, true); }}
-        onClick={() => { if (!dragged.current) next(); dragged.current = false; }}>
+        onPointerUp={event => { if (pointer.current === event.pointerId) endDrag(event.clientX, index); }}
+        onPointerCancel={event => { if (pointer.current === event.pointerId) endDrag(event.clientX, index, true); }}
+        onClick={() => { if (!dragged.current) setActive(value => index === value ? (value + 1) % cards.length : index); dragged.current = false; }}>
         <img src={assetUrl(`assets/${card.image}`)} alt={card.alt} draggable={false} loading="lazy" decoding="async" />
       </button>)}
     </div>
