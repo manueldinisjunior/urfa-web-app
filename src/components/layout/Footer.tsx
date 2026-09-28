@@ -4,10 +4,6 @@ import { assetUrl } from '../../utils/assetUrl';
 
 const Footer = () => (
   <footer id="footer" className="site-footer" style={{ backgroundImage: `linear-gradient(rgba(9, 16, 11, .86), rgba(9, 16, 11, .9)), url(${assetUrl('assets/urfa-hero.webp')})` }}>
-    <div className="footer-invite">
-      <div><span className="footer-kicker">URFA GRILL · HILDESHEIM</span><h2>Guter Geschmack. Ganz einfach.</h2><p>Entdecke unsere Gerichte und erfahre mehr über Urfa Grill.</p></div>
-      <div className="footer-actions"><NavLink to="/menu" activeClassName="is-current" className="footer-primary">Speisekarte ansehen</NavLink><NavLink to="/contact" activeClassName="is-current" className="footer-secondary">Kontakt</NavLink></div>
-    </div>
     <div className="footer-main">
       <div className="footer-identity">
         <NavLink exact to="/" activeClassName="is-current" className="footer-wordmark" aria-label="Urfa Grill – Startseite"><img src={assetUrl('assets/urfa-footer-logo.png')} alt="Urfa Grill" width="210" height="90" loading="lazy" /></NavLink>
