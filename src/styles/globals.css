@@ -589,12 +589,12 @@ textarea:focus-visible {
 .service-showcase.home-reveal .service-copy svg:nth-child(4) path { transition-delay: 700ms; }
 .service-showcase.home-reveal .service-copy svg:nth-child(4) path:nth-child(2) { transition-delay: 1000ms; }
 .service-showcase.home-reveal.is-visible .service-images img,
-.service-showcase.home-reveal.is-visible .service-copy > * { opacity: 1; transform: none; }
+.service-showcase.home-reveal .service-copy.is-in-view > * { opacity: 1; transform: none; }
 .service-showcase.home-reveal.is-visible .service-images img { clip-path: inset(0 round 1rem); }
-.service-showcase.home-reveal.is-visible .service-copy svg path { stroke-dashoffset: 0; }
+.service-showcase.home-reveal .service-copy.is-in-view svg path { stroke-dashoffset: 0; }
 .service-showcase.home-reveal:not(.is-visible) .service-images img,
-.service-showcase.home-reveal:not(.is-visible) .service-copy > *,
-.service-showcase.home-reveal:not(.is-visible) .service-copy svg path { transition: none; }
+.service-showcase.home-reveal .service-copy:not(.is-in-view) > *,
+.service-showcase.home-reveal .service-copy:not(.is-in-view) svg path { transition: none; }
 @media (prefers-reduced-motion: reduce) {
   .service-showcase.home-reveal .service-images img,
   .service-showcase.home-reveal .service-copy > * { opacity: 1; transform: none; clip-path: none; transition: none; }

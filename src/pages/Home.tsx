@@ -114,11 +114,16 @@ const Home = () => {
       entry.target.classList.toggle('is-visible', entry.isIntersecting);
     }, { rootMargin: '0px 0px -30% 0px', threshold: 0.05 });
     if (service) serviceObserver.observe(service);
+    const iconObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.target.classList.toggle('is-in-view', entry.isIntersecting));
+    }, { rootMargin: '-25% 0px -25% 0px', threshold: 0.1 });
+    service?.querySelectorAll('.service-copy').forEach(group => iconObserver.observe(group));
 
 
     return () => {
       observer.disconnect();
       serviceObserver.disconnect();
+      iconObserver.disconnect();
     };
   }, []);
 
