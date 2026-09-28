@@ -9,7 +9,9 @@
 .footer-actions a:hover { border-color: #fff; background: #ffffff26; }
 .footer-actions .footer-primary:hover { border-color: #00a44a; background: #00a44a; }
 .footer-main { display: grid; grid-template-columns: minmax(210px, 1.3fr) minmax(250px, 1.8fr) minmax(180px, 1fr); gap: clamp(2rem, 5vw, 5rem); padding: 3.5rem max(5%, calc((100vw - 1280px) / 2)); }
-.footer-identity img { display: block; width: 130px; height: 90px; object-fit: contain; object-position: left center; }
+.footer-wordmark { display: inline-flex; align-items: baseline; gap: .4rem; font-weight: 700; line-height: 1; text-decoration: none; }
+.footer-wordmark strong { color: #2ebd68; font-size: 2rem; letter-spacing: -.06em; }
+.footer-wordmark span { color: #fa5358; font-size: .95rem; letter-spacing: -.02em; }
 .footer-identity p, .footer-contact p { color: #cad5cd; line-height: 1.6; }
 .site-footer .footer-main nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; justify-content: start; }
 .footer-link-group { gap: .85rem; }
