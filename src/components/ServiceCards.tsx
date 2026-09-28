@@ -32,7 +32,7 @@ export default function ServiceCards() {
     if (paused || reduced || !visible) return;
     const timer = window.setTimeout(() => {
       if (!document.hidden) setActive(value => (value + 1) % cards.length);
-    }, firstCycle.current ? 3000 : 5000);
+    }, firstCycle.current ? 3000 : 4000);
     firstCycle.current = false;
     return () => window.clearTimeout(timer);
   }, [active, paused, reduced, visible]);
