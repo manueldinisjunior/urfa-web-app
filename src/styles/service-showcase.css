@@ -48,6 +48,7 @@
 .service-photo-card.is-front { z-index: 2; transform: translate(39%, 12%) rotate(5deg); }
 .service-photo-card.is-back { z-index: 1; transform: translate(1%, 0) rotate(-9deg) scale(.93); filter: brightness(.8); box-shadow: 0 14px 25px #57000b44; }
 .service-photo-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.service-photo-card.is-front img[src$="service-wrap-detail.png"] { object-position: center; }
 .service-photo-card:active { cursor: grabbing; }
 .service-photo-card:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 .service-card-controls { position: relative; z-index: 3; display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; }
@@ -57,5 +58,22 @@
 .service-card-controls svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .service-card-controls span { font-size: .75rem; letter-spacing: .12em; min-width: 42px; text-align: center; }
 @media (max-width: 900px) { .service-card-stage { height: 330px; } }
-@media (max-width: 620px) { .service-card-carousel { grid-column: 1 / -1; grid-row: 2; max-width: 370px; } .service-card-stage { height: 340px; } }
+@media (max-width: 620px) {
+  #service.service-showcase { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  #service .service-heading { grid-column: 1; grid-row: 1; }
+  #service .service-copy.left, #service .service-copy.right {
+    grid-column: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem; align-self: start; justify-items: start;
+  }
+  #service .service-copy.left { grid-row: 2; }
+  #service .service-copy.right { grid-row: 4; }
+  #service .service-copy > :nth-child(1), #service .service-copy > :nth-child(2), #service .service-copy > :nth-child(3) { grid-column: 1; }
+  #service .service-copy > :nth-child(4), #service .service-copy > :nth-child(5), #service .service-copy > :nth-child(6) { grid-column: 2; }
+  #service .service-copy > :nth-child(1), #service .service-copy > :nth-child(4) { grid-row: 1; }
+  #service .service-copy > :nth-child(2), #service .service-copy > :nth-child(5) { grid-row: 2; }
+  #service .service-copy > :nth-child(3), #service .service-copy > :nth-child(6) { grid-row: 3; }
+  #service .service-copy p { min-height: 0; margin-bottom: 0; }
+  .service-card-carousel { grid-column: 1; grid-row: 3; width: min(100%, 370px); max-width: 370px; margin: 0 auto; }
+  .service-card-stage { height: 340px; }
+}
 @media (prefers-reduced-motion: reduce) { .service-photo-card { transition: none; } }

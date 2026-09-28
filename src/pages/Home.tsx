@@ -71,7 +71,6 @@ const Home = () => {
 
   useEffect(() => {
     let animationFrame = 0;
-    let serviceEntrance: ReturnType<typeof setTimeout> | undefined;
 
     const updateActiveSection = () => {
       const pageMarker = window.scrollY + window.innerHeight * 0.45;
@@ -80,22 +79,11 @@ const Home = () => {
         return element && element.offsetTop <= pageMarker ? section.id : current;
       }, homepageSections[0].id as string);
 
-      clearTimeout(serviceEntrance);
-      const service = document.getElementById('service');
-      const bounds = service?.getBoundingClientRect();
-      if (service && bounds) {
-        if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) service.classList.remove('is-visible');
-        else if (!service.classList.contains('is-visible') && bounds.top <= window.innerHeight * 0.55 && bounds.bottom >= window.innerHeight * 0.45) {
-          // Let navigation finish before starting the reference entrance sequence.
-          serviceEntrance = setTimeout(() => service.classList.add('is-visible'), 180);
-        }
-      }
       setActiveSection(currentSection);
       animationFrame = 0;
     };
 
     const handleScroll = () => {
-      clearTimeout(serviceEntrance);
       if (!animationFrame) animationFrame = requestAnimationFrame(updateActiveSection);
     };
 
@@ -107,7 +95,6 @@ const Home = () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
       if (animationFrame) cancelAnimationFrame(animationFrame);
-      clearTimeout(serviceEntrance);
     };
   }, []);
 
@@ -115,21 +102,23 @@ const Home = () => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>('.home-reveal'));
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.target.id === 'service') {
-          if (!entry.isIntersecting) entry.target.classList.remove('is-visible');
-          return;
-        }
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
       });
     }, { threshold: [0, 0.01] });
-    sections.forEach((section) => observer.observe(section));
+    sections.filter(section => section.id !== 'service').forEach(section => observer.observe(section));
+    const service = document.getElementById('service');
+    const serviceObserver = new IntersectionObserver(([entry]) => {
+      entry.target.classList.toggle('is-visible', entry.isIntersecting);
+    }, { rootMargin: '0px 0px -30% 0px', threshold: 0.05 });
+    if (service) serviceObserver.observe(service);
 
 
     return () => {
       observer.disconnect();
+      serviceObserver.disconnect();
     };
   }, []);
 

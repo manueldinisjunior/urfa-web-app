@@ -2,19 +2,19 @@ import { useEffect, useRef, useState } from 'react';
 import { assetUrl } from '../utils/assetUrl';
 
 const cards = [
-  { image: 'product-adana-wrap.webp', alt: 'Frisch zubereiteter Adana Dürüm' },
+  { image: 'service-wrap-detail.png', alt: 'Frisch zubereiteter Dürüm auf Holz mit Kräutern' },
   { image: 'urfa-about.webp', alt: 'Kebabspieße über offenem Holzkohlegrill' },
 ];
 
 export default function ServiceCards() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(false);
   const [reduced, setReduced] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const start = useRef<number | null>(null);
   const dragged = useRef(false);
+  const firstCycle = useRef(true);
   const next = () => setActive(value => (value + 1) % cards.length);
 
   useEffect(() => {
@@ -28,16 +28,16 @@ export default function ServiceCards() {
   }, []);
 
   useEffect(() => {
-    if (paused || hovered || reduced || !visible) return;
-    const timer = window.setInterval(() => {
+    if (!visible) firstCycle.current = true;
+    if (paused || reduced || !visible) return;
+    const timer = window.setTimeout(() => {
       if (!document.hidden) setActive(value => (value + 1) % cards.length);
-    }, 5000);
-    return () => window.clearInterval(timer);
-  }, [active, paused, hovered, reduced, visible]);
+    }, firstCycle.current ? 3000 : 5000);
+    firstCycle.current = false;
+    return () => window.clearTimeout(timer);
+  }, [active, paused, reduced, visible]);
 
-  return <div ref={root} className="service-card-carousel" role="region" aria-label="Einblicke in unsere Küche"
-    onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-    onFocus={() => setHovered(true)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setHovered(false); }}>
+  return <div ref={root} className="service-card-carousel" role="region" aria-label="Einblicke in unsere Küche">
     <img className="service-garnish" src={assetUrl('assets/service-garnish.webp')} alt="" aria-hidden="true" loading="lazy" />
     <div className="service-card-stage">
       {cards.map((card, index) => <button key={card.image} type="button"
@@ -55,9 +55,7 @@ export default function ServiceCards() {
       </button>)}
     </div>
     <div className="service-card-controls">
-      <button type="button" onClick={next} aria-label="Vorheriges Bild"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg></button>
       <span aria-live={paused ? 'polite' : 'off'}>{active + 1} / {cards.length}</span>
-      <button type="button" onClick={next} aria-label="Nächstes Bild"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg></button>
       {!reduced && <button type="button" onClick={() => setPaused(value => !value)} aria-label={paused ? 'Automatischen Bildwechsel starten' : 'Automatischen Bildwechsel pausieren'}>
         <svg viewBox="0 0 24 24" aria-hidden="true">{paused ? <path d="m8 5 11 7-11 7Z" /> : <path d="M8 5v14M16 5v14" />}</svg>
       </button>}
