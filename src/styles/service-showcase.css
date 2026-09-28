@@ -35,3 +35,8 @@
   #service .service-copy p { font-size: .8rem; min-height: 5.5rem; margin-bottom: 1.6rem; }
   #service .service-copy h3 { min-height: 2.2rem; margin-bottom: .4rem; }
 }
+
+#service .service-heading h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+#service .service-images.service-collage { min-height: 0; width: 100%; margin: 0; }
+#service .service-images.service-collage img { position: relative; display: block; width: 100%; height: auto; inset: auto; rotate: none; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; }
+@media (max-width: 620px) { #service .service-images.service-collage { width: min(100%, 380px); } }

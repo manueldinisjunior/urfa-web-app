@@ -12,7 +12,7 @@ export default function HeroVideo() {
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     let visible = true;
     let disposed = false;
-    let due = Date.now() + 3300;
+    let due = Date.now() + 3000;
     let timer: number | undefined;
     const clear = () => window.clearTimeout(timer);
     const play = () => {
@@ -50,6 +50,13 @@ export default function HeroVideo() {
       update();
     });
     observer.observe(element);
+    const hero = element.closest('section');
+    const onHeroClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest('a, button, input, select, textarea')) return;
+      action.current();
+    };
+    hero?.addEventListener('click', onHeroClick);
     document.addEventListener('visibilitychange', update);
     schedule();
     return () => {
@@ -57,6 +64,7 @@ export default function HeroVideo() {
       clear();
       action.current = () => {};
       observer.disconnect();
+      hero?.removeEventListener('click', onHeroClick);
       document.removeEventListener('visibilitychange', update);
       element.pause();
     };
@@ -67,11 +75,9 @@ export default function HeroVideo() {
       muted loop playsInline preload="none" poster={assetUrl('assets/urfa-hero.webp')} aria-hidden="true"
       onPlaying={() => setPlaying(true)} onPause={() => setPlaying(false)}
       onError={() => setPlaying(false)} />
-    <button type="button" className="hero-video-toggle" onClick={() => action.current()}
+    <button type="button" className="hero-video-keyboard-control" onClick={() => action.current()}
       aria-label={playing ? 'Hintergrundvideo für 5 Sekunden pausieren' : 'Hintergrundvideo abspielen'}>
-      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" focusable="false">
-        {playing ? <path d="M6 4h4v16H6zm8 0h4v16h-4z" /> : <path d="M8 5v14l11-7z" />}
-      </svg>
+      {playing ? 'Video pausieren' : 'Video abspielen'}
     </button>
   </>;
 }

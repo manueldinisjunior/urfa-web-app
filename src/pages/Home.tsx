@@ -179,7 +179,7 @@ const Home = () => {
       <section id="service" className="service-showcase home-reveal" aria-labelledby="service-title">
         <header className="service-heading">
           <p className="service-eyebrow">URFA GRILL</p>
-          <h2 id="service-title">Einfach. Frisch. <em>Authentisch.</em></h2>
+          <h2 id="service-title">Frisch. <em>Authentisch.</em></h2>
           <p>Deine Lieblingsgerichte – frisch zubereitet und jederzeit für dich da.</p>
         </header>
         <div className="service-copy left">
@@ -190,9 +190,8 @@ const Home = () => {
           <h3>ABHOLUNG</h3>
           <p>Bestelle digital und hole deine Auswahl frisch zubereitet ab.</p>
         </div>
-        <div className="service-images">
-          <img src={assetUrl('assets/urfa-about.webp')} alt="Kebabspieße über offenem Holzkohlegrill" loading="lazy" decoding="async" />
-          <img src={assetUrl('assets/product-adana-wrap.webp')} alt="Frisch zubereiteter Adana Wrap" loading="lazy" decoding="async" />
+        <div className="service-images service-collage">
+          <img src={assetUrl('assets/urfa-service-collage.webp')} alt="Gegrillte Kebabspieße und Dürüm mit Tomaten und frischen Kräutern" width="565" height="507" loading="lazy" decoding="async" />
         </div>
         <div className="service-copy right">
           <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path pathLength="100" d="M60 32a28 28 0 1 1-56 0 28 28 0 0 1 56 0Z" /><path pathLength="100" d="M32 13v19h17" /></svg>
