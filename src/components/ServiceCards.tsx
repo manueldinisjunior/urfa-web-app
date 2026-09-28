@@ -36,12 +36,14 @@ export default function ServiceCards() {
   useEffect(() => {
     if (!visible) firstCycle.current = true;
     if (reduced || !visible || !pageVisible || dragging) return;
+    let interval: number | undefined;
     const timer = window.setTimeout(() => {
       setActive(value => (value + 1) % cards.length);
+      firstCycle.current = false;
+      interval = window.setInterval(() => setActive(value => (value + 1) % cards.length), 4000);
     }, firstCycle.current ? 3000 : 4000);
-    firstCycle.current = false;
-    return () => window.clearTimeout(timer);
-  }, [active, reduced, visible, pageVisible, dragging]);
+    return () => { window.clearTimeout(timer); window.clearInterval(interval); };
+  }, [reduced, visible, pageVisible, dragging]);
 
   const endDrag = (clientX: number, index: number, cancelled = false) => {
     const distance = start.current === null ? 0 : clientX - start.current;
