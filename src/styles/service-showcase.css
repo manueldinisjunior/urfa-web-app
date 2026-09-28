@@ -40,3 +40,22 @@
 #service .service-images.service-collage { min-height: 0; width: 100%; margin: 0; }
 #service .service-images.service-collage img { position: relative; display: block; width: 100%; height: auto; inset: auto; rotate: none; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; }
 @media (max-width: 620px) { #service .service-images.service-collage { width: min(100%, 380px); } }
+
+.service-card-carousel { position: relative; width: 100%; max-width: 540px; justify-self: center; isolation: isolate; }
+.service-garnish { position: absolute; inset: -6% -8%; width: 116%; height: 105%; object-fit: contain; pointer-events: none; z-index: -1; }
+.service-card-stage { position: relative; height: clamp(340px, 36vw, 470px); touch-action: pan-y; }
+.service-photo-card { position: absolute; width: 68%; height: 85%; padding: 0; border: 1px solid #ffe3b880; border-radius: 16px; overflow: hidden; background: #86101a; cursor: grab; touch-action: pan-y; box-shadow: 0 24px 35px #57000b55, 0 3px 7px #57000b33; transition: transform 700ms cubic-bezier(.22,.68,.2,1), filter 700ms, box-shadow 700ms; }
+.service-photo-card.is-front { z-index: 2; transform: translate(39%, 12%) rotate(5deg); }
+.service-photo-card.is-back { z-index: 1; transform: translate(1%, 0) rotate(-9deg) scale(.93); filter: brightness(.8); box-shadow: 0 14px 25px #57000b44; }
+.service-photo-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.service-photo-card:active { cursor: grabbing; }
+.service-photo-card:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.service-card-controls { position: relative; z-index: 3; display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; }
+.service-card-controls button { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #ffffff50; border-radius: 50%; color: #fff; background: #8c071c40; cursor: pointer; }
+.service-card-controls button:hover { background: #8c071c80; }
+.service-card-controls button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.service-card-controls svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.service-card-controls span { font-size: .75rem; letter-spacing: .12em; min-width: 42px; text-align: center; }
+@media (max-width: 900px) { .service-card-stage { height: 330px; } }
+@media (max-width: 620px) { .service-card-carousel { grid-column: 1 / -1; grid-row: 2; max-width: 370px; } .service-card-stage { height: 340px; } }
+@media (prefers-reduced-motion: reduce) { .service-photo-card { transition: none; } }

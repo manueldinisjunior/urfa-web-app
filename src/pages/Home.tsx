@@ -1,3 +1,4 @@
+import ServiceCards from '../components/ServiceCards';
 import '../styles/service-showcase.css';
 import HeroVideo from '../components/HeroVideo';
 import BrandVideos from '../components/BrandVideos';
@@ -190,9 +191,7 @@ const Home = () => {
           <h3>ABHOLUNG</h3>
           <p>Bestelle digital und hole deine Auswahl frisch zubereitet ab.</p>
         </div>
-        <div className="service-images service-collage">
-          <img src={assetUrl('assets/urfa-service-collage.webp')} alt="Gegrillte Kebabspieße und Dürüm mit Tomaten und frischen Kräutern" width="565" height="507" loading="lazy" decoding="async" />
-        </div>
+        <ServiceCards />
         <div className="service-copy right">
           <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path pathLength="100" d="M60 32a28 28 0 1 1-56 0 28 28 0 0 1 56 0Z" /><path pathLength="100" d="M32 13v19h17" /></svg>
           <h3>TÄGLICH FRISCH</h3>
