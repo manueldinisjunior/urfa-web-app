@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { assetUrl } from '../../utils/assetUrl';
 
 const Footer = () => (
-  <footer id="footer" className="site-footer" style={{ backgroundImage: `linear-gradient(rgba(9, 16, 11, .909), rgba(9, 16, 11, .935)), url(${assetUrl('assets/urfa-hero.webp')})` }}>
+  <footer id="footer" className="site-footer" style={{ backgroundImage: `linear-gradient(90deg, rgba(9, 16, 11, .92), rgba(9, 16, 11, .95)), url(${assetUrl('assets/urfa-hero.webp')})` }}>
     <div className="footer-main">
       <div className="footer-identity">
         <NavLink exact to="/" activeClassName="is-current" className="footer-wordmark" aria-label="Urfa Grill – Startseite"><img src={assetUrl('assets/urfa-footer-logo.png')} alt="Urfa Grill" width="210" height="90" loading="lazy" /></NavLink>
