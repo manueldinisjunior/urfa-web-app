@@ -10,7 +10,7 @@ const Footer = () => (
     </div>
     <div className="footer-main">
       <div className="footer-identity">
-        <NavLink exact to="/" activeClassName="is-current" className="footer-wordmark" aria-label="Urfa Grill – Startseite"><strong>URFA</strong><span>GRILL</span></NavLink>
+        <NavLink exact to="/" activeClassName="is-current" className="footer-wordmark" aria-label="Urfa Grill – Startseite"><img src={assetUrl('assets/urfa-footer-logo.png')} alt="Urfa Grill" width="210" height="90" loading="lazy" /></NavLink>
         <p>Türkische Küche in Hildesheim.</p>
         <div className="footer-socials" aria-label="Social Media">
           <a href="https://www.instagram.com/urfa_grill_hildesheim_/" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramLogo /></a>
