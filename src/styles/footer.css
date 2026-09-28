@@ -1,4 +1,4 @@
-.site-footer.site-footer { display: grid; grid-template-rows: minmax(260px, 1fr) auto auto; min-height: 100svh; padding: 0; border: 0; background-color: #101713; background-position: center; background-size: cover; color: #e6ebe7; font-size: .94rem; scroll-margin-top: var(--header-height); }
+.site-footer.site-footer { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(260px, 1fr) auto auto; min-height: 100svh; padding: 0; border: 0; background-color: #101713; background-position: center; background-size: cover; color: #e6ebe7; font-size: .94rem; scroll-margin-top: var(--header-height); }
 .footer-invite { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 3rem max(5%, calc((100vw - 1280px) / 2)); }
 .footer-kicker { color: #bce4c7; font-size: .74rem; font-weight: 700; letter-spacing: .15em; }
 .footer-invite h2 { max-width: 18ch; margin: .7rem 0; color: #fff; font-size: clamp(1.75rem, 3vw, 2.55rem); line-height: 1.14; }
