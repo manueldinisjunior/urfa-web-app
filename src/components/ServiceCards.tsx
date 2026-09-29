@@ -9,7 +9,6 @@ const cards = [
 export default function ServiceCards() {
   const [active, setActive] = useState(0);
   const [started, setStarted] = useState(false);
-  const [reduced, setReduced] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [dragCard, setDragCard] = useState<number | null>(null);
@@ -20,23 +19,19 @@ export default function ServiceCards() {
   const firstCycle = useRef(true);
 
   useEffect(() => {
-    const motion = matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReduced(motion.matches);
-    sync();
-    motion.addEventListener('change', sync);
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && entry.intersectionRatio >= .25) {
+      if (entry.isIntersecting) {
         setStarted(true);
         observer.disconnect();
       }
-    }, { threshold: [.25] });
+    }, { threshold: .1 });
     const section = root.current?.closest('section');
     if (section) observer.observe(section);
-    return () => { motion.removeEventListener('change', sync); observer.disconnect(); };
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    if (reduced || !started || dragging) return;
+    if (!started || dragging) return;
     let interval: number | undefined;
     const timer = window.setTimeout(() => {
       if (!document.hidden) setActive(value => (value + 1) % cards.length);
@@ -46,7 +41,7 @@ export default function ServiceCards() {
       }, 4000);
     }, firstCycle.current ? 3000 : 4000);
     return () => { window.clearTimeout(timer); window.clearInterval(interval); };
-  }, [reduced, started, dragging]);
+  }, [started, dragging]);
 
   const endDrag = (clientX: number, index: number, cancelled = false) => {
     const distance = start.current === null ? 0 : clientX - start.current;
