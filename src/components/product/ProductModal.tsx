@@ -3,6 +3,7 @@ import { useEffect, useId, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import type { Product } from '../../types';
 import ProductPhoto, { hasProductPhoto } from './ProductPhoto';
+import FeaturedProductVisual from './FeaturedProductVisual';
 import { formatPrice } from '../../utils/formatPrice';
 import ProductConfigurator from './ProductConfigurator';
 import { FavoriteButton } from '../../features/CustomerAccount';
@@ -54,7 +55,7 @@ const ProductModal = ({ product, onClose }: ProductModalProps) => {
     }}>
       <section ref={dialogRef} className={`product-modal ${hasProductPhoto(product)?'':'without-image'}`} role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <div className="product-modal-image">
-          <ProductPhoto product={product} />
+          {product.featured && hasProductPhoto(product) ? <FeaturedProductVisual product={product} /> : <ProductPhoto product={product} />}
         </div>
         <div className="product-modal-content">
           <button ref={closeButtonRef} className="product-modal-close" type="button" aria-label="Produktfenster schließen" onClick={onClose}><X /></button>

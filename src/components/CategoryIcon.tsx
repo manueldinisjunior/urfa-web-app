@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 const drawings: Record<string, ReactNode> = {
+  'Beliebt im Restaurant': <path d="m16 3 4 8 9 1.3-6.5 6.4 1.5 9-8-4.2-8 4.2 1.5-9L3 12.3 12 11Z"/>,
   Vorspeisen: <><ellipse cx="16" cy="21" rx="13" ry="6"/><path d="M6 18v-6h8v6m4 0v-8h8v8M8 9l3-4 3 4m6-2h5"/></>,
   Suppen: <><path d="M3 15h26c-1 8-5 12-13 12S4 23 3 15ZM8 29h16M10 11c-5-4 5-4 0-8m7 8c-5-4 5-4 0-8m7 8c-5-4 5-4 0-8"/></>,
   Salate: <><path d="M3 18h26c-2 7-6 11-13 11S5 25 3 18ZM8 18C0 7 11 3 15 14m1 4C15 5 25 2 28 6c-1 8-6 11-12 12M8 10l5 8m11-8-7 8"/></>,

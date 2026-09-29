@@ -15,7 +15,8 @@ import type { AppDispatch } from "../store";
 import type { Product } from "../types";
 import { createCartItem } from "../utils/cartItem";
 
-const categories = ["Alle", ...categoryNames].map(name => ({name}));
+const featuredCategory = 'Beliebt im Restaurant';
+const categories = ["Alle", featuredCategory, ...categoryNames].map(name => ({name}));
 type CategoryFilter = string;
 
 const Menu = () => {
@@ -46,7 +47,7 @@ const Menu = () => {
     () =>
       products.filter((product) => {
         const categoryMatches =
-          category === "Alle" || product.category === category;
+          category === "Alle" || (category === featuredCategory ? product.featured === true : product.category === category);
         const searchMatches =
           !search ||
           `${product.name} ${product.description} ${product.category}`

@@ -4,6 +4,7 @@ import { FavoriteButton } from '../features/CustomerAccount';
 import { useCatalog } from '../hooks/useCatalog';
 import { Notice } from '../components/OperationsUI';
 import ProductPhoto, { hasProductPhoto } from '../components/product/ProductPhoto';
+import FeaturedProductVisual from '../components/product/FeaturedProductVisual';
 import { formatPrice } from '../utils/formatPrice';
 
 const ProductPage = () => {
@@ -26,7 +27,7 @@ const ProductPage = () => {
   return (
     <section className={`product-detail-page ${hasProductPhoto(product)?'':'without-image'}`}>
       <div className="product-detail-image">
-        <ProductPhoto product={product} />
+        {product.featured && hasProductPhoto(product) ? <FeaturedProductVisual product={product} /> : <ProductPhoto product={product} />}
       </div>
       <div className="product-detail-copy">
         <p className="breadcrumb"><Link to="/menu">Speisekarte</Link> <span>›</span> {product.category}</p>
