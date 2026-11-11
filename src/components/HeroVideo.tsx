@@ -1,17 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { assetUrl } from '../utils/assetUrl';
 
+const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
+
 export default function HeroVideo() {
   const video = useRef<HTMLVideoElement>(null);
   const action = useRef<() => void>(() => {});
   const [playing, setPlaying] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia(reducedMotionQuery).matches);
 
   useEffect(() => {
     const element = video.current;
     if (!element) return;
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const motion = window.matchMedia(reducedMotionQuery);
     let visible = true;
     let disposed = false;
+    let manuallyPaused = false;
     let due = Date.now() + 3000;
     let timer: number | undefined;
     const clear = () => window.clearTimeout(timer);
@@ -25,16 +30,20 @@ export default function HeroVideo() {
     };
     const schedule = () => {
       clear();
-      if (connection?.saveData || !visible || document.hidden) return;
-      timer = window.setTimeout(play, Math.max(0, due - Date.now()));
+      if (motion.matches || manuallyPaused || connection?.saveData || !visible || document.hidden) return;
+      timer = window.setTimeout(() => {
+        if (!motion.matches) play();
+      }, Math.max(0, due - Date.now()));
     };
     action.current = () => {
       clear();
       if (!element.paused) {
+        manuallyPaused = motion.matches;
         element.pause();
         due = Date.now() + 5000;
         schedule();
       } else {
+        manuallyPaused = false;
         due = Date.now();
         play();
       }
@@ -52,12 +61,20 @@ export default function HeroVideo() {
     observer.observe(element);
     const hero = element.closest('section');
     const onHeroClick = (event: MouseEvent) => {
+      if (motion.matches) return;
       const target = event.target;
       if (target instanceof Element && target.closest('a, button, input, select, textarea')) return;
       action.current();
     };
+    const onMotionChange = () => {
+      setReducedMotion(motion.matches);
+      if (motion.matches) element.pause();
+      schedule();
+    };
     hero?.addEventListener('click', onHeroClick);
     document.addEventListener('visibilitychange', update);
+    motion.addEventListener('change', onMotionChange);
+    setReducedMotion(motion.matches);
     schedule();
     return () => {
       disposed = true;
@@ -66,6 +83,7 @@ export default function HeroVideo() {
       observer.disconnect();
       hero?.removeEventListener('click', onHeroClick);
       document.removeEventListener('visibilitychange', update);
+      motion.removeEventListener('change', onMotionChange);
       element.pause();
     };
   }, []);
@@ -75,8 +93,9 @@ export default function HeroVideo() {
       muted loop playsInline preload="none" poster={assetUrl('assets/urfa-hero.webp')} aria-hidden="true"
       onPlaying={() => setPlaying(true)} onPause={() => setPlaying(false)}
       onError={() => setPlaying(false)} />
-    <button type="button" className="hero-video-keyboard-control" onClick={() => action.current()}
-      aria-label={playing ? 'Hintergrundvideo für 5 Sekunden pausieren' : 'Hintergrundvideo abspielen'}>
+    <button type="button" className={`hero-video-keyboard-control${reducedMotion ? ' is-visible' : ''}`}
+      onClick={() => action.current()}
+      aria-label={playing && !reducedMotion ? 'Video pausieren (5 Sekunden)' : undefined}>
       {playing ? 'Video pausieren' : 'Video abspielen'}
     </button>
   </>;
